@@ -1,3 +1,46 @@
 body {
     background-color: lightgray;
 }
+
+/* --------- TRIP_VIEW -------- */
+
+#trip-view {
+    margin : 12px;
+}
+
+#trip-view-info {
+    display: block;
+    float: right;
+    margin-right: 20px;
+}
+
+#trip-view > button {
+    padding: 12px;
+}
+
+#trip-filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+}
+
+
+#trip-filters > div > div {
+    margin: 8px;
+}
+
+#trip-filters > button {
+    margin-left: 15px;
+    padding: 18px;
+}
+
+#trip-list {
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
+
+
+
+
