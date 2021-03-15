@@ -10,3 +10,12 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+import ReactDOM from 'react-dom';
+import React from 'react';
+import Container from "./component/Container";
+
+ReactDOM.render(
+
+        <Container/>, document.getElementById('root')
+);
+
