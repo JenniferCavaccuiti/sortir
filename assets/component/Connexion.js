@@ -1,9 +1,9 @@
 import React from "react";
 
-const Docs = () => {
+const Connexion = () => {
     return (
         <div>
-            <h1>Getting Started</h1>
+            <h1>Connexion</h1>
         </div>
     )
 }
