@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
-import TripList from "./TripList";
+import ActivitiesList from "./ActivitiesList";
 
-class TripFilters extends Component {
+class ActivitiesFilters extends Component {
 
     state = {
         campus : '',
@@ -86,7 +86,7 @@ class TripFilters extends Component {
                     </div>
                     <button type="submit">Rechercher</button>
                 </form>
-                <TripList campus={this.state.campus} name={this.state.searchNameTrip} startDate={this.state.startDate} endDate={this.state.endDate}></TripList>
+                <ActivitiesList campus={this.state.campus} name={this.state.searchNameTrip} startDate={this.state.startDate} endDate={this.state.endDate}></ActivitiesList>
 
             </Fragment>
 
@@ -94,4 +94,4 @@ class TripFilters extends Component {
     }
 }
 
-export default TripFilters;
+export default ActivitiesFilters;

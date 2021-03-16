@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import TripFilters from "./TripFilters";
+import ActivitiesFilters from "./ActivitiesFilters";
+import '/assets/styles/activities_view.css'
 
-
-class TripView extends Component {
+class ActivitiesView extends Component {
 
 
     //TODO ajouter le nom du participant
@@ -19,8 +19,8 @@ class TripView extends Component {
                     <label>Date : </label>{date}<br/>
                     <label>Nom : </label>XXXXX
                 </div>
-                <TripFilters/>
-
+                <ActivitiesFilters/>
+                {/* TODO add le chemin sur le bouton */}
             <button><Link to="/">Créer une sortie</Link></button>
             </div>
         );
@@ -29,4 +29,4 @@ class TripView extends Component {
 
 
 
-export default TripView;
+export default ActivitiesView;

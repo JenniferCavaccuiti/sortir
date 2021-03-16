@@ -4,7 +4,7 @@ import Docs from "./Docs";
 import Tutorials from "./Tutorials";
 import Menu from "./Menu";
 import Community from "./Community";
-import TripView from "./trip_view/TripView";
+import ActivitiesView from "./activities_view/ActivitiesView";
 
 function Container() {
 
@@ -12,7 +12,7 @@ function Container() {
 
             <BrowserRouter>
                 <Menu/>
-                <TripView/>
+                <ActivitiesView/>
                 <Switch>
                     <Route exact path="/" component={Docs}/>
                     <Route path="/tutorial" component={Tutorials}/>
