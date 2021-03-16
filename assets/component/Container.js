@@ -1,6 +1,6 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch } from 'react-router-dom';
-import Docs from "./Docs";
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import Connexion from "./connexion/Connexion";
 import Tutorials from "./Tutorials";
 import Menu from "./Menu/Menu";
 import Profil from "./Profil/Profil";
@@ -12,7 +12,7 @@ function Container() {
             <BrowserRouter>
                 <Menu/>
                 <Switch>
-                    <Route exact path="/" component={Docs}/>
+                    <Route exact path="/" component={Connexion}/>
                     <Route path="/tutorial" component={Tutorials}/>
                     <Route path="/profil" component={Profil}/>
                 </Switch>
