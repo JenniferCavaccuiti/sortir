@@ -16,6 +16,6 @@ import Container from "./component/Container";
 
 ReactDOM.render(
 
-        <Container isLogged={false} />, document.getElementById('root')
+        <Container/>, document.getElementById('root')
 );
 
