@@ -1,10 +1,9 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch } from 'react-router-dom';
-import Docs from "./Docs";
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import Connexion from "./connexion/Connexion";
 import Tutorials from "./Tutorials";
 import Menu from "./Menu";
 import Community from "./Community";
-import ActivitiesView from "./activities_view/ActivitiesView";
 
 function Container() {
 
@@ -14,9 +13,9 @@ function Container() {
                 <Menu/>
                 <ActivitiesView/>
                 <Switch>
-                    <Route exact path="/" component={Docs}/>
+                    <Route exact path="/" component={Connexion}/>
                     <Route path="/tutorial" component={Tutorials}/>
-                    <Route path="/community" component={Community}/>
+                    <Route path="/profil" component={Profil}/>
                 </Switch>
 
             </BrowserRouter>
