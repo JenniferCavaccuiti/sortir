@@ -2,8 +2,8 @@ import React from 'react';
 import {BrowserRouter, Route, Switch } from 'react-router-dom';
 import Docs from "./Docs";
 import Tutorials from "./Tutorials";
-import Menu from "./Menu";
-import Community from "./Community";
+import Menu from "./Menu/Menu";
+import Profil from "./Profil/Profil";
 
 function Container() {
 
@@ -14,9 +14,8 @@ function Container() {
                 <Switch>
                     <Route exact path="/" component={Docs}/>
                     <Route path="/tutorial" component={Tutorials}/>
-                    <Route path="/community" component={Community}/>
+                    <Route path="/profil" component={Profil}/>
                 </Switch>
-
             </BrowserRouter>
 
         )
