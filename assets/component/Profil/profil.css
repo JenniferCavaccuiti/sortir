@@ -1,0 +1,38 @@
+.profile_container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 2rem;
+    margin-left: 2rem;
+}
+
+.profile_form {
+    display: flex;
+    justify-content: space-around;
+}
+.profile_picture {
+    max-width: 250px;
+    margin-left: 4rem;
+    margin-top: 4rem;
+}
+
+.container {
+    display: flex;
+}
+
+.input_box {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+input {
+    margin-left: 2rem;
+}
+label {
+    display: flex;
+    align-items: start;
+}
