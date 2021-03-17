@@ -7,9 +7,27 @@ use App\Repository\ActivityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *
+ *     collectionOperations={"get", "post"},
+ *     attributes={
+ *          "pagination_items_per_page"=10,
+ *     },
+ * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "partial",
+ *     "campus.label": "exact",
+ * })
+ * @ApiFilter(DateFilter::class, properties={"dateTimeStart"})
+ * @ApiFilter(PropertyFilter::class)
+ *
+ * )
  * @ORM\Entity(repositoryClass=ActivityRepository::class)
  */
 class Activity
@@ -52,7 +70,7 @@ class Activity
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="activity")
+     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="activities")
      */
     private $participants;
 

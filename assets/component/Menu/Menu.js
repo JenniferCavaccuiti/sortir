@@ -18,7 +18,7 @@ function Menu() {
                     </button>
                     <ul className="nav__wrapper">
                         <li className="nav__item">
-                            <NavLink to="/tutorial">Accueil</NavLink>
+                            <NavLink to="/activites">Accueil</NavLink>
                         </li>
                         <li className="nav__item">
                             <NavLink to="/profil">Mon profil</NavLink>

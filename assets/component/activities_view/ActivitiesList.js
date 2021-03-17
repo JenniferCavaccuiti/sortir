@@ -1,38 +1,53 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import ActivitiesFilters from "./ActivitiesFilters";
 
 
 class ActivitiesList extends Component {
 
 
     state = {
-        tripList : [],
+        activitiesList : [],
+        name : '',
+        campus : 'SAINT-HERBLAIN',
+        searchActivityName : '',
+        startDate : '',
+        endDate : '',
     }
 
     componentDidMount() {
-        axios.get(`https://jsonplaceholder.typicode.com/posts`)
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${this.state.name}`)
             .then(res => {
-                const tripList = res.data;
+                const activitiesList = res.data['hydra:member'];
                 this.setState({
-                    tripList : tripList
+                    activitiesList : activitiesList
+                });
+            })
+    }
+
+    handleFiltersChange = (name) => {
+        this.setState({
+            name: name
+        })
+
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${this.state.name}`)
+            .then(res => {
+                const activitiesList = res.data['hydra:member'];
+                this.setState({
+                    activitiesList : activitiesList
                 });
             })
 
-        console.log(this.state + "in le didmount")
+
     }
 
-
-    //TODO Axios recherche dans l'API
-
-
-
         render() {
+
                 return (
                     <div className="test" id="trip-list">
-                            {console.log(this.props)}
-                            {console.log(this.state.tripList[0])}
+                        <ActivitiesFilters onFiltersChange={this.handleFiltersChange}/>
                         <ul>
-                            { this.state.tripList.map(trip => <li>{trip.id + ' ' + trip.title}</li>)}
+                            {this.state.activitiesList.map(trip => <li key={trip.id}>{trip.id + ' ' + trip.name}</li>)}
                         </ul>
                     </div>
                 )

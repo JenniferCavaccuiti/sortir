@@ -1,13 +1,42 @@
 import React, {Component, Fragment} from 'react';
 import ActivitiesList from "./ActivitiesList";
+import axios from "axios";
 
 class ActivitiesFilters extends Component {
 
-    state = {
-        campus : '',
-        searchNameTrip : '',
-        startDate : '',
-        endDate : '',
+    constructor(props) {
+        super(props);
+        this.state = {
+            campusList : [],
+            campus : 'SAINT-HERBLAIN',
+            searchActivityName : '',
+            startDate : '',
+            endDate : '',
+            activitiesList : [],
+
+        }
+        this.handleSearchName = this.handleSearchName.bind(this);
+        this.actualisation = this.actualisation.bind(this);
+    }
+
+    componentDidMount() {
+
+        axios.get(`http://127.0.0.1:8000/api/campuses?page=1`)
+            .then(res => {
+                const campusList = res.data['hydra:member'];
+                this.setState({
+                    campusList : campusList
+                });
+            })
+
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${this.state.searchActivityName}`)
+            .then(res => {
+                const activitiesList = res.data['hydra:member'];
+                this.setState({
+                    activitiesList : activitiesList
+                });
+            })
+
     }
 
     handleCampus = e => {
@@ -16,16 +45,25 @@ class ActivitiesFilters extends Component {
         })
     }
 
-    handleSearchName = e => {
+    handleSearchName(e) {
+
         this.setState({
-            searchNameTrip : e.target.value,
+            searchActivityName : e.target.value,
         })
+
+        //const name = this.state.searchActivityName
+        console.log("Je suis là" + name);
+        console.log(e.target.value);
+        this.actualisation(e.target.value);
+
     }
 
     handleStartDate = e => {
         this.setState({
             startDate : e.target.value,
         })
+
+
     }
 
     handleEndDate = e => {
@@ -36,9 +74,26 @@ class ActivitiesFilters extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+
+    }
+
+    actualisation(name) {
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${name}`)
+            .then(res => {
+                const activitiesList = res.data['hydra:member'];
+                this.setState({
+                    activitiesList : activitiesList
+                });
+            })
+        console.log("Je suis dans l'actualisation")
+        console.log(this.state.activitiesList);
     }
 
     render() {
+
+
+
+        console.log("Début du render");
 
         return (
 
@@ -48,18 +103,15 @@ class ActivitiesFilters extends Component {
                 <form onSubmit={this.handleSubmit} id="trip-filters">
 
                     <div className="col">
-
                         <div className="row">
                             <label>Campus : </label>
                             <select value={this.state.campus} onChange={this.handleCampus}>
-                                {/*TODO Afficher les campus via une rêquete ?*/ }
-                                <option>ST HERBLAIN</option>
-                                <option>LA ROCHE SUR YON</option>
+                                {this.state.campusList.map(campus => <option key={campus.id}>{campus.name}</option>)}
                             </select>
                         </div>
                         <div className="row">
                             <label>Le nom de la sortie contient : </label>
-                            <input type="text" value={this.state.searchNameTrip} onChange={this.handleSearchName}/>
+                            <input type="text" value={this.state.searchActivityName} onChange={this.handleSearchName}/>
                         </div>
                         <div className="row">
                             Entre <input type="date" value={this.state.startDate} onChange={this.handleStartDate}/> et <input type="date" value={this.state.endDate} onChange={this.handleEndDate}/>
@@ -86,8 +138,14 @@ class ActivitiesFilters extends Component {
                     </div>
                     <button type="submit">Rechercher</button>
                 </form>
-                <ActivitiesList campus={this.state.campus} name={this.state.searchNameTrip} startDate={this.state.startDate} endDate={this.state.endDate}></ActivitiesList>
 
+                <div className="test" id="trip-list">
+                    <ul>
+                        {this.state.activitiesList.map(trip => <li key={trip.id}>{trip.id + ' ' + trip.name}</li>)}
+                    </ul>
+                </div>
+                {console.log(this.state.activitiesList)}
+                {console.log("Fin du render")}
             </Fragment>
 
         );
@@ -95,3 +153,6 @@ class ActivitiesFilters extends Component {
 }
 
 export default ActivitiesFilters;
+
+//<ActivitiesList campus={this.state.campus} name={this.state.searchActivityName} startDate={this.state.startDate} endDate={this.state.endDate}></ActivitiesList>
+//                 {console.log(this.state)}
