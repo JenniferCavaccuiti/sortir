@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import ActivitiesList from "./ActivitiesList";
 import axios from "axios";
 
 class ActivitiesFilters extends Component {
@@ -8,7 +7,7 @@ class ActivitiesFilters extends Component {
         super(props);
         this.state = {
             campusList : [],
-            campus : 'SAINT-HERBLAIN',
+            campus : '',
             searchActivityName : '',
             startDate : '',
             endDate : '',
@@ -51,10 +50,8 @@ class ActivitiesFilters extends Component {
             searchActivityName : e.target.value,
         })
 
-        //const name = this.state.searchActivityName
         console.log("Je suis là" + name);
         console.log(e.target.value);
-        this.actualisation(e.target.value);
 
     }
 
@@ -74,10 +71,16 @@ class ActivitiesFilters extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        const name = this.state.searchActivityName;
+        const campus = this.state.campus;
+        const startDate = this.state.startDate;
+        const endDate = this.state.endDate;
+        this.actualisation(campus, name, startDate, endDate);
+        console.log("Je suis dans le submit")
 
     }
 
-    actualisation(name) {
+    actualisation(campus, name, startDate, endDate) {
         axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${name}`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
@@ -90,8 +93,6 @@ class ActivitiesFilters extends Component {
     }
 
     render() {
-
-
 
         console.log("Début du render");
 
@@ -136,7 +137,7 @@ class ActivitiesFilters extends Component {
                             <label htmlFor="music">Sorties passées</label>
                         </div>
                     </div>
-                    <button type="submit">Rechercher</button>
+                    <button type="submit" value={this.state} onSubmit={this.handleSubmit}>Rechercher</button>
                 </form>
 
                 <div className="test" id="trip-list">

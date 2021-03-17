@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 import ActivitiesFilters from "./ActivitiesFilters";
 import '/assets/styles/activities_view.css'
 import axios from "axios";
-import ActivitiesList from "./ActivitiesList";
-import Calculator from "../testParent";
+
+
 
 class ActivitiesView extends Component {
 
