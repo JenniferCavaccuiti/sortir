@@ -7,9 +7,14 @@ use App\Repository\StateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={"get"},
+ *     normalizationContext={"groups"={"state:read"}}
+ * )
  * @ORM\Entity(repositoryClass=StateRepository::class)
  */
 class State
@@ -23,11 +28,14 @@ class State
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Groups({"state:read", "activity:read"})
+     *
      */
     private $label;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="state", orphanRemoval=true)
+     * @Groups({"state:read"})
      */
     private $activities;
 

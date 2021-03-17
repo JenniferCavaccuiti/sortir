@@ -7,9 +7,16 @@ use App\Repository\PlaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"},
+ *     normalizationContext={"groups"={"place:read"}},
+ *     denormalizationContext={"groups"={"place:write"}},
+ * )
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
  */
 class Place
@@ -23,32 +30,71 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message="Le nom ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le nom est trop court",
+     *     maxMessage = "La limite de caractères autorisés est atteinte"
+     * )
+     * @Groups({"activity:read", "place:read", "activity:write"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message="Le nom ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le nom de la rue est trop court",
+     *     maxMessage = "La limite de caractères autorisés est atteinte"
+     * )
+     * @Groups({"activity:read", "activity:write"})
      */
     private $street;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(
+     *     message="Veuillez renseigner la latitude"
+     * )
+     * @Assert\Type(
+     *     type="float",
+     *     message="Le type de la latitude doit être un nombre décimal"
+     * )
+     * @Groups({"activity:read", "activity:write"})
      */
     private $latitude;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(
+     *      message="Veuillez renseigner la latitude"
+     * )
+     * @Assert\Type(
+     *     type="float",
+     *     message="Le type de la longitude doit être un nombre décimal"
+     * )
+     * @Groups({"activity:read", "activity:write"})
      */
     private $longitude;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="place", orphanRemoval=true)
+     * @Assert\Valid
      */
     private $activities;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="places")
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="places", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
+     * @Groups({"activity:read", "activity:write"})
      */
     private $city;
 

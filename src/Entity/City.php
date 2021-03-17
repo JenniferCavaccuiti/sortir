@@ -7,10 +7,18 @@ use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=CityRepository::class)
+ * @ApiResource(
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={"get", "put", "delete", "patch"},
+ *     normalizationContext={"groups"={"city:read"}},
+ *     denormalizationContext={"groups"={"city:write"}},
+ * )
  */
 class City
 {
@@ -23,16 +31,37 @@ class City
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message="Le nom ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le nom est trop court",
+     *     maxMessage = "La limite de caractères autorisés est atteinte"
+     * )
+     * @Groups({"city:read", "city:write", "activity:read", "activity:write"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=5)
+     * @Assert\NotBlank(
+     *      message="Le code postal ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=5,
+     *     minMessage="Le code postal est trop court",
+     *     maxMessage = "Le code postal ne peut dépasser 5 caractères"
+     * )
+     * @Groups({"city:read", "city:write", "activity:read", "activity:write"})
      */
     private $postalCode;
 
     /**
      * @ORM\OneToMany(targetEntity=Place::class, mappedBy="city", orphanRemoval=true)
+     * @Assert\Valid
      */
     private $places;
 

@@ -7,9 +7,16 @@ use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={"get", "put", "delete", "patch"},
+ *     normalizationContext={"groups"={"campus:read"}},
+ *     denormalizationContext={"groups"={"campus:write"}},
+ * )
  * @ORM\Entity(repositoryClass=CampusRepository::class)
  */
 class Campus
@@ -23,16 +30,29 @@ class Campus
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"campus:read", "campus:write", "activity:read"})
+     * @Assert\NotBlank(
+     *      message="Le nom ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le nom est trop court",
+     *     maxMessage = "La limite de caractères autorisés est atteinte"
+     * )
+     *
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus", orphanRemoval=true)
+     * @Assert\Valid
      */
     private $participants;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="campus", orphanRemoval=true)
+     * @Assert\Valid
      */
     private $activities;
 

@@ -30,18 +30,13 @@ class ActivitiesFilters extends Component {
                 });
             })
 
-        console.log(this.state.campusList);
-
-        console.log(this.state.campusList[0]);
-
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${this.state.searchActivityName}`)
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
                     activitiesList : activitiesList
                 });
             })
-
     }
 
     handleCampus = e => {
@@ -54,17 +49,12 @@ class ActivitiesFilters extends Component {
         this.setState({
             searchActivityName : e.target.value,
         })
-
-        console.log("Je suis là");
-
     }
 
     handleStartDate = e => {
         this.setState({
             startDate : e.target.value,
         })
-
-
     }
 
     handleEndDate = e => {
@@ -79,9 +69,7 @@ class ActivitiesFilters extends Component {
         const campus = this.state.campus;
         const startDate = this.state.startDate;
         const endDate = this.state.endDate;
-        const state = this.state;
-        console.log(state);
-        console.log(name);
+
         this.actualisation(campus, name, startDate, endDate);
         console.log("Je suis dans le submit");
 
@@ -161,7 +149,7 @@ class ActivitiesFilters extends Component {
 
                 <div className="test" id="trip-list">
                     <ul>
-                        {this.state.activitiesList.map(activity => <li key={activity["@id"]}>{activity.id + ' ' + activity.name}</li>)}
+                        {this.state.activitiesList.map(activity => <li key={activity["@id"]}>{activity.name}</li>)}
                     </ul>
                 </div>
 

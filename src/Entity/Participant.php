@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+//TODO ajouter le group activity:read sur le nom, le prenom, le pseudo
+
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)

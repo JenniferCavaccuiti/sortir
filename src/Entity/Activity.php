@@ -18,7 +18,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *
  *     collectionOperations={"get", "post"},
- *     itemOperations={"get", "delete", "put", "patch"},
+ *     itemOperations={"get"={
+ *              "normalization_context"={"groups"={"activity:read", "activity:write"}},
+ *          }, "delete", "put", "patch"},
  *     normalizationContext={"groups"={"activity:read"}},
  *     denormalizationContext={"groups"={"activity:write"}},
  *     attributes={
@@ -26,7 +28,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  * )
  * @ApiFilter(SearchFilter::class, properties={
- *     "name": "partial"
+ *     "name": "partial",
+ *     "state": "exact",
+ *     "campus.name": "exact",
  * })
  * @ApiFilter(DateFilter::class, properties={"dateTimeStart"})
  * @ApiFilter(PropertyFilter::class)
@@ -45,7 +49,7 @@ class Activity
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank(
      *      message="La description ne peut être vide"
      * )
@@ -60,14 +64,14 @@ class Activity
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank()
      */
     private $dateTimeStart;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank()
      * @Assert\Type(
      *     type="integer",
@@ -81,14 +85,14 @@ class Activity
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank()
      */
     private $registrationDeadline;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank()
      * @Assert\Type(
      *     type="integer",
@@ -102,7 +106,7 @@ class Activity
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank(
      *     message="La description ne peut être vide"
      * )
@@ -117,7 +121,7 @@ class Activity
 
     /**
      * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="activities")
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read"})
      * @Assert\Valid()
      */
     private $participants;
@@ -125,7 +129,7 @@ class Activity
     /**
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="promotedActivities")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read"})
      * @Assert\Valid()
      */
     private $promoter;
@@ -133,7 +137,7 @@ class Activity
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="activities")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"activity:read"})
+     * @Groups({"activity:read", "activity:write"})
      * @Assert\Valid()
      */
     private $campus;
@@ -141,15 +145,15 @@ class Activity
     /**
      * @ORM\ManyToOne(targetEntity=State::class, inversedBy="activities")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"activity:read"})
+     * @Groups({"activity:read", "activity:write", "campus:read"})
      * @Assert\Valid()
      */
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="activities")
+     * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="activities", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "campus:read"})
      * @Assert\Valid()
      */
     private $place;

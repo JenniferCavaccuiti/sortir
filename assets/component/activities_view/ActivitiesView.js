@@ -16,8 +16,6 @@ class ActivitiesView extends Component {
 
     componentDidMount() {
 
-        const numb = 2;
-
         axios.get(`http://127.0.0.1:8000/api/participants/${numb}` )
             .then(res => {
                 const user = res.data;
