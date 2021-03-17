@@ -35,6 +35,7 @@ class ActivitiesView extends Component {
         date = date.toLocaleDateString();
         const user = this.state.user;
 
+
         return (
             <div id="trip-view">
                 <div id="trip-view-info">

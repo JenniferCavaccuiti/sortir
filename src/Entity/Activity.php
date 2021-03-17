@@ -11,18 +11,22 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
  *
  *     collectionOperations={"get", "post"},
+ *     itemOperations={"get", "delete", "put", "patch"},
+ *     normalizationContext={"groups"={"activity:read"}},
+ *     denormalizationContext={"groups"={"activity:write"}},
  *     attributes={
  *          "pagination_items_per_page"=10,
  *     },
  * )
  * @ApiFilter(SearchFilter::class, properties={
- *     "name": "partial",
- *     "campus.label": "exact",
+ *     "name": "partial"
  * })
  * @ApiFilter(DateFilter::class, properties={"dateTimeStart"})
  * @ApiFilter(PropertyFilter::class)
@@ -41,60 +45,112 @@ class Activity
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\NotBlank(
+     *      message="La description ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le nom est trop court",
+     *     maxMessage = "La limite de caractères autorisés est atteinte"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\NotBlank()
      */
     private $dateTimeStart;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\NotBlank()
+     * @Assert\Type(
+     *     type="integer",
+     *     message="La durée est en minutes"
+     * )
+     * @Assert\PositiveOrZero(
+     *     message="La durée doit être supérieure ou égale à 0"
+     * )
      */
     private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\NotBlank()
      */
     private $registrationDeadline;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\NotBlank()
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Le nombre de participants maximum doit être un entier ;-)"
+     * )
+     * @Assert\Positive(
+     *     message="Le nombre d'inscriptions maximum doit être supérieure à 0"
+     * )
      */
     private $registrationsMax;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\NotBlank(
+     *     message="La description ne peut être vide"
+     * )
+     * @Assert\Length (
+     *     min=2,
+     *     max=255,
+     *     minMessage="La description est trop courte",
+     *     maxMessage = "La limite de caractères autorisés est atteinte"
+     * )
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="activities")
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\Valid()
      */
     private $participants;
 
     /**
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="promotedActivities")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\Valid()
      */
     private $promoter;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="activities")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"activity:read"})
+     * @Assert\Valid()
      */
     private $campus;
 
     /**
      * @ORM\ManyToOne(targetEntity=State::class, inversedBy="activities")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"activity:read"})
+     * @Assert\Valid()
      */
     private $state;
 
     /**
      * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="activities")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"activity:read", "activity:write"})
+     * @Assert\Valid()
      */
     private $place;
 

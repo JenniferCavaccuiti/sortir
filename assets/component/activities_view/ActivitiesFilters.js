@@ -20,6 +20,8 @@ class ActivitiesFilters extends Component {
 
     componentDidMount() {
 
+        console.log("Je suis dans le didmount");
+
         axios.get(`http://127.0.0.1:8000/api/campuses?page=1`)
             .then(res => {
                 const campusList = res.data['hydra:member'];
@@ -27,6 +29,10 @@ class ActivitiesFilters extends Component {
                     campusList : campusList
                 });
             })
+
+        console.log(this.state.campusList);
+
+        console.log(this.state.campusList[0]);
 
         axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${this.state.searchActivityName}`)
             .then(res => {
@@ -45,13 +51,11 @@ class ActivitiesFilters extends Component {
     }
 
     handleSearchName(e) {
-
         this.setState({
             searchActivityName : e.target.value,
         })
 
-        console.log("Je suis là" + name);
-        console.log(e.target.value);
+        console.log("Je suis là");
 
     }
 
@@ -75,26 +79,41 @@ class ActivitiesFilters extends Component {
         const campus = this.state.campus;
         const startDate = this.state.startDate;
         const endDate = this.state.endDate;
+        const state = this.state;
+        console.log(state);
+        console.log(name);
         this.actualisation(campus, name, startDate, endDate);
-        console.log("Je suis dans le submit")
+        console.log("Je suis dans le submit");
+
+        //if(!this.state.activitiesList) {
+        //    document.getElementById("trip-list").innerText = "Pas de sorties à afficher";
+        //}
 
     }
 
+    //TODO conditions en cas de dates vides
+
     actualisation(campus, name, startDate, endDate) {
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${name}`)
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${name}&dateTimeStart%5Bbefore%5D=${endDate}&dateTimeStart%5Bafter%5D=${startDate}`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
                     activitiesList : activitiesList
                 });
             })
-        console.log("Je suis dans l'actualisation")
-        console.log(this.state.activitiesList);
+
+
+        console.log("Je suis dans l'actualisation");
+
     }
+
 
     render() {
 
         console.log("Début du render");
+
+        const activity = this.state.activitiesList;
+        console.log(activity[0]);
 
         return (
 
@@ -142,10 +161,12 @@ class ActivitiesFilters extends Component {
 
                 <div className="test" id="trip-list">
                     <ul>
-                        {this.state.activitiesList.map(trip => <li key={trip.id}>{trip.id + ' ' + trip.name}</li>)}
+                        {this.state.activitiesList.map(activity => <li key={activity["@id"]}>{activity.id + ' ' + activity.name}</li>)}
                     </ul>
                 </div>
-                {console.log(this.state.activitiesList)}
+
+
+
                 {console.log("Fin du render")}
             </Fragment>
 
