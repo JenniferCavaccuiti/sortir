@@ -23,8 +23,7 @@ export default class Profil extends Component {
     }
     cancel(e) {
         e.preventDefault();
-        {/* TODO : Redirection a faire vers sorties*/}
-        this.setState({ redirect: "/" });
+        this.setState({ redirect: "/activites" });
     }
 
     componentDidMount() {
@@ -53,7 +52,7 @@ export default class Profil extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        if(e.target.elements.namedItem('password').value != e.target.elements.namedItem('confirmation_pass').value) {
+        if(e.target.elements.namedItem('password').value !== e.target.elements.namedItem('confirmation_pass').value) {
             this.setState({error : true});
             this.setState({message : 'Les mots de passe ne correspondent pas...'});
         } else {
@@ -129,7 +128,7 @@ export default class Profil extends Component {
                                     )}
                                 </select>
                             </div>
-                            {/* TODO : Upload de la photo de profil */}
+                            {/* TODO : Upload de la photo de profil itération 2 */}
                             <div className="input_box">
                                 <label htmlFor="picture">Ma photo :</label>
                                 <input type="file" id="picture" name="picture"/>

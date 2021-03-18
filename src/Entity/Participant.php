@@ -49,6 +49,10 @@ class Participant
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="Le pseudo ne doit pas depasser 50 caractères"
+     * )
      */
     private $pseudo;
 
@@ -56,6 +60,10 @@ class Participant
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="Le nom ne doit pas depasser 50 caractères"
+     * )
      */
     private $lastName;
 
@@ -63,6 +71,10 @@ class Participant
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="Le prenom ne doit pas depasser 50 caractères"
+     * )
      */
     private $firstName;
 
@@ -79,12 +91,21 @@ class Participant
     /**
      * @ORM\Column(type="string", length=150)
      * @Groups({"participant:read", "participant:write"})
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "L'email n'a pas un format valide"
+     * )
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"participant:read", "participant:write"})
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="Le mot de passe est trop long"
+     * )
      */
     private $password;
 
@@ -102,7 +123,8 @@ class Participant
 
     /**
      * @ORM\ManyToMany(targetEntity=Activity::class, inversedBy="participants")
-     * @Groups({"participant:read"})
+     * @Groups({"participant:read", "participant:write"})
+     * @Assert\Valid()
      */
     private $activities;
 
@@ -110,12 +132,14 @@ class Participant
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"participant:read", "participant:write"})
+     * @Assert\Valid()
      */
     private $campus;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="promoter", orphanRemoval=true)
      * @Groups({"participant:read", "participant:write"})
+     * @Assert\Valid()
      */
     private $promotedActivities;
 
@@ -227,7 +251,7 @@ class Participant
     }
 
     /**
-     * @return Collection|Activities[]
+     * @return Collection|Activity[]
      */
     public function getActivity(): Collection
     {

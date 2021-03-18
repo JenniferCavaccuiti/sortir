@@ -23,7 +23,7 @@ class ActivitiesFilters extends Component {
 
         console.log("Je suis dans le didmount");
 
-        axios.get(`http://127.0.0.1:8000/api/campuses?page=1`)
+        axios.get(`https://127.0.0.1:8000/api/campuses?page=1`)
             .then(res => {
                 const campusList = res.data['hydra:member'];
                 this.setState({
@@ -31,7 +31,7 @@ class ActivitiesFilters extends Component {
                 });
             })
 
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1`)
+        axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -91,7 +91,7 @@ class ActivitiesFilters extends Component {
         let endDateFilter = endDate ? (`&dateTimeStart%5Bbefore%5D=${endDate}`) : ("");
         let startDateFilter = startDate ? (`&dateTimeStart%5Bafter%5D=${startDate}`) : ("") ;
 
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}`)
+        axios.get(`https://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -111,7 +111,7 @@ class ActivitiesFilters extends Component {
         let res;
 
         for (let i=0; i < participants.length; i++) {
-            res = (indice == participants[i]) ? ("X") : ("O") ;
+            res = (indice === participants[i]) ? ("X") : ("O") ;
             console.log(res);
         }
 
