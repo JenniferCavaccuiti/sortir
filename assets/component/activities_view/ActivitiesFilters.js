@@ -115,6 +115,7 @@ class ActivitiesFilters extends Component {
         } else {
                 res = (participants.indexOf(indice) === -1) ? ("O") : ("X");
         }
+
         return res;
     }
 
