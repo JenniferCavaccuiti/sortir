@@ -187,7 +187,7 @@ class Participant
     }
 
     /**
-     * @return Collection|Activities[]
+     * @return Collection|Activity[]
      */
     public function getActivity(): Collection
     {

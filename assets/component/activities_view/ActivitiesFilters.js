@@ -11,6 +11,8 @@ class ActivitiesFilters extends Component {
             searchActivityName : '',
             startDate : '',
             endDate : '',
+            registered : '',
+            notRegistered : '',
             activitiesList : [],
 
         }
@@ -23,7 +25,7 @@ class ActivitiesFilters extends Component {
 
         console.log("Je suis dans le didmount");
 
-        axios.get(`http://127.0.0.1:8000/api/campuses?page=1`)
+        axios.get(`https://127.0.0.1:8000/api/campuses?page=1`)
             .then(res => {
                 const campusList = res.data['hydra:member'];
                 this.setState({
@@ -31,7 +33,7 @@ class ActivitiesFilters extends Component {
                 });
             })
 
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1`)
+        axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -91,7 +93,7 @@ class ActivitiesFilters extends Component {
         let endDateFilter = endDate ? (`&dateTimeStart%5Bbefore%5D=${endDate}`) : ("");
         let startDateFilter = startDate ? (`&dateTimeStart%5Bafter%5D=${startDate}`) : ("") ;
 
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}`)
+        axios.get(`https://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -106,15 +108,13 @@ class ActivitiesFilters extends Component {
 
         let indice = "/api/participants/" + this.props.user.id;
         const participants = activity.participants;
-        console.log(participants);
-        console.log(activity);
         let res;
 
-        for (let i=0; i < participants.length; i++) {
-            res = (indice == participants[i]) ? ("X") : ("O") ;
-            console.log(res);
+        if(participants.length === 0) {
+            return "O";
+        } else {
+                res = (participants.indexOf(indice) === -1) ? ("O") : ("X");
         }
-
         return res;
     }
 
