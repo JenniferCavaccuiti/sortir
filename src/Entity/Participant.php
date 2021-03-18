@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ApiResource(
@@ -36,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Le mail est déja utilisé"
  * )
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id
@@ -251,7 +252,7 @@ class Participant
     }
 
     /**
-     * @return Collection|Activity[]
+     * @return Collection|Activities[]
      */
     public function getActivity(): Collection
     {
@@ -314,5 +315,28 @@ class Participant
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        if ($this->getIsAdmin() === 1) {
+            $roles[] = 'ROLE_ADMIN';
+        } else {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function getSalt() { }
+
+    public function getUsername()
+    {
+        return (string)$this->pseudo;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
