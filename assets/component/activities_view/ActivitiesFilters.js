@@ -16,6 +16,7 @@ class ActivitiesFilters extends Component {
         }
         this.handleSearchName = this.handleSearchName.bind(this);
         this.actualisation = this.actualisation.bind(this);
+        //this.isRegistered = this.isRegistered.bind(this);
     }
 
     componentDidMount() {
@@ -37,6 +38,8 @@ class ActivitiesFilters extends Component {
                     activitiesList : activitiesList
                 });
             })
+
+
     }
 
     handleCampus = e => {
@@ -76,13 +79,19 @@ class ActivitiesFilters extends Component {
         //if(!this.state.activitiesList) {
         //    document.getElementById("trip-list").innerText = "Pas de sorties à afficher";
         //}
+        let date = new Date(this.state.activitiesList[1].dateTimeStart).toLocaleString();
+        console.log(date);
 
     }
 
-    //TODO conditions en cas de dates vides
-
     actualisation(campus, name, startDate, endDate) {
-        axios.get(`http://127.0.0.1:8000/api/activities?page=1&name=${name}&dateTimeStart%5Bbefore%5D=${endDate}&dateTimeStart%5Bafter%5D=${startDate}`)
+
+        let nameFilter = name ? (`&name=${name}`) : ("") ;
+        let campusFilter = campus ? (`&campus.name=${campus}`) : ("") ;
+        let endDateFilter = endDate ? (`&dateTimeStart%5Bbefore%5D=${endDate}`) : ("");
+        let startDateFilter = startDate ? (`&dateTimeStart%5Bafter%5D=${startDate}`) : ("") ;
+
+        axios.get(`http://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}`)
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -90,18 +99,29 @@ class ActivitiesFilters extends Component {
                 });
             })
 
-
         console.log("Je suis dans l'actualisation");
-
     }
 
+    isRegistered = (activity) => {
+
+        let indice = "/api/participants/" + this.props.user.id;
+        const participants = activity.participants;
+        console.log(participants);
+        console.log(activity);
+        let res;
+
+        for (let i=0; i < participants.length; i++) {
+            res = (indice == participants[i]) ? ("X") : ("O") ;
+            console.log(res);
+        }
+
+        return res;
+    }
 
     render() {
 
         console.log("Début du render");
-
         const activity = this.state.activitiesList;
-        console.log(activity[0]);
 
         return (
 
@@ -115,6 +135,7 @@ class ActivitiesFilters extends Component {
                             <label>Campus : </label>
                             <select value={this.state.campus} onChange={this.handleCampus}>
                                 {this.state.campusList.map(campus => <option key={campus.id}>{campus.name}</option>)}
+                                <option value="">Tous les campus</option>
                             </select>
                         </div>
                         <div className="row">
@@ -148,12 +169,54 @@ class ActivitiesFilters extends Component {
                 </form>
 
                 <div className="test" id="trip-list">
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Nom de la sortie</th>
+                            <th>Date de la sortie</th>
+                            <th>Clôture</th>
+                            <th>Inscrits/Place</th>
+                            <th>Etat</th>
+                            <th>Inscrit</th>
+                            <th>Organisateur</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{activity.name}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{new Date(activity.dateTimeStart).toLocaleString()}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{new Date(activity.registrationDeadline).toLocaleDateString()}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{activity.participants.length}/{activity.registrationsMax}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{activity.state.label}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{this.isRegistered(activity)}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>{activity.promoter}</tr>)}
+                        </td>
+                        <td>
+                            {activity.map(activity => <tr key={activity.name}>Actions</tr>)}
+                        </td>
+                        </tbody>
+
+                    </table>
+
                     <ul>
-                        {this.state.activitiesList.map(activity => <li key={activity["@id"]}>{activity.name}</li>)}
+                        {activity.map(activity => <li key={activity.name}>{this.isRegistered(activity)}</li>)}
                     </ul>
+
                 </div>
-
-
 
                 {console.log("Fin du render")}
             </Fragment>

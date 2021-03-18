@@ -16,6 +16,8 @@ class ActivitiesView extends Component {
 
     componentDidMount() {
 
+        const numb = 1;
+
         axios.get(`http://127.0.0.1:8000/api/participants/${numb}` )
             .then(res => {
                 const user = res.data;
@@ -41,7 +43,7 @@ class ActivitiesView extends Component {
                     <label>Nom : </label>XXXX
                 </div>
 
-                <ActivitiesFilters/>
+                <ActivitiesFilters user={this.state.user}/>
 
 
                 {/* TODO add le chemin sur le bouton */}

@@ -42,3 +42,10 @@
     height: 200px;
 }
 
+#trip-list >  table > thead > tr > th {
+    border: solid 1px black;
+}
+
+#trip-list >  table > tbody > td {
+    border: solid 1px black;
+}
