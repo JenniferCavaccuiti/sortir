@@ -23,4 +23,12 @@ class DefaultController extends AbstractController
         return $this->render("base.html.twig");
     }
 
+    /**
+     * @Route("/tutorial", name="tutorials")
+     */
+    public function tutorial()
+    {
+        return $this->render("base.html.twig");
+    }
+
 }

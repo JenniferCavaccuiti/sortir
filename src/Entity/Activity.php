@@ -23,14 +23,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }, "delete", "put", "patch"},
  *     normalizationContext={"groups"={"activity:read"}},
  *     denormalizationContext={"groups"={"activity:write"}},
- *     attributes={
- *          "pagination_items_per_page"=10,
- *     },
  * )
  * @ApiFilter(SearchFilter::class, properties={
  *     "name": "partial",
  *     "state": "exact",
  *     "campus.name": "exact",
+ *     "promoter.pseudo": "exact",
+ *     "participants.pseudo" : "exact",
  * })
  * @ApiFilter(DateFilter::class, properties={"dateTimeStart"})
  * @ApiFilter(PropertyFilter::class)

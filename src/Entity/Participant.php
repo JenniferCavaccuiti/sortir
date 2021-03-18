@@ -48,8 +48,10 @@ class Participant implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Groups({"participant:read", "participant:write", "activity:read"})
+     * @Assert\NotBlank(
+     *     message="Le pseudo ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=50,
      *     maxMessage="Le pseudo ne doit pas depasser 50 caractères"
@@ -60,7 +62,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Le nom ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=50,
      *     maxMessage="Le nom ne doit pas depasser 50 caractères"
@@ -71,7 +75,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Le prenom ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=50,
      *     maxMessage="Le prenom ne doit pas depasser 50 caractères"
@@ -92,7 +98,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=150)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="L'email ne peut être vide"
+     * )
      * @Assert\Email(
      *     message = "L'email n'a pas un format valide"
      * )
@@ -102,7 +110,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Le mot de passe ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=255,
      *     maxMessage="Le mot de passe est trop long"
