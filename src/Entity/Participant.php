@@ -7,12 +7,34 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
-//TODO ajouter le group activity:read sur le nom, le prenom, le pseudo
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get",
+ *          "post"
+ *     },
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "patch",
+ *          "delete"
+ *     },
+ *     normalizationContext={"groups"={"participant:read"}},
+ *     denormalizationContext={"groups"={"participant:write"}},
+ * )
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @UniqueEntity(
+ *     fields={"pseudo"},
+ *     message="Le pseudo est déja utilisé"
+ * )
+ * @UniqueEntity(
+ *     fields={"mail"},
+ *     message="Le mail est déja utilisé"
+ * )
  */
 class Participant
 {
@@ -25,57 +47,75 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"participant:read", "participant:write"})
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"participant:read", "participant:write"})
+     * @Assert\NotBlank()
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"participant:read", "participant:write"})
+     * @Assert\NotBlank()
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=14, nullable=true)
+     * @Groups({"participant:read", "participant:write"})
+     * @Assert\Type(
+     *     type="digit",
+     *     message="Le numero de telephone ne doit contenir que des chiffres"
+     * )
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"participant:read", "participant:write"})
      */
     private $isAdmin;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"participant:read", "participant:write"})
      */
     private $isActive;
 
     /**
      * @ORM\ManyToMany(targetEntity=Activity::class, inversedBy="participants")
+     * @Groups({"participant:read"})
      */
     private $activities;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $campus;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="promoter", orphanRemoval=true)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $promotedActivities;
 

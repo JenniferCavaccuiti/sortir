@@ -18,8 +18,14 @@
     margin-top: 4rem;
 }
 
-.container {
+.container_p {
     display: flex;
+}
+.profile_message_error{
+    color: red;
+}
+.profile_message_success{
+    color:green;
 }
 
 .input_box {
