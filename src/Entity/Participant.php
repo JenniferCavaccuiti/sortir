@@ -7,12 +7,27 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get",
+ *          "post"
+ *     },
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "patch",
+ *          "delete"
+ *     },
+ *     normalizationContext={"groups"={"participant:read"}},
+ *     denormalizationContext={"groups"={"participant:write"}},
+ * )
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id
@@ -23,57 +38,69 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $pseudo;
 
+
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=14, nullable=true)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"participant:read", "participant:write"})
      */
     private $isAdmin;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"participant:read", "participant:write"})
      */
     private $isActive;
 
     /**
      * @ORM\ManyToMany(targetEntity=Activity::class, inversedBy="participants")
+     * @Groups({"participant:read", "participant:write"})
      */
     private $activities;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
+     * @Groups({"participant:read", "participant:write"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="promoter", orphanRemoval=true)
+     * @Groups({"participant:read", "participant:write"})
      */
     private $promotedActivities;
 
@@ -248,5 +275,28 @@ class Participant
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        if ($this->getIsAdmin() === 1) {
+            $roles[] = 'ROLE_ADMIN';
+        } else {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function getSalt() { }
+
+    public function getUsername()
+    {
+        return (string)$this->pseudo;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
