@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PlaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     normalizationContext={"groups"={"place:read"}},
  *     denormalizationContext={"groups"={"place:write"}},
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "city.id": "exact",
+ * })
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
  */
 class Place
@@ -39,7 +44,7 @@ class Place
      *     minMessage="Le nom est trop court",
      *     maxMessage = "La limite de caractères autorisés est atteinte"
      * )
-     * @Groups({"activity:read", "place:read", "activity:write"})
+     * @Groups({"activity:read", "place:read", "activity:write", "city:read"})
      */
     private $name;
 
@@ -54,7 +59,7 @@ class Place
      *     minMessage="Le nom de la rue est trop court",
      *     maxMessage = "La limite de caractères autorisés est atteinte"
      * )
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "city:read", "place:read"})
      */
     private $street;
 
@@ -67,7 +72,7 @@ class Place
      *     type="float",
      *     message="Le type de la latitude doit être un nombre décimal"
      * )
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "city:read", "place:read", "place:write"})
      */
     private $latitude;
 
@@ -80,7 +85,7 @@ class Place
      *     type="float",
      *     message="Le type de la longitude doit être un nombre décimal"
      * )
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "city:read", "place:read", "place:write"})
      */
     private $longitude;
 
@@ -94,7 +99,7 @@ class Place
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="places", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid
-     * @Groups({"activity:read", "activity:write"})
+     * @Groups({"activity:read", "activity:write", "city:read", "city:write", "place:read"})
      */
     private $city;
 

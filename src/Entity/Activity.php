@@ -51,7 +51,7 @@ class Activity
      * @ORM\Column(type="string", length=255)
      * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
      * @Assert\NotBlank(
-     *      message="La description ne peut être vide"
+     *      message="Le nom ne peut être vide"
      * )
      * @Assert\Length (
      *     min=2,
@@ -65,14 +65,18 @@ class Activity
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Choisissez un date de début"
+     * )
      */
     private $dateTimeStart;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Definissez la durée de la sortie"
+     * )
      * @Assert\Type(
      *     type="integer",
      *     message="La durée est en minutes"
@@ -86,14 +90,18 @@ class Activity
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Definissez une date limite d'inscription"
+     * )
      */
     private $registrationDeadline;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"activity:read", "activity:write", "campus:read", "state:read"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Definissez un nombre maximum de participants"
+     * )
      * @Assert\Type(
      *     type="integer",
      *     message="Le nombre de participants maximum doit être un entier ;-)"

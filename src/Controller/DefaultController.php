@@ -23,4 +23,20 @@ class DefaultController extends AbstractController
         return $this->render("base.html.twig");
     }
 
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profil()
+    {
+        return $this->render("base.html.twig");
+    }
+
+    /**
+     * @Route("/create_activity", name="create_activity")
+     */
+    public function createActivity()
+    {
+        return $this->render("base.html.twig");
+    }
+
 }
