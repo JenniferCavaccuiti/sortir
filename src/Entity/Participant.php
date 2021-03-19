@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -43,6 +44,7 @@ class Participant implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"participant:read"})
      */
     private $id;
 
@@ -82,10 +84,7 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=14, nullable=true)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\Type(
-     *     type="digit",
-     *     message="Le numero de telephone ne doit contenir que des chiffres"
-     * )
+     *
      */
     private $phoneNumber;
 
@@ -93,16 +92,12 @@ class Participant implements UserInterface
      * @ORM\Column(type="string", length=150)
      * @Groups({"participant:read", "participant:write"})
      * @Assert\NotBlank()
-     * @Assert\Email(
-     *     message = "L'email n'a pas un format valide"
-     * )
+     *
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
      * @Assert\Length(
      *     max=255,
      *     maxMessage="Le mot de passe est trop long"
@@ -143,6 +138,12 @@ class Participant implements UserInterface
      * @Assert\Valid()
      */
     private $promotedActivities;
+
+    /**
+     * @Groups("participant:write")
+     * @SerializedName("password")
+     */
+    private $plainPassword;
 
     public function __construct()
     {
@@ -338,5 +339,15 @@ class Participant implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
     }
 }

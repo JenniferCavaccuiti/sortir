@@ -7,7 +7,6 @@ import logo from '../../images/logo_sortir.png'
 
 
 function Menu() {
-
     return (
         <header className="site-header">
             <div className="wrapper site-header__wrapper">
@@ -18,13 +17,10 @@ function Menu() {
                     </button>
                     <ul className="nav__wrapper">
                         <li className="nav__item">
-                            <NavLink to="/activites">Accueil</NavLink>
+                            <NavLink to="/app/activities">Accueil</NavLink>
                         </li>
                         <li className="nav__item">
-                            <NavLink to="/profil">Mon profil</NavLink>
-                        </li>
-                        <li className="nav__item">
-                            <NavLink to="/">Se deconnecter</NavLink>
+                            <NavLink to="/app/profil">Mon profil</NavLink>
                         </li>
                     </ul>
                 </nav>
@@ -32,6 +28,5 @@ function Menu() {
         </header>
     );
 }
-
 
 export default Menu;

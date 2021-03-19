@@ -28,7 +28,7 @@ export default class Profil extends Component {
 
     componentDidMount() {
         {/* TODO : Passer l'id du user connecté dans l'url */}
-        axios.get(`https://127.0.0.1:8000/api/participants/1`)
+        axios.get(`https://127.0.0.1:8000/api/participants/5`)
             .catch(error => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
@@ -57,7 +57,7 @@ export default class Profil extends Component {
             this.setState({message : 'Les mots de passe ne correspondent pas...'});
         } else {
             {/* TODO : Passer l'id du user connecté dans l'url */}
-            axios.put(`https://127.0.0.1:8000/api/participants/1`, {
+            axios.put(`https://127.0.0.1:8000/api/participants/5`, {
                 "pseudo" : e.target.elements.namedItem('pseudo').value,
                 "firstName" : e.target.elements.namedItem('prenom').value,
                 "lastName" : e.target.elements.namedItem('nom').value,
