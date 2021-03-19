@@ -4,8 +4,10 @@ namespace App\Security;
 
 use App\Entity\Participant;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -75,7 +77,11 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        // todo
+        $data = [
+            'message' => 'login ou mot de passe incorrect'
+        ];
+
+        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
@@ -83,12 +89,22 @@ class UserAuthenticator extends AbstractGuardAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        return new RedirectResponse($this->urlGenerator->generate('home'));
+//        $parameters = $request->toArray();
+//        $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $parameters['pseudo']]);
+
+//        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'participant:read']);
+
+//        return new JsonResponse(['user' => $user]);
+        return new Response('ok', 200, []);
+
+//        return new RedirectResponse($this->urlGenerator->generate('/'));
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        // todo
+        return new JsonResponse([
+            "message" => "authentication required"
+        ], Response::HTTP_UNAUTHORIZED);
     }
 
     public function supportsRememberMe()
