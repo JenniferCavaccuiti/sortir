@@ -20,9 +20,7 @@ class ActivitiesFilters extends Component {
             date : new Date().toISOString(),
 
         }
-        this.handleSearchName = this.handleSearchName.bind(this);
-        this.actualisation = this.actualisation.bind(this);
-        //this.isRegistered = this.isRegistered.bind(this);
+
     }
 
     componentDidMount() {
@@ -44,7 +42,6 @@ class ActivitiesFilters extends Component {
                     activitiesList : activitiesList
                 });
             })
-
 
     }
 
@@ -72,20 +69,49 @@ class ActivitiesFilters extends Component {
         })
     }
 
-    handlePromoter = e => {
+    handlePromoter = () => {
 
         let check = this.state.promoter ? (this.setState({promoter : false})) : (this.setState({promoter : true}));
+        if (document.getElementById("promoter").checked) {
+            document.getElementById("registered").disabled = true;
+            document.getElementById("not-registered").disabled = true;
+        } else {
+            document.getElementById("registered").disabled = false;
+            document.getElementById("not-registered").disabled = false;
+        }
     }
 
-    handlePastActivities = e => {
+    handlePastActivities = () => {
 
         let check = this.state.pastActivities ? (this.setState({pastActivities : false})) : (this.setState({pastActivities : true}));
 
     }
 
-    handleRegistered = e => {
+    handleRegistered = () => {
 
-        let check = this.state.registered ? (this.setState({registered : false})) : (this.setState({registered : true}));
+        let check = this.state.registered ? (this.setState({registered: false})) : (this.setState({registered: true}));
+
+        if (document.getElementById("registered").checked) {
+            document.getElementById("promoter").disabled = true;
+            document.getElementById("not-registered").disabled = true;
+        } else {
+            document.getElementById("promoter").disabled = false;
+            document.getElementById("not-registered").disabled = false;
+        }
+    }
+
+    handleNotRegistered = () => {
+
+        let check = this.state.notRegistered ? (this.setState({notRegistered: false})) : (this.setState({notRegistered: true}));
+
+        if (document.getElementById("not-registered").checked) {
+            document.getElementById("registered").disabled = true;
+            document.getElementById("promoter").disabled = true;
+        } else {
+            document.getElementById("registered").disabled = false;
+            document.getElementById("promoter").disabled = false;
+        }
+
     }
 
     handleSubmit = e => {
@@ -100,19 +126,14 @@ class ActivitiesFilters extends Component {
 
 
         this.actualisation(campus, name, startDate, endDate, promoter, pastActivities, registered);
+
         console.log("Je suis dans le submit");
-
-        //if(!this.state.activitiesList) {
-        //    document.getElementById("trip-list").innerText = "Pas de sorties à afficher";
-        //}
-
 
     }
 
-    actualisation(campus, name, startDate, endDate, promoter, pastActivities, registered) {
+    actualisation = (campus, name, startDate, endDate, promoter, pastActivities, registered) => {
 
         let date = this.state.date;
-        console.log(date);
         let nameFilter = name ? (`&name=${name}`) : ("") ;
         let campusFilter = campus ? (`&campus.name=${campus}`) : ("") ;
         let endDateFilter = endDate ? (`&dateTimeStart%5Bbefore%5D=${endDate}`) : ("");
@@ -129,6 +150,7 @@ class ActivitiesFilters extends Component {
                 });
             })
 
+
         console.log("Je suis dans l'actualisation");
     }
 
@@ -140,7 +162,7 @@ class ActivitiesFilters extends Component {
         let res;
 
         if(participants.length === 0) {
-            return "O";
+            return " ";
 
         } else {
             let exist = 0;
@@ -151,51 +173,121 @@ class ActivitiesFilters extends Component {
                 }
             }
 
-            res = (exist !== 0) ? ("X") : ("O");
+            res = (exist !== 0) ? ("X") : (" ");
         }
         return res;
     }
 
+    notRegistered = (activityList) => {
+
+        let newActivitiesList = [];
+
+        for (let i = 0; i < activityList.length; i++) {
+
+            let participants = activityList[i].participants;
+
+            if(participants.length === 0 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
+                newActivitiesList.push(activityList[i]);
+
+            } else if (participants.length >= 1) {
+
+                for (let j = 0; j < participants.length; j++) {
+
+                    if(participants[j].pseudo !== this.props.user.pseudo) {
+                        if(activityList[i].promoter.pseudo !== this.props.user.pseudo ) {
+                            newActivitiesList.push(activityList[i]);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        if(newActivitiesList)
+
+        console.log(newActivitiesList);
+        return newActivitiesList;
+
+    }
 
     actions = (activity) => {
 
         const userConnected = this.props.user;
         const registered = this.isRegistered(activity);
-        let registeredBool = (registered === "X") ? (true) : (false);
+        let registeredBool = (registered === "X");
 
+        if(activity.promoter.pseudo === userConnected.pseudo) {
 
-        console.log(activity.dateTimeStart < this.state.date);
-
-        if(activity.promoter.pseudo === userConnected.pseudo && (activity.state.id === 2 || activity.state.id === 3)) {
-            return <tr><Link>Afficher</Link> - <Link>Annuler</Link></tr>;
-        } else if (activity.promoter.pseudo === userConnected.pseudo && activity.state.id === 1) {
-            return <tr><Link>Modifier</Link> - <Link>Publier</Link></tr>;
-        } else if (activity.promoter.pseudo === userConnected.pseudo && (activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
-            return <tr><Link>Afficher</Link></tr>;
-        } else if(activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <tr><Link>Afficher</Link> - <Link>Se désister</Link></tr>;
-            } else if((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
-                return <tr><Link>Afficher</Link></tr>;
-            } else if (activity.state.id === 1){
-                return <tr>Pas d'actions</tr>;
-            }
-        } else if(activity.promoter.pseudo !== userConnected.pseudo && !registeredBool) {
-            if(activity.state.id === 2 && activity.participants.length < activity.registrationsMax) {
-                return <tr><Link>Afficher</Link> - <Link>S'inscrire</Link></tr>;
-            } else if(activity.state.id === 1) {
-                return <tr>Pas d'actions</tr>;
+                return <span><Link to="/">Afficher</Link> - <Link to="/">Annuler</Link></span>;
+            } else if (activity.state.id === 1) {
+                return <span><Link to="/">Modifier</Link> - <Link to="/">Publier</Link></span>;
             } else {
-                return <tr><Link>Afficher</Link></tr>;
+                return <span><Link to="/">Afficher</Link></span>;
+            }
+
+        } else if(activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
+
+            if(activity.state.id === 2 || activity.state.id === 3) {
+                return <span><Link to="/">Afficher</Link> - <Link to="/">Se désister</Link></span>;
+            } else if((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
+                return <span><Link to="/">Afficher</Link></span>;
+            } else /*if (activity.state.id === 1)*/ {
+                return <span>Pas d'actions</span>;
+            }
+
+        } else if(activity.promoter.pseudo !== userConnected.pseudo && !registeredBool) {
+
+            if(activity.state.id === 2 && activity.participants.length < activity.registrationsMax) {
+                return <span><Link to="/">Afficher</Link> - <Link to="/">S'inscrire</Link></span>;
+            } else if(activity.state.id === 1) {
+                return <span>Pas d'actions</span>;
+            } else {
+                return <span><Link to="/">Afficher</Link></span>;
             }
         }
+    }
+
+    cleanList = (activity) => {
+
+        let newActivitiesList = [];
+
+        for(let i=0; i < activity.length; i++) {
+
+            const date2 = activity[i].dateTimeStart;
+            const date = new Date();
+            const newDate = new Date(date.setMonth(date.getMonth()-1)).toISOString();
+
+            if(activity[i].promoter.pseudo === this.props.user.pseudo && newDate < date2) {
+                newActivitiesList.push(activity[i]);
+            }
+            else if (activity[i].state.id !== 1 && newDate < date2) {
+                newActivitiesList.push(activity[i]);
+            }
+
+        }
+
+        return newActivitiesList;
     }
 
 
     render() {
 
         console.log("Début du render");
+
         const activity = this.state.activitiesList;
+        const newList = this.cleanList(activity);
+        let newList2;
+
+        if (this.state.notRegistered) {
+            newList2 = this.notRegistered(newList);
+        } else {
+            newList2 = newList;
+        }
+
+        console.log(newList2);
+
+
 
         return (
 
@@ -208,8 +300,8 @@ class ActivitiesFilters extends Component {
                         <div className="row">
                             <label>Campus : </label>
                             <select value={this.state.campus} onChange={this.handleCampus}>
-                                {this.state.campusList.map(campus => <option key={campus.id}>{campus.name}</option>)}
-                                <option value="">Tous les campus</option>
+                                {this.state.campusList.map(campus => <option key={campus.name}>{campus.name}</option>)}
+                                <option key="key" value="">Tous les campus</option>
                             </select>
                         </div>
                         <div className="row">
@@ -223,19 +315,19 @@ class ActivitiesFilters extends Component {
 
                     <div className="col">
                         <div>
-                            <input type="checkbox" onChange={this.handlePromoter} value={this.state.promoter}/>
+                            <input type="checkbox" id="promoter" onChange={this.handlePromoter} value={this.state.promoter}/>
                             <label htmlFor="coding">Sorties dont je suis l'organisateur.trice</label>
                         </div>
                         <div>
-                            <input type="checkbox" onChange={this.handleRegistered} value={this.state.registered}/>
+                            <input type="checkbox" id="registered" onChange={this.handleRegistered} value={this.state.registered}/>
                             <label htmlFor="music">Sorties auxquelles je suis inscrit.e</label>
                         </div>
                         <div>
-                            <input type="checkbox" name="trip" value="not-registered"/>
+                            <input type="checkbox" id="not-registered" onChange={this.handleNotRegistered}/>
                             <label htmlFor="music">Sorties auxquelles je ne suis pas inscrit.e</label>
                         </div>
                         <div>
-                            <input type="checkbox" onChange={this.handlePastActivities} value={this.state.pastActivities}/>
+                            <input type="checkbox" onClick={this.checked} onChange={this.handlePastActivities} value={this.state.pastActivities}/>
                             <label htmlFor="music">Sorties passées</label>
                         </div>
                     </div>
@@ -258,40 +350,19 @@ class ActivitiesFilters extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{activity.name}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{new Date(activity.dateTimeStart).toLocaleString()}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{new Date(activity.registrationDeadline).toLocaleDateString()}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{activity.participants.length}/{activity.registrationsMax}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{activity.state.label}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{this.isRegistered(activity)}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{activity.promoter.pseudo}</tr>)}
-                        </td>
-                        <td>
-                            {activity.map(activity => <tr key={activity.name}>{this.actions(activity)}</tr>)}
-                        </td>
+                        {newList2.map(activity => <tr key={activity.name}>
+                            <td key={activity.name}>{activity.name}</td>
+                            <td key={activity.dateTimeStart}>{new Date(activity.dateTimeStart).toLocaleString()}</td>
+                            <td key={activity.registrationDeadline}>{new Date(activity.registrationDeadline).toLocaleDateString()}</td>
+                            <td key={activity.participants.length}>{activity.participants.length}/{activity.registrationsMax}</td>
+                            <td key={activity.state.label}>{activity.state.label}</td>
+                            <td key={activity.registrationsMax}>{this.isRegistered(activity)}</td>
+                            <td key={activity.promoter.pseudo}>{activity.promoter.pseudo}</td>
+                            <td key={activity.duration}>{this.actions(activity)}</td>
+                        </tr>)}
                         </tbody>
-
                     </table>
-
-                    <ul>
-                          {activity.map(activity => <li key={activity.name}></li>)}
-                    </ul>
-
                 </div>
-
                 {console.log("Fin du render")}
             </Fragment>
 
@@ -300,13 +371,3 @@ class ActivitiesFilters extends Component {
 }
 
 export default ActivitiesFilters;
-
-//<ActivitiesList campus={this.state.campus} name={this.state.searchActivityName} startDate={this.state.startDate} endDate={this.state.endDate}></ActivitiesList>
-//
-//
-
-//{this.isRegistered(activity)}
-//
-//
-//
-//                 {console.log(this.state)}

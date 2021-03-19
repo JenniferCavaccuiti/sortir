@@ -17,6 +17,8 @@ class ActivitiesView extends Component {
 
     componentDidMount() {
 
+        //TODO modifier le participant codé en dur
+
         const numb = 1;
 
         axios.get(`https://127.0.0.1:8000/api/participants/${numb}` )
