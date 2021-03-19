@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import './profil.css';
 import photo from '../../images/photo-profil.jpg'
 import axios from 'axios';
-
+import { Redirect } from "react-router-dom";
 
 
 
@@ -11,6 +11,7 @@ export default class Profil extends Component {
     state = {
         person: '',
         campusList: [],
+        redirect: null,
         message: '',
         error: false
     }
@@ -22,12 +23,12 @@ export default class Profil extends Component {
     }
     cancel(e) {
         e.preventDefault();
-        this.props.history.push('/activites');
+        this.setState({ redirect: "/activites" });
     }
 
     componentDidMount() {
         {/* TODO : Passer l'id du user connecté dans l'url */}
-        axios.get(`https://127.0.0.1:8000/api/participants/2`)
+        axios.get(`https://127.0.0.1:8000/api/participants/5`)
             .catch(error => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
@@ -56,7 +57,7 @@ export default class Profil extends Component {
             this.setState({message : 'Les mots de passe ne correspondent pas...'});
         } else {
             {/* TODO : Passer l'id du user connecté dans l'url */}
-            axios.put(`https://127.0.0.1:8000/api/participants/2`, {
+            axios.put(`https://127.0.0.1:8000/api/participants/5`, {
                 "pseudo" : e.target.elements.namedItem('pseudo').value,
                 "firstName" : e.target.elements.namedItem('prenom').value,
                 "lastName" : e.target.elements.namedItem('nom').value,
@@ -77,7 +78,9 @@ export default class Profil extends Component {
 
 
     render() {
-
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
         const user = this.state.person;
         return (
             <div className="container_p">
@@ -121,7 +124,7 @@ export default class Profil extends Component {
                                 <label htmlFor="campus">Campus :</label>
                                 <select name="campus" id="campus" >
                                     {this.state.campusList.map(campus =>
-                                        <option key={campus.name} value={campus["@id"]}>{ campus.name }</option>
+                                        <option key={campus.id} value={campus["@id"]}>{ campus.name }</option>
                                     )}
                                 </select>
                             </div>

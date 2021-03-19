@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -43,13 +44,16 @@ class Participant implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"participant:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Groups({"participant:read", "participant:write", "activity:read"})
+     * @Assert\NotBlank(
+     *     message="Le pseudo ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=50,
      *     maxMessage="Le pseudo ne doit pas depasser 50 caractères"
@@ -60,7 +64,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Le nom ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=50,
      *     maxMessage="Le nom ne doit pas depasser 50 caractères"
@@ -71,7 +77,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Le prenom ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=50,
      *     maxMessage="Le prenom ne doit pas depasser 50 caractères"
@@ -92,7 +100,9 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=150)
      * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="L'email ne peut être vide"
+     * )
      * @Assert\Email(
      *     message = "L'email n'a pas un format valide"
      * )
@@ -101,8 +111,9 @@ class Participant implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"participant:read", "participant:write"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Le mot de passe ne peut être vide"
+     * )
      * @Assert\Length(
      *     max=255,
      *     maxMessage="Le mot de passe est trop long"
@@ -143,6 +154,12 @@ class Participant implements UserInterface
      * @Assert\Valid()
      */
     private $promotedActivities;
+
+    /**
+     * @Groups("participant:write")
+     * @SerializedName("password")
+     */
+    private $plainPassword;
 
     public function __construct()
     {
@@ -252,7 +269,7 @@ class Participant implements UserInterface
     }
 
     /**
-     * @return Collection|Activities[]
+     * @return Collection|Activity[]
      */
     public function getActivity(): Collection
     {
@@ -338,5 +355,15 @@ class Participant implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
     }
 }

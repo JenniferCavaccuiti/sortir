@@ -43,8 +43,14 @@
 
 #trip-list >  table > thead > tr > th {
     border: solid 1px black;
+    text-align: center;
+    padding: 5px;
 }
 
-#trip-list >  table > tbody > td {
+#trip-list >  table > tbody > tr >td {
     border: solid 1px black;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
 }

@@ -10,11 +10,14 @@ class ActivitiesView extends Component {
 
     state = {
         user : '',
-        name:''
+        name:'',
+
 
     }
 
     componentDidMount() {
+
+        //TODO modifier le participant codé en dur
 
         const numb = 1;
 
@@ -43,7 +46,7 @@ class ActivitiesView extends Component {
                     <label>Nom : </label>XXXX
                 </div>
 
-                <ActivitiesFilters user={this.state.user}/>
+                <ActivitiesFilters user={this.state.user} date={date}/>
 
 
                 {/* TODO add le chemin sur le bouton */}
