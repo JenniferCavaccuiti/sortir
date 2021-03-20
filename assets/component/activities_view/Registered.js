@@ -6,7 +6,12 @@ import axios from "axios";
 
 class Registered extends Component {
 
-    register = e => {
+    state = {
+        message: '',
+        error: false
+    }
+
+    register = () => {
 
         const participants = this.props.activity.participants;
         const IRIs = [];
@@ -23,12 +28,17 @@ class Registered extends Component {
 
         const activityIRI = this.props.activity["@id"];
 
+
         axios.put(`https://127.0.0.1:8000${activityIRI}`, {
             "participants": IRIs
         }).catch(error => {
             this.setState({error : true})
-            this.setState({message : error.response.data.violations[0].message})
+            this.setState({message : "Une erreur s'est produite lors de l'inscription"})
         }).then(response => console.log(response))
+
+        if(this.state.error) {
+            document.getElementById("error-message-activities").innerText = this.state.error;
+        }
 
         this.props.register();
 
@@ -36,7 +46,7 @@ class Registered extends Component {
 
     render() {
         return (
-            <Link id="act-register" onClick={this.register}>S'inscrire</Link>
+            <Link onClick={this.register}>S'inscrire</Link>
         );
     }
 }
