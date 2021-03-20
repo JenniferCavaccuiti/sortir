@@ -1,4 +1,10 @@
 .container {
-    color: red;
+    display: flex;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
