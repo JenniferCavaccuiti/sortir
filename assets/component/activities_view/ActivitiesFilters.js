@@ -22,7 +22,8 @@ class ActivitiesFilters extends Component {
             activity : '',
             inscription : 0,
             message: '',
-            error: false
+            error: false,
+            withdraw : 0,
         }
     }
 
@@ -252,12 +253,21 @@ class ActivitiesFilters extends Component {
 
     }
 
-    handleInscription = e => {
+    handleInscription = () => {
 
         console.log("Je suis à l'inscription");
         this.setState(
             (prevState) => ({ inscription : prevState.inscription + 1 })
         )
+    }
+
+    handleWithdraw = () => {
+
+        console.log("Je suis au désistement");
+        this.setState(
+            (prevState) => ({ withdraw : prevState.withdraw + 1 })
+        )
+
     }
 
     actions = (activity) => {
