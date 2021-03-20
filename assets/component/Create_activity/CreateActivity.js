@@ -163,7 +163,7 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label className="textarea_label" htmlFor="act_infos">Description et infos :</label>
-                                <textarea name="act_infos" id="act_infos" cols="30" rows="5" required="required" defaultValue=""> </textarea>
+                                <textarea name="act_infos" id="act_infos" cols="30" rows="5" required="required" defaultValue=""></textarea>
                             </div>
                         </div>
                         <div className="form_right_col form_act_box">
