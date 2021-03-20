@@ -18,6 +18,8 @@ export default class CreateActivity extends Component {
         publishedState : '/api/states/2',
         connectedUser: '',
         campusName : '',
+        isSaved : false,
+        isPublished :false
     }
 
     constructor(props) {
@@ -34,9 +36,12 @@ export default class CreateActivity extends Component {
         this.props.history.push('/app/activities');
     }
     handleSave() {
+        this.setState({isSaved : true});
         this.setState({actState : this.state.createdState});
     }
     handlePublish() {
+        this.setState({isSaved : true});
+        this.setState({isPublished: true});
         this.setState({actState : this.state.publishedState});
     }
     handleSubmit(e) {
@@ -87,6 +92,7 @@ export default class CreateActivity extends Component {
                     .then(res => {
                         const places = res.data['hydra:member'];
                         this.setState({ places : places });
+                        this.setState({selectedPlace : ""})
                     }
             ))
 
@@ -163,7 +169,7 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label className="textarea_label" htmlFor="act_infos">Description et infos :</label>
-                                <textarea name="act_infos" id="act_infos" cols="30" rows="5" required="required" defaultValue=""></textarea>
+                                <textarea name="act_infos" id="act_infos" cols="30" rows="5" required="required" defaultValue=""/>
                             </div>
                         </div>
                         <div className="form_right_col form_act_box">
@@ -174,7 +180,7 @@ export default class CreateActivity extends Component {
                             <div className="create_act_box">
                                 <label htmlFor="act_city">Ville :</label>
                                 <select name="act_city" id="act_city" onChange={this.handleChange} required="required" defaultValue="">
-                                    <option disabled value="">Selectionnez une ville</option>
+                                    <option value="">Selectionnez une ville</option>
                                     {this.state.cities.map(city =>
                                         <option key={city.name} value={city["@id"]}>{ city.name }</option>
                                     )}
@@ -182,8 +188,8 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_place">Lieu :</label>
-                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required" defaultValue="">
-                                    <option disabled value="">Selectionnez un lieu</option>
+                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required" defaultValue={this.state.selectedPlace.id ? 'api/places/'+this.state.selectedPlace.id : ""}>
+                                    <option value="">Selectionnez un lieu</option>
                                     {this.state.places.map(place =>
                                         <option key={place.name} value={place["@id"]}>{ place.name }</option>
                                     )}
@@ -199,17 +205,17 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_latitude">Latitude :</label>
-                                <input defaultValue={this.state.selectedPlace.latitude} name="act_latitude" id="act_latitude" type="text" disabled="disabled"/>
+                                <input value={this.state.selectedPlace.latitude} name="act_latitude" id="act_latitude" type="text" disabled="disabled"/>
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_longitude">Longitude :</label>
-                                <input defaultValue={this.state.selectedPlace.longitude} type="text" name="act_longitude" id="act_longitude" disabled="disabled"/>
+                                <input value={this.state.selectedPlace.longitude} type="text" name="act_longitude" id="act_longitude" disabled="disabled"/>
                             </div>
                         </div>
                     </div>
                     <div className="create_act_box_button">
-                        <button onClick={this.handleSave} type="submit">Enregistrer</button>
-                        <button type="submit" name="publishButton" onClick={this.handlePublish}>Publier la sortie</button>
+                        <button disabled={this.state.isSaved} onClick={this.handleSave} type="submit">Enregistrer</button>
+                        <button disabled={this.state.isPublished} type={this.state.isSaved ? "button" : "submit"} name="publishButton" className="publishButton" onClick={this.handlePublish}>Publier la sortie</button>
                         <button onClick={this.cancel}>Annuler</button>
                     </div>
                 </form>
