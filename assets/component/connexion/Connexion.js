@@ -51,7 +51,7 @@ export default class Connexion extends Component {
     render() {
         return (
             <div className="container">
-                <form className="pseudo" onSubmit={this.handleFormSubmit}>
+                <form className="login" onSubmit={this.handleFormSubmit}>
                     <div className="inline-form">
                         <label htmlFor="pseudo">Identifiant :
                         </label>
@@ -71,10 +71,12 @@ export default class Connexion extends Component {
                                name="password"
                                required="required"/>
                     </div>
-                    <input type="checkbox" id="rememberMe" onChange={this.handleChangeRememberMe} name="rememberMe" checked/>
-                    <label htmlFor="rememberMe">Keep me logged in</label>
-                    <button type="submit" className="submit-button">Connexion
-                    </button>
+                    <div className="btnBox-login">
+                        <button type="submit" className="submit-button">Connexion
+                        </button>
+                        <input type="checkbox" id="rememberMe" onChange={this.handleChangeRememberMe} name="rememberMe" checked/>
+                        <label htmlFor="rememberMe">Se souvenir de moi</label>
+                    </div>
                 </form>
             </div>
         );
