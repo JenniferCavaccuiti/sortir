@@ -17,10 +17,8 @@ class ActivitiesView extends Component {
 
     componentDidMount() {
 
-        //TODO modifier le participant codé en dur
-
-        //const numb = localStorage.getItem("id");
-        const numb = 5;
+        const numb = localStorage.getItem("id");
+        //const numb = 5;
 
         axios.get(`https://127.0.0.1:8000/api/participants/${numb}` )
             .then(res => {
@@ -31,12 +29,10 @@ class ActivitiesView extends Component {
             })
     }
 
-    //TODO ajouter le nom du participant
 
     render() {
 
         let date = new Date().toLocaleDateString();
-        //date = date.toLocaleDateString();
         const user = this.state.user;
 
         return (
@@ -48,8 +44,6 @@ class ActivitiesView extends Component {
 
                 <ActivitiesFilters user={user} date={date}/>
 
-
-                {/* TODO add le chemin sur le bouton */}
             <button><Link to="/app/create_activity">Créer une sortie</Link></button>
             </div>
         );
