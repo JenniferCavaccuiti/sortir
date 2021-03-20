@@ -45,3 +45,8 @@
     display: flex;
     align-items: start;
 }
+.button_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
