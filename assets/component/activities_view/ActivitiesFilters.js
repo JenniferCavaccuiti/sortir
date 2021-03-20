@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Register from "./Registered";
+import Withdraw from "./Withdraw";
 
 class ActivitiesFilters extends Component {
 
@@ -62,9 +63,9 @@ class ActivitiesFilters extends Component {
         console.log("Je suis dans le didUpdate");
 
 
-        if(this.state.inscription) {
+        if(this.state.inscription || this.state.withdraw) {
 
-            if(prevState.inscription !== this.state.inscription) {
+            if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw) {
 
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
                     .catch(error => {
@@ -80,7 +81,8 @@ class ActivitiesFilters extends Component {
 
             }
 
-            console.log(this.state.inscription);
+            console.log(this.state.inscription + "inscription");
+            console.log(this.state.withdraw + "withdraw");
         }
 
     }
@@ -289,7 +291,7 @@ class ActivitiesFilters extends Component {
         } else if(activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
 
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <span><Link to="/">Afficher</Link> - <Link to="/">Se désister</Link></span>;
+                return <span><Link to="/">Afficher</Link> - <Withdraw activity={activity} user={this.props.user} withdraw={this.handleWithdraw}/></span>;
             } else if((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
                 return <span><Link to="/">Afficher</Link></span>;
             } else /*if (activity.state.id === 1)*/ {
@@ -393,7 +395,7 @@ class ActivitiesFilters extends Component {
                 <div className="test" id="trip-list">
 
                     <div>
-                        <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
+                        <p id="error-message-activities" className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
                     </div>
 
                     <table>
