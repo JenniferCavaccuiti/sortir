@@ -84,7 +84,6 @@ class ActivitiesFilters extends Component {
 
     }
 
-
     handleCampus = e => {
         this.setState({
             campus : e.target.value,
