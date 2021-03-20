@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
+import Register from "./Registered";
 
 class ActivitiesFilters extends Component {
 
@@ -18,9 +19,11 @@ class ActivitiesFilters extends Component {
             pastActivities : '',
             activitiesList : [],
             date : new Date().toISOString(),
-
+            activity : '',
+            inscription : 0,
+            message: '',
+            error: false
         }
-
     }
 
     componentDidMount() {
@@ -28,6 +31,10 @@ class ActivitiesFilters extends Component {
         console.log("Je suis dans le didmount");
 
         axios.get(`https://127.0.0.1:8000/api/campuses?page=1`)
+            .catch(error => {
+                this.setState({error : true})
+                this.setState({message : error.response.data.violations[0].message})
+            })
             .then(res => {
                 const campusList = res.data['hydra:member'];
                 this.setState({
@@ -36,6 +43,10 @@ class ActivitiesFilters extends Component {
             })
 
         axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
+            .catch(error => {
+                this.setState({error : true})
+                this.setState({message : error.response.data.violations[0].message})
+            })
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -44,6 +55,35 @@ class ActivitiesFilters extends Component {
             })
 
     }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        console.log("Je suis dans le didUpdate");
+
+
+        if(this.state.inscription) {
+
+            if(prevState.inscription !== this.state.inscription) {
+
+                axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
+                    .catch(error => {
+                        this.setState({error : true})
+                        this.setState({message : error.response.data.violations[0].message})
+                    })
+                    .then(res => {
+                        const activitiesList = res.data['hydra:member'];
+                        this.setState({
+                            activitiesList : activitiesList
+                        });
+                    })
+
+            }
+
+            console.log(this.state.inscription);
+        }
+
+    }
+
 
     handleCampus = e => {
         this.setState({
@@ -143,6 +183,10 @@ class ActivitiesFilters extends Component {
         let registeredFilter = registered ? (`&participants.pseudo=${this.props.user.pseudo}`) : ("") ;
 
         axios.get(`https://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}${promoterFilter}${pastActivitiesFilter}${registeredFilter}`)
+            .catch(error => {
+                this.setState({error : true})
+                this.setState({message : error.response.data.violations[0].message})
+            })
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
@@ -197,7 +241,6 @@ class ActivitiesFilters extends Component {
                         if(activityList[i].promoter.pseudo !== this.props.user.pseudo ) {
                             newActivitiesList.push(activityList[i]);
                         }
-
                     }
                 }
             }
@@ -208,6 +251,14 @@ class ActivitiesFilters extends Component {
         console.log(newActivitiesList);
         return newActivitiesList;
 
+    }
+
+    handleInscription = e => {
+
+        console.log("Je suis à l'inscription");
+        this.setState(
+            (prevState) => ({ inscription : prevState.inscription + 1 })
+        )
     }
 
     actions = (activity) => {
@@ -239,7 +290,7 @@ class ActivitiesFilters extends Component {
         } else if(activity.promoter.pseudo !== userConnected.pseudo && !registeredBool) {
 
             if(activity.state.id === 2 && activity.participants.length < activity.registrationsMax) {
-                return <span><Link to="/">Afficher</Link> - <Link to="/">S'inscrire</Link></span>;
+                return <span><Link to="/">Afficher</Link> - <Register activity={activity} user={this.props.user} register={this.handleInscription}/></span>;
             } else if(activity.state.id === 1) {
                 return <span>Pas d'actions</span>;
             } else {
@@ -284,10 +335,6 @@ class ActivitiesFilters extends Component {
         } else {
             newList2 = newList;
         }
-
-        console.log(newList2);
-
-
 
         return (
 
@@ -335,6 +382,10 @@ class ActivitiesFilters extends Component {
                 </form>
 
                 <div className="test" id="trip-list">
+
+                    <div>
+                        <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
+                    </div>
 
                     <table>
                         <thead>
