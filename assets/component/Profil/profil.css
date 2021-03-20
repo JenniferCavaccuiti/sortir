@@ -43,3 +43,15 @@
     display: flex;
     align-items: start;
 }
+
+/* ViewProfilPArticipant*/
+
+.container {
+    display: flex;
+}
+
+.hate_css {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}

@@ -11,7 +11,7 @@ class DefaultController extends AbstractController
     /**
      * @Rest\Get(
      *     name="home",
-     *     path="/app/{path}",
+     *     path="/app{path}",
      *     requirements={
      *         "path"=".*"
      *     },
