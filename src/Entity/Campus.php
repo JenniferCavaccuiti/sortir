@@ -25,12 +25,13 @@ class Campus
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"participant:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"campus:read", "campus:write", "activity:read"})
+     * @Groups({"campus:read", "campus:write", "activity:read", "participant:read"})
      * @Assert\NotBlank(
      *      message="Le nom ne peut être vide"
      * )

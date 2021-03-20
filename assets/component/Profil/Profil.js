@@ -2,16 +2,16 @@ import React, {Component} from "react";
 import './profil.css';
 import photo from '../../images/photo-profil.jpg'
 import axios from 'axios';
-import { Redirect } from "react-router-dom";
+
 
 
 
 export default class Profil extends Component {
 
     state = {
+        connectedUser: '',
         person: '',
         campusList: [],
-        redirect: null,
         message: '',
         error: false
     }
@@ -23,21 +23,30 @@ export default class Profil extends Component {
     }
     cancel(e) {
         e.preventDefault();
-        this.setState({ redirect: "/activites" });
+        this.props.history.push('/app/activities');
     }
 
     componentDidMount() {
-        {/* TODO : Passer l'id du user connecté dans l'url */}
-        axios.get(`https://127.0.0.1:8000/api/participants/5`)
-            .catch(error => {
+        axios.get(`https://127.0.0.1:8000/getuser`)
+            .catch(error=> {
                 this.setState({error : true})
-                this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
+                this.setState({message : 'Impossible de récuperer l\'utilisateur'})
             })
             .then(res => {
-                const person = res.data
-                this.setState({ person : person })
+                const connectedUser = res.data
+                this.setState({ connectedUser : connectedUser })
+            })
+            .then(res => {
+                axios.get(`https://127.0.0.1:8000/api/participants/`+ this.state.connectedUser.id )
+                    .catch(error => {
+                        this.setState({error : true})
+                        this.setState({message : "Impossible de récuperer l'utilisateur"})
+                    })
+                    .then(res => {
+                        const person = res.data
+                        this.setState({ person : person })
+                    })
             });
-
         axios.get(`https://127.0.0.1:8000/api/campuses`)
             .catch(error => {
                 this.setState({error : true})
@@ -47,7 +56,6 @@ export default class Profil extends Component {
             const campuses = res.data['hydra:member'];
             this.setState({ campusList : campuses });
         });
-
     }
 
     handleSubmit(e) {
@@ -55,9 +63,11 @@ export default class Profil extends Component {
         if(e.target.elements.namedItem('password').value !== e.target.elements.namedItem('confirmation_pass').value) {
             this.setState({error : true});
             this.setState({message : 'Les mots de passe ne correspondent pas...'});
+        } else if (e.target.elements.namedItem('campus').value === "") {
+            this.setState({error : true});
+            this.setState({message : 'Choisissez un campus'});
         } else {
-            {/* TODO : Passer l'id du user connecté dans l'url */}
-            axios.put(`https://127.0.0.1:8000/api/participants/5`, {
+            axios.put(`https://127.0.0.1:8000/api/participants/`+this.state.connectedUser.id, {
                 "pseudo" : e.target.elements.namedItem('pseudo').value,
                 "firstName" : e.target.elements.namedItem('prenom').value,
                 "lastName" : e.target.elements.namedItem('nom').value,
@@ -78,9 +88,7 @@ export default class Profil extends Component {
 
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
-        }
+
         const user = this.state.person;
         return (
             <div className="container_p">
@@ -122,9 +130,10 @@ export default class Profil extends Component {
                             </div>
                             <div className="input_box">
                                 <label htmlFor="campus">Campus :</label>
-                                <select name="campus" id="campus" >
+                                <select name="campus" id="campus" defaultValue="" >
+                                    <option disabled value="">Votre campus</option>
                                     {this.state.campusList.map(campus =>
-                                        <option key={campus.id} value={campus["@id"]}>{ campus.name }</option>
+                                        <option key={campus.name} value={campus["@id"]}>{ campus.name }</option>
                                     )}
                                 </select>
                             </div>

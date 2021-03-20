@@ -15,7 +15,9 @@ export default class CreateActivity extends Component {
         places:[],
         actState: '',
         createdState: '/api/states/1',
-        publishedState : '/api/states/2'
+        publishedState : '/api/states/2',
+        connectedUser: '',
+        campusName : '',
     }
 
     constructor(props) {
@@ -29,7 +31,7 @@ export default class CreateActivity extends Component {
     }
     cancel(e) {
         e.preventDefault();
-        this.props.history.push('/activites');
+        this.props.history.push('/app/activities');
     }
     handleSave() {
         this.setState({actState : this.state.createdState});
@@ -39,6 +41,10 @@ export default class CreateActivity extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
+        if (e.target.elements.namedItem('act_city').value === "" || e.target.elements.namedItem('act_place').value === "") {
+            this.setState({error : true});
+            this.setState({message : 'Selectionnez une ville'});
+        } else {
         const dateStart =e.target.elements.namedItem('act_startdate').value + ' ' + e.target.elements.namedItem('act_start_time').value + ':00';
         axios.post(`https://127.0.0.1:8000/api/activities`, {
             "name" : e.target.elements.namedItem('act_name').value,
@@ -47,8 +53,8 @@ export default class CreateActivity extends Component {
             "registrationDeadline" : e.target.elements.namedItem('act_maxdate').value,
             "registrationsMax" : parseInt(e.target.elements.namedItem('act_maxplaces').value),
             "description" : e.target.elements.namedItem('act_infos').value,
-            "promoter" : '/api/participants/1',
-            "campus" : '/api/campuses/1',
+            "promoter" : '/api/participants/'+this.state.connectedUser.id,
+            "campus" : '/api/campuses/'+this.state.connectedUser.campus.id,
             "state" :  this.state.actState,
             "place" : e.target.elements.namedItem('act_place').value,
         })
@@ -59,6 +65,7 @@ export default class CreateActivity extends Component {
             .then(response => console.log(response))
                 this.setState({error : false});
                 this.setState({message : 'La sortie a bien été créée'});
+        }
     }
     handleChange(e) {
         axios.get(`https://127.0.0.1:8000`+e.target.value)
@@ -68,6 +75,7 @@ export default class CreateActivity extends Component {
             })
             .then(res => {
                 const selectedCity = res.data;
+
                 this.setState({ selectedCity : selectedCity });
             })
             .then(res =>
@@ -105,7 +113,19 @@ export default class CreateActivity extends Component {
             .then(res => {
                 const cities = res.data['hydra:member'];
                 this.setState({ cities : cities });
-            });
+            })
+            .then(res => {
+                axios.get(`https://127.0.0.1:8000/getuser`)
+                    .catch(error=> {
+                        this.setState({error : true})
+                        this.setState({message : 'Impossible de récuperer l\'utilisateur'})
+                    })
+                    .then(res => {
+                        const connectedUser = res.data
+                        this.setState({ connectedUser : connectedUser })
+                        this.setState({campusName: this.state.connectedUser.campus.name })
+                    })
+            })
 
 
     }
@@ -143,18 +163,18 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label className="textarea_label" htmlFor="act_infos">Description et infos :</label>
-                                <textarea name="act_infos" id="act_infos" cols="30" rows="5" required="required"> </textarea>
+                                <textarea name="act_infos" id="act_infos" cols="30" rows="5" required="required" defaultValue=""> </textarea>
                             </div>
                         </div>
                         <div className="form_right_col form_act_box">
                             <div className="create_act_box">
                                 <label>Campus :</label>
-                                <em>Campus du user connecté</em>
+                                <em>{this.state.campusName}</em>
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_city">Ville :</label>
-                                <select name="act_city" id="act_city" onClick={this.handleChange} required="required">
-                                    <option defaultValue>Selectionnez une ville</option>
+                                <select name="act_city" id="act_city" onChange={this.handleChange} required="required" defaultValue="">
+                                    <option disabled value="">Selectionnez une ville</option>
                                     {this.state.cities.map(city =>
                                         <option key={city.name} value={city["@id"]}>{ city.name }</option>
                                     )}
@@ -162,8 +182,8 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_place">Lieu :</label>
-                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required">
-                                    <option defaultValue>Selectionnez un lieu</option>
+                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required" defaultValue="">
+                                    <option disabled value="">Selectionnez un lieu</option>
                                     {this.state.places.map(place =>
                                         <option key={place.name} value={place["@id"]}>{ place.name }</option>
                                     )}

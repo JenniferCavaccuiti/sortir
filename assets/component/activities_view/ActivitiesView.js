@@ -50,7 +50,7 @@ class ActivitiesView extends Component {
 
 
                 {/* TODO add le chemin sur le bouton */}
-            <button><Link to="/create_activity">Créer une sortie</Link></button>
+            <button><Link to="/app/create_activity">Créer une sortie</Link></button>
             </div>
         );
     }

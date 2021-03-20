@@ -16,7 +16,7 @@ security:
             security: false
 
         login:
-            pattern: ^/$
+            pattern: ^/app$
             anonymous: true
 
         main:
