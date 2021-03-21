@@ -36,7 +36,7 @@ class ActivitiesFilters extends Component {
         axios.get(`https://127.0.0.1:8000/api/campuses?page=1`)
             .catch(error => {
                 this.setState({error : true})
-                this.setState({message : error.response.data.violations[0].message})
+                this.setState({message : "Erreur lors du chargement des campus"})
             })
             .then(res => {
                 const campusList = res.data['hydra:member'];
@@ -48,7 +48,7 @@ class ActivitiesFilters extends Component {
         axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
             .catch(error => {
                 this.setState({error : true})
-                this.setState({message : error.response.data.violations[0].message})
+                this.setState({message : "Erreur lors du chargement de la liste d'activités"})
             })
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
@@ -71,7 +71,7 @@ class ActivitiesFilters extends Component {
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
                     .catch(error => {
                         this.setState({error : true})
-                        this.setState({message : error.response.data.violations[0].message})
+                        this.setState({message : "Erreur lors de l'actualisation de la liste d'activités"})
                     })
                     .then(res => {
                         const activitiesList = res.data['hydra:member'];
@@ -186,7 +186,7 @@ class ActivitiesFilters extends Component {
         axios.get(`https://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}${promoterFilter}${pastActivitiesFilter}${registeredFilter}`)
             .catch(error => {
                 this.setState({error : true})
-                this.setState({message : error.response.data.violations[0].message})
+                this.setState({message : "Echec lors du filtre des activités"})
             })
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
@@ -222,7 +222,7 @@ class ActivitiesFilters extends Component {
             let exist = 0;
 
             for(let i=0; i < participants.length; i++) {
-                if(participants[i]["@id"] === user["@id"] ) {
+                if(participants[i].pseudo === user["@id"] ) {
                     exist += 1;
                 }
             }
