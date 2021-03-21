@@ -25,7 +25,8 @@ class ActivitiesFilters extends Component {
             message: '',
             error: false,
             withdraw : 0,
-            notRegisteredFilter : ''
+            notRegisteredFilter : '',
+            cancelLink : '/app/cancel'
         }
     }
 
@@ -289,7 +290,7 @@ class ActivitiesFilters extends Component {
         if(activity.promoter.pseudo === userConnected.pseudo) {
 
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <span><Link to="/">Afficher</Link> - <Link to="/">Annuler</Link></span>;
+                return <span><Link to="/">Afficher</Link> - <Link to={{ pathname: this.state.cancelLink, state: {activity: activity} }}>Annuler</Link></span>;
             } else if (activity.state.id === 1) {
                 return <span><Link to="/">Modifier</Link> - <Link to="/">Publier</Link></span>;
             } else {

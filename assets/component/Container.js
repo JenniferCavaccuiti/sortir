@@ -9,6 +9,7 @@ import ViewParticpantProfil from "./Profil/ViewParticpantProfil";
 //import Logout from "./logout/Logout";
 import ActivitiesView from "./activities_view/ActivitiesView";
 import CreateActivity from "./Create_activity/CreateActivity";
+import Cancel from "./Cancel/Cancel";
 
 function Container() {
         return (
@@ -17,6 +18,7 @@ function Container() {
                 <Switch>
                     <Route exact path="/app" component={Connexion}/>
                     <Route path="/app/activities" component={ActivitiesView}/>
+                    <Route path="/app/cancel" component={Cancel}/>
                     <Route path="/app/loggedIn" component={LoggedIn}/>
                     <Route path="/app/create_activity" component={CreateActivity}/>
                     <Route path="/app/profil" component={Profil}/>
