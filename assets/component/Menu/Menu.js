@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, NavLink } from "react-router-dom";
 import './menu.css'
-import './script.js'
+
 import logo from '../../images/logo_sortir.png'
 //import Logout from "../logout/Logout";
 
 function IsConnected(props) {
+
     if (localStorage.length) {
         console.log('loggué');
         return (
