@@ -1,0 +1,37 @@
+.cancel_title {
+    text-align: center;
+}
+.cancel_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.profile_message_error{
+    text-align: center;
+    color: red;
+}
+
+.profile_message_success{
+    text-align: center;
+    color:green;
+    font-size: 1.2rem;
+}
+.cancel_form_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.cancel_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.cancel_form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
