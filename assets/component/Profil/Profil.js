@@ -80,9 +80,14 @@ export default class Profil extends Component {
                     this.setState({error : true})
                     this.setState({message : error.response.data.violations[0].message})
                 })
-                .then(response => console.log(response))
-            this.setState({error : false});
-            this.setState({message : 'Votre profil a bien été modifié'});
+                .then(response => {
+                    if(response) {
+                        console.log(response)
+                        this.setState({error : false});
+                        this.setState({message : 'Votre profil a bien été modifié'});
+                    }
+                })
+
         }
     }
 

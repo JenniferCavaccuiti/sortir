@@ -79,11 +79,15 @@ export default class CreateActivity extends Component {
                 this.setState({error : true})
                 this.setState({message : error.response.data.violations[0].message})
             })
-            .then(response => console.log(response))
-                this.setState({error : false});
-                this.setState({displayForm : 'display:none'})
-                this.setState({message : 'La sortie a bien été créée ! Vous allez être redirigé vers l\'accueil...'});
-                setTimeout(this.cancel, 2000)
+            .then(response => {
+                if(response) {
+                    this.setState({error : false});
+                    this.setState({message : 'La sortie a bien été créée ! Vous allez être redirigé vers l\'accueil...'});
+                    setTimeout(this.cancel, 2000)
+                    console.log(response)
+                }
+            })
+
         }
     }
     handleChange(e) {
