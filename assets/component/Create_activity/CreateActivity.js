@@ -147,7 +147,7 @@ export default class CreateActivity extends Component {
                         this.setState({ connectedUser : connectedUser })
                         this.setState({campusName: this.state.connectedUser.campus.name })
                         this.setState({dateNow : new Date().toISOString().substr(0, 10)});
-                        this.setState({timeNow : new Date().toLocaleTimeString()})
+                        this.setState({timeNow : new Date().toLocaleTimeString().substr(0, 5)})
                     })
             })
 
@@ -171,7 +171,7 @@ export default class CreateActivity extends Component {
                             <div className="create_act_box">
                                 <label htmlFor="act_startdate">Date et heure du début de la sortie :</label>
                                 <input defaultValue={this.state.dateNow} min={this.state.dateNow}  type="date" id="act_startdate" name="act_startdate" required="required" onChange={this.handleTimeChange}/>
-                                <input defaultValue={this.state.timeNow} min={this.state.timeNow} type="time" id="act_start_time" name="act_start_time" required="required"/>
+                                <input defaultValue={this.state.timeNow} type="time" id="act_start_time" name="act_start_time" required="required"/>
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_maxdate">Date limite d'inscription :</label>
