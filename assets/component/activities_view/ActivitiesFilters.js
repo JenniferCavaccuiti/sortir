@@ -25,6 +25,7 @@ class ActivitiesFilters extends Component {
             message: '',
             error: false,
             withdraw : 0,
+            notRegisteredFilter : ''
         }
     }
 
@@ -81,8 +82,6 @@ class ActivitiesFilters extends Component {
 
             }
 
-            console.log(this.state.inscription + "inscription");
-            console.log(this.state.withdraw + "withdraw");
         }
 
     }
@@ -193,8 +192,17 @@ class ActivitiesFilters extends Component {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
                     activitiesList : activitiesList
-                });
-            })
+                })
+
+                if(this.state.notRegistered) {
+
+                    let newList3 = this.notRegistered(this.state.activitiesList);
+                    this.setState({
+                        activitiesList : newList3
+                    })
+                }
+
+            });
 
 
         console.log("Je suis dans l'actualisation");
@@ -232,25 +240,25 @@ class ActivitiesFilters extends Component {
 
             let participants = activityList[i].participants;
 
+
             if(participants.length === 0 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
                 newActivitiesList.push(activityList[i]);
+            }
+            else if (participants.length >= 1 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
 
-            } else if (participants.length >= 1) {
+                let participantsIRI = [];
+                for(let j=0; j < participants.length; j++) {
+                    participantsIRI.push(participants[j].pseudo);
+                }
 
-                for (let j = 0; j < participants.length; j++) {
+                if(participantsIRI.indexOf(this.props.user.pseudo) === -1) {
 
-                    if(participants[j].pseudo !== this.props.user.pseudo) {
-                        if(activityList[i].promoter.pseudo !== this.props.user.pseudo ) {
-                            newActivitiesList.push(activityList[i]);
-                        }
-                    }
+                    newActivitiesList.push(activityList[i]);
+
                 }
             }
         }
 
-        if(newActivitiesList)
-
-        console.log(newActivitiesList);
         return newActivitiesList;
 
     }
@@ -339,13 +347,6 @@ class ActivitiesFilters extends Component {
 
         const activity = this.state.activitiesList;
         const newList = this.cleanList(activity);
-        let newList2;
-
-        if (this.state.notRegistered) {
-            newList2 = this.notRegistered(newList);
-        } else {
-            newList2 = newList;
-        }
 
         return (
 
@@ -412,7 +413,7 @@ class ActivitiesFilters extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {newList2.map(activity => <tr key={activity.name}>
+                        {newList.map(activity => <tr key={activity.name}>
                             <td key={activity.name}>{activity.name}</td>
                             <td key={activity.dateTimeStart}>{new Date(activity.dateTimeStart).toLocaleString()}</td>
                             <td key={activity.registrationDeadline}>{new Date(activity.registrationDeadline).toLocaleDateString()}</td>
