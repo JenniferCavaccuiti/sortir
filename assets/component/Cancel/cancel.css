@@ -22,16 +22,26 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 30%;
 }
 .cancel_box {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     margin-bottom: 2rem;
+    justify-content: space-between;
+}
+.cancel_box span {
+    font-weight: bold;
+}
+.button_box_cancel {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .cancel_form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
+    width: 100%;
 }

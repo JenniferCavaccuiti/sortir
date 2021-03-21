@@ -10,6 +10,7 @@ import ViewParticpantProfil from "./Profil/ViewParticpantProfil";
 import ActivitiesView from "./activities_view/ActivitiesView";
 import CreateActivity from "./Create_activity/CreateActivity";
 import Cancel from "./Cancel/Cancel";
+import Footer from "./Footer/Footer"
 
 function Container() {
         return (
@@ -26,6 +27,7 @@ function Container() {
                     {/*<Route path="/app/test" component={TestsJen}/>*/}
                     {/*<Route path="/app/logout" component={Logout}/>*/}
                 </Switch>
+                <Footer/>
             </BrowserRouter>
         )
 }
