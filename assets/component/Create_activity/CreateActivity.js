@@ -19,7 +19,10 @@ export default class CreateActivity extends Component {
         connectedUser: '',
         campusName : '',
         isSaved : false,
-        isPublished :false
+        isPublished :false,
+        dateNow : "",
+        timeNow : "",
+        maxDateRegistration : "",
     }
 
     constructor(props) {
@@ -30,13 +33,19 @@ export default class CreateActivity extends Component {
         this.handlePlaceChange = this.handlePlaceChange.bind(this);
         this.handlePublish = this.handlePublish.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.handleTimeChange = this.handleTimeChange.bind(this);
+        this.handleChangeForm = this.handleChangeForm.bind(this);
     }
-    cancel(e) {
-        e.preventDefault();
+    cancel() {
         this.props.history.push('/app/activities');
+    }
+    handleChangeForm() {
+        this.setState({isSaved : false});
+        this.setState({isPublished: false});
     }
     handleSave() {
         this.setState({isSaved : true});
+        this.setState({isPublished: true});
         this.setState({actState : this.state.createdState});
     }
     handlePublish() {
@@ -44,13 +53,16 @@ export default class CreateActivity extends Component {
         this.setState({isPublished: true});
         this.setState({actState : this.state.publishedState});
     }
+    handleTimeChange(e) {
+      this.setState({maxDateRegistration : e.target.value})
+    }
     handleSubmit(e) {
         e.preventDefault();
         if (e.target.elements.namedItem('act_city').value === "" || e.target.elements.namedItem('act_place').value === "") {
             this.setState({error : true});
             this.setState({message : 'Selectionnez une ville'});
         } else {
-        const dateStart =e.target.elements.namedItem('act_startdate').value + ' ' + e.target.elements.namedItem('act_start_time').value + ':00';
+        const dateStart =e.target.elements.namedItem('act_startdate').value + ' ' + e.target.elements.namedItem('act_start_time').value;
         axios.post(`https://127.0.0.1:8000/api/activities`, {
             "name" : e.target.elements.namedItem('act_name').value,
             "dateTimeStart" : dateStart,
@@ -69,7 +81,9 @@ export default class CreateActivity extends Component {
             })
             .then(response => console.log(response))
                 this.setState({error : false});
-                this.setState({message : 'La sortie a bien été créée'});
+                this.setState({displayForm : 'display:none'})
+                this.setState({message : 'La sortie a bien été créée ! Vous allez être redirigé vers l\'accueil...'});
+                setTimeout(this.cancel, 2000)
         }
     }
     handleChange(e) {
@@ -111,6 +125,8 @@ export default class CreateActivity extends Component {
     }
 
     componentDidMount() {
+
+
         axios.get(`https://127.0.0.1:8000/api/cities`)
             .catch(error => {
                 this.setState({error : true})
@@ -130,6 +146,8 @@ export default class CreateActivity extends Component {
                         const connectedUser = res.data
                         this.setState({ connectedUser : connectedUser })
                         this.setState({campusName: this.state.connectedUser.campus.name })
+                        this.setState({dateNow : new Date().toISOString().substr(0, 10)});
+                        this.setState({timeNow : new Date().toLocaleTimeString()})
                     })
             })
 
@@ -143,7 +161,7 @@ export default class CreateActivity extends Component {
             <h2 className="create_act_title">Créer une sortie</h2>
             <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
             <div className="create_act_form_container">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} onChange={this.handleChangeForm} >
                     <div className="create_act_form">
                         <div className="form_left_col form_act_box">
                             <div className="create_act_box">
@@ -152,12 +170,12 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_startdate">Date et heure du début de la sortie :</label>
-                                <input type="date" id="act_startdate" name="act_startdate" required="required"/>
-                                <input type="time" id="act_start_time" name="act_start_time" required="required"/>
+                                <input defaultValue={this.state.dateNow} min={this.state.dateNow}  type="date" id="act_startdate" name="act_startdate" required="required" onChange={this.handleTimeChange}/>
+                                <input defaultValue={this.state.timeNow} min={this.state.timeNow} type="time" id="act_start_time" name="act_start_time" required="required"/>
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_maxdate">Date limite d'inscription :</label>
-                                <input type="date" id="act_maxdate" name="act_maxdate" required="required"/>
+                                <input defaultValue={this.state.maxDateRegistration ? this.state.maxDateRegistration : this.state.dateNow} max={this.state.maxDateRegistration ? this.state.maxDateRegistration : this.state.dateNow} min={this.state.dateNow} type="date" id="act_maxdate" name="act_maxdate" required="required"/>
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_maxplaces">Nombres de places (<em>hors organisateur</em>):</label>
@@ -215,8 +233,8 @@ export default class CreateActivity extends Component {
                     </div>
                     <div className="create_act_box_button">
                         <button disabled={this.state.isSaved} onClick={this.handleSave} type="submit">Enregistrer</button>
-                        <button disabled={this.state.isPublished} type={this.state.isSaved ? "button" : "submit"} name="publishButton" className="publishButton" onClick={this.handlePublish}>Publier la sortie</button>
-                        <button onClick={this.cancel}>Annuler</button>
+                        <button disabled={this.state.isPublished} type='submit' name="publishButton" className="publishButton" onClick={this.handlePublish}>Publier la sortie</button>
+                        <button onClick={this.cancel} type="button">Annuler</button>
                     </div>
                 </form>
             </div>

@@ -18,9 +18,11 @@
     text-align: center;
     color: red;
 }
+
 .profile_message_success{
     text-align: center;
     color:green;
+    font-size: 1.2rem;
 }
 .create_act_box {
     display: flex;
