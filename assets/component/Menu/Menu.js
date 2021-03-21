@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import './menu.css'
 import './script.js'
 import logo from '../../images/logo_sortir.png'
-import Logout from "../logout/Logout";
+//import Logout from "../logout/Logout";
 
 function IsConnected(props) {
     if (localStorage.length) {
@@ -20,7 +20,7 @@ function IsConnected(props) {
                     <li className="nav__item">
                         <NavLink to="/app/profil">Mon profil</NavLink>
                     </li>
-                    <Logout/>
+                    {/*<Logout/>*/}
                 </ul>
             </nav>
         )

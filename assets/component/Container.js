@@ -5,8 +5,8 @@ import LoggedIn from "./connexion/loggedIn";
 import Menu from "./Menu/Menu";
 import Profil from "./Profil/Profil";
 import ViewParticpantProfil from "./Profil/ViewParticpantProfil";
-import TestsJen from "./testsJen";
-import Logout from "./logout/Logout";
+//import TestsJen from "./testsJen";
+//import Logout from "./logout/Logout";
 import ActivitiesView from "./activities_view/ActivitiesView";
 import CreateActivity from "./Create_activity/CreateActivity";
 
@@ -21,8 +21,8 @@ function Container() {
                     <Route path="/app/create_activity" component={CreateActivity}/>
                     <Route path="/app/profil" component={Profil}/>
                     <Route path="/app/participants" component={ViewParticpantProfil}/>
-                    <Route path="/app/test" component={TestsJen}/>
-                    <Route path="/app/logout" component={Logout}/>
+                    {/*<Route path="/app/test" component={TestsJen}/>*/}
+                    {/*<Route path="/app/logout" component={Logout}/>*/}
                 </Switch>
             </BrowserRouter>
         )
