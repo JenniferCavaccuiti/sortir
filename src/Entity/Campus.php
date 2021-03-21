@@ -24,6 +24,7 @@ class Campus
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
+     * @Groups({"participant:read"})
      * @ORM\Column(type="integer")
      * @Groups({"participant:read"})
      */

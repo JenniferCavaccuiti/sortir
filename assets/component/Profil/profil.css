@@ -50,3 +50,15 @@
     flex-direction: row;
     justify-content: center;
 }
+
+/* ViewProfilPArticipant*/
+
+.container {
+    display: flex;
+}
+
+.hate_css {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}

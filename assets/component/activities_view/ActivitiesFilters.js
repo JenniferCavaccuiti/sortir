@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Register from "./Registered";
+import Withdraw from "./Withdraw";
 
 class ActivitiesFilters extends Component {
 
@@ -22,7 +23,9 @@ class ActivitiesFilters extends Component {
             activity : '',
             inscription : 0,
             message: '',
-            error: false
+            error: false,
+            withdraw : 0,
+            notRegisteredFilter : ''
         }
     }
 
@@ -61,9 +64,9 @@ class ActivitiesFilters extends Component {
         console.log("Je suis dans le didUpdate");
 
 
-        if(this.state.inscription) {
+        if(this.state.inscription || this.state.withdraw) {
 
-            if(prevState.inscription !== this.state.inscription) {
+            if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw) {
 
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
                     .catch(error => {
@@ -79,7 +82,6 @@ class ActivitiesFilters extends Component {
 
             }
 
-            console.log(this.state.inscription);
         }
 
     }
@@ -190,8 +192,17 @@ class ActivitiesFilters extends Component {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
                     activitiesList : activitiesList
-                });
-            })
+                })
+
+                if(this.state.notRegistered) {
+
+                    let newList3 = this.notRegistered(this.state.activitiesList);
+                    this.setState({
+                        activitiesList : newList3
+                    })
+                }
+
+            });
 
 
         console.log("Je suis dans l'actualisation");
@@ -229,35 +240,44 @@ class ActivitiesFilters extends Component {
 
             let participants = activityList[i].participants;
 
+
             if(participants.length === 0 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
                 newActivitiesList.push(activityList[i]);
+            }
+            else if (participants.length >= 1 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
 
-            } else if (participants.length >= 1) {
+                let participantsIRI = [];
+                for(let j=0; j < participants.length; j++) {
+                    participantsIRI.push(participants[j].pseudo);
+                }
 
-                for (let j = 0; j < participants.length; j++) {
+                if(participantsIRI.indexOf(this.props.user.pseudo) === -1) {
 
-                    if(participants[j].pseudo !== this.props.user.pseudo) {
-                        if(activityList[i].promoter.pseudo !== this.props.user.pseudo ) {
-                            newActivitiesList.push(activityList[i]);
-                        }
-                    }
+                    newActivitiesList.push(activityList[i]);
+
                 }
             }
         }
 
-        if(newActivitiesList)
-
-        console.log(newActivitiesList);
         return newActivitiesList;
 
     }
 
-    handleInscription = e => {
+    handleInscription = () => {
 
         console.log("Je suis à l'inscription");
         this.setState(
             (prevState) => ({ inscription : prevState.inscription + 1 })
         )
+    }
+
+    handleWithdraw = () => {
+
+        console.log("Je suis au désistement");
+        this.setState(
+            (prevState) => ({ withdraw : prevState.withdraw + 1 })
+        )
+
     }
 
     actions = (activity) => {
@@ -279,7 +299,7 @@ class ActivitiesFilters extends Component {
         } else if(activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
 
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <span><Link to="/">Afficher</Link> - <Link to="/">Se désister</Link></span>;
+                return <span><Link to="/">Afficher</Link> - <Withdraw activity={activity} user={this.props.user} withdraw={this.handleWithdraw}/></span>;
             } else if((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
                 return <span><Link to="/">Afficher</Link></span>;
             } else /*if (activity.state.id === 1)*/ {
@@ -327,13 +347,6 @@ class ActivitiesFilters extends Component {
 
         const activity = this.state.activitiesList;
         const newList = this.cleanList(activity);
-        let newList2;
-
-        if (this.state.notRegistered) {
-            newList2 = this.notRegistered(newList);
-        } else {
-            newList2 = newList;
-        }
 
         return (
 
@@ -383,7 +396,7 @@ class ActivitiesFilters extends Component {
                 <div className="test" id="trip-list">
 
                     <div>
-                        <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
+                        <p id="error-message-activities" className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
                     </div>
 
                     <table>
@@ -400,7 +413,7 @@ class ActivitiesFilters extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {newList2.map(activity => <tr key={activity.name}>
+                        {newList.map(activity => <tr key={activity.name}>
                             <td key={activity.name}>{activity.name}</td>
                             <td key={activity.dateTimeStart}>{new Date(activity.dateTimeStart).toLocaleString()}</td>
                             <td key={activity.registrationDeadline}>{new Date(activity.registrationDeadline).toLocaleDateString()}</td>

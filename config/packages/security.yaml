@@ -16,14 +16,18 @@ security:
             security: false
 
         login:
-            pattern: ^/app$
+            pattern: ^/app
+            anonymous: true
+
+        api:
+            pattern: ^/api
             anonymous: true
 
         main:
             provider: app_user_provider
 
             logout:
-                path: app_logout
+                path: logout
 
             guard:
                 authenticators:
