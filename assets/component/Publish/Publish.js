@@ -1,26 +1,32 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 class Publish extends Component {
 
-    publish = e => {
+    state = {
+        message: '',
+        error: false
+    }
+
+    publish = () => {
 
         const iriStatePublished = '/api/states/2'
 
-        axios.put(`https://127.0.0.1:8000${this.props.iriSortie}`, {
+        axios.put(`https://127.0.0.1:8000${this.props.activity["@id"]}`, {
             "state": iriStatePublished
         }).catch(error => {
             this.setState({error : true})
-            this.setState({message : error.response.data.violations[0].message})
+            this.setState({message : "Une erreur s'est produite a la publication"})
         }).then(response => console.log(response))
 
-        this.props.handlePublish();
+        this.props.publish();
 
     }
 
     render() {
         return (
-            <button disabled={this.props.isPublished} type={this.props.buttonType} name="publishButton" className="publishButton" onClick={this.props.isSaved ? this.publish :  this.props.handlePublish}>Publier la sortie</button>
+            <Link onClick={this.publish}>Publier</Link>
         );
     }
 }

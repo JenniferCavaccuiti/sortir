@@ -3,6 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import Register from "./Registered";
 import Withdraw from "./Withdraw";
+import Publish from "../Publish/Publish";
 
 class ActivitiesFilters extends Component {
 
@@ -25,6 +26,7 @@ class ActivitiesFilters extends Component {
             message: '',
             error: false,
             withdraw : 0,
+            publish: 0,
             notRegisteredFilter : '',
             cancelLink : '/app/cancel'
         }
@@ -64,10 +66,9 @@ class ActivitiesFilters extends Component {
 
         console.log("Je suis dans le didUpdate");
 
+        if(this.state.inscription || this.state.withdraw || this.state.publish) {
 
-        if(this.state.inscription || this.state.withdraw) {
-
-            if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw) {
+            if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw || prevState.publish !== this.state.publish) {
 
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
                     .catch(error => {
@@ -280,7 +281,14 @@ class ActivitiesFilters extends Component {
         )
 
     }
+    handlePublish = () => {
 
+        console.log("Je suis a la publication");
+        this.setState(
+            (prevState) => ({ publish : prevState.publish + 1 })
+        )
+
+    }
     actions = (activity) => {
 
         const userConnected = this.props.user;
@@ -292,7 +300,7 @@ class ActivitiesFilters extends Component {
             if(activity.state.id === 2 || activity.state.id === 3) {
                 return <span><Link to="/">Afficher</Link> - <Link to={{ pathname: this.state.cancelLink, state: {activity: activity} }}>Annuler</Link></span>;
             } else if (activity.state.id === 1) {
-                return <span><Link to="/">Modifier</Link> - <Link to="/">Publier</Link></span>;
+                return <span><Link to="/">Modifier</Link> - <Publish activity={activity} user={this.props.user} publish={this.handlePublish}/></span>;
             } else {
                 return <span><Link to="/">Afficher</Link></span>;
             }

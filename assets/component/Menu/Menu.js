@@ -6,7 +6,6 @@ import logo from '../../images/logo_sortir.png'
 //import Logout from "../logout/Logout";
 
 function IsConnected(props) {
-
     if (localStorage.length) {
         console.log('loggué');
         return (
