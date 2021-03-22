@@ -44,7 +44,7 @@ class ActivitiesView extends Component {
 
                 <ActivitiesFilters user={user} date={date}/>
 
-            <button><Link to="/app/create_activity">Créer une sortie</Link></button>
+            <button><Link to="/app/ajouter-une-sortie">Créer une sortie</Link></button>
             </div>
         );
     }

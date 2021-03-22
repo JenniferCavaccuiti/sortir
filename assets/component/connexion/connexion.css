@@ -8,3 +8,7 @@
     margin: auto;
 }
 
+.inline {
+    display: flex;
+    flex-direction: row;
+}

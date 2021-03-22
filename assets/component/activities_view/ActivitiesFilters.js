@@ -2,25 +2,26 @@ import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Register from "./Registered";
+import ViewParticpantProfil from "../Profil/ViewParticpantProfil";
 
 class ActivitiesFilters extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            campusList : [],
-            campus : '',
-            searchActivityName : '',
-            startDate : '',
-            endDate : '',
-            promoter : '',
-            registered : '',
-            notRegistered : '',
-            pastActivities : '',
-            activitiesList : [],
-            date : new Date().toISOString(),
-            activity : '',
-            inscription : 0,
+            campusList: [],
+            campus: '',
+            searchActivityName: '',
+            startDate: '',
+            endDate: '',
+            promoter: '',
+            registered: '',
+            notRegistered: '',
+            pastActivities: '',
+            activitiesList: [],
+            date: new Date().toISOString(),
+            activity: '',
+            inscription: 0,
             message: '',
             error: false
         }
@@ -32,25 +33,25 @@ class ActivitiesFilters extends Component {
 
         axios.get(`https://127.0.0.1:8000/api/campuses?page=1`)
             .catch(error => {
-                this.setState({error : true})
-                this.setState({message : error.response.data.violations[0].message})
+                this.setState({error: true})
+                this.setState({message: error.response.data.violations[0].message})
             })
             .then(res => {
                 const campusList = res.data['hydra:member'];
                 this.setState({
-                    campusList : campusList
+                    campusList: campusList
                 });
             })
 
         axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
             .catch(error => {
-                this.setState({error : true})
-                this.setState({message : error.response.data.violations[0].message})
+                this.setState({error: true})
+                this.setState({message: error.response.data.violations[0].message})
             })
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
-                    activitiesList : activitiesList
+                    activitiesList: activitiesList
                 });
             })
 
@@ -61,19 +62,19 @@ class ActivitiesFilters extends Component {
         console.log("Je suis dans le didUpdate");
 
 
-        if(this.state.inscription) {
+        if (this.state.inscription) {
 
-            if(prevState.inscription !== this.state.inscription) {
+            if (prevState.inscription !== this.state.inscription) {
 
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
                     .catch(error => {
-                        this.setState({error : true})
-                        this.setState({message : error.response.data.violations[0].message})
+                        this.setState({error: true})
+                        this.setState({message: error.response.data.violations[0].message})
                     })
                     .then(res => {
                         const activitiesList = res.data['hydra:member'];
                         this.setState({
-                            activitiesList : activitiesList
+                            activitiesList: activitiesList
                         });
                     })
 
@@ -86,31 +87,31 @@ class ActivitiesFilters extends Component {
 
     handleCampus = e => {
         this.setState({
-            campus : e.target.value,
+            campus: e.target.value,
         })
     }
 
     handleSearchName = e => {
         this.setState({
-            searchActivityName : e.target.value,
+            searchActivityName: e.target.value,
         })
     }
 
     handleStartDate = e => {
         this.setState({
-            startDate : e.target.value,
+            startDate: e.target.value,
         })
     }
 
     handleEndDate = e => {
         this.setState({
-            endDate : e.target.value,
+            endDate: e.target.value,
         })
     }
 
     handlePromoter = () => {
 
-        let check = this.state.promoter ? (this.setState({promoter : false})) : (this.setState({promoter : true}));
+        let check = this.state.promoter ? (this.setState({promoter: false})) : (this.setState({promoter: true}));
         if (document.getElementById("promoter").checked) {
             document.getElementById("registered").disabled = true;
             document.getElementById("not-registered").disabled = true;
@@ -122,7 +123,7 @@ class ActivitiesFilters extends Component {
 
     handlePastActivities = () => {
 
-        let check = this.state.pastActivities ? (this.setState({pastActivities : false})) : (this.setState({pastActivities : true}));
+        let check = this.state.pastActivities ? (this.setState({pastActivities: false})) : (this.setState({pastActivities: true}));
 
     }
 
@@ -173,23 +174,23 @@ class ActivitiesFilters extends Component {
     actualisation = (campus, name, startDate, endDate, promoter, pastActivities, registered) => {
 
         let date = this.state.date;
-        let nameFilter = name ? (`&name=${name}`) : ("") ;
-        let campusFilter = campus ? (`&campus.name=${campus}`) : ("") ;
+        let nameFilter = name ? (`&name=${name}`) : ("");
+        let campusFilter = campus ? (`&campus.name=${campus}`) : ("");
         let endDateFilter = endDate ? (`&dateTimeStart%5Bbefore%5D=${endDate}`) : ("");
-        let startDateFilter = startDate ? (`&dateTimeStart%5Bafter%5D=${startDate}`) : ("") ;
+        let startDateFilter = startDate ? (`&dateTimeStart%5Bafter%5D=${startDate}`) : ("");
         let promoterFilter = promoter ? (`&promoter.pseudo=${this.props.user.pseudo}`) : ("");
-        let pastActivitiesFilter = pastActivities ? (`&dateTimeStart%5Bstrictly_before%5D=${date}`) : ("") ;
-        let registeredFilter = registered ? (`&participants.pseudo=${this.props.user.pseudo}`) : ("") ;
+        let pastActivitiesFilter = pastActivities ? (`&dateTimeStart%5Bstrictly_before%5D=${date}`) : ("");
+        let registeredFilter = registered ? (`&participants.pseudo=${this.props.user.pseudo}`) : ("");
 
         axios.get(`https://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}${promoterFilter}${pastActivitiesFilter}${registeredFilter}`)
             .catch(error => {
-                this.setState({error : true})
-                this.setState({message : error.response.data.violations[0].message})
+                this.setState({error: true})
+                this.setState({message: error.response.data.violations[0].message})
             })
             .then(res => {
                 const activitiesList = res.data['hydra:member'];
                 this.setState({
-                    activitiesList : activitiesList
+                    activitiesList: activitiesList
                 });
             })
 
@@ -204,14 +205,14 @@ class ActivitiesFilters extends Component {
 
         let res;
 
-        if(participants.length === 0) {
+        if (participants.length === 0) {
             return " ";
 
         } else {
             let exist = 0;
 
-            for(let i=0; i < participants.length; i++) {
-                if(participants[i]["@id"] === user["@id"] ) {
+            for (let i = 0; i < participants.length; i++) {
+                if (participants[i]["@id"] === user["@id"]) {
                     exist += 1;
                 }
             }
@@ -229,15 +230,15 @@ class ActivitiesFilters extends Component {
 
             let participants = activityList[i].participants;
 
-            if(participants.length === 0 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
+            if (participants.length === 0 && activityList[i].promoter.pseudo !== this.props.user.pseudo) {
                 newActivitiesList.push(activityList[i]);
 
             } else if (participants.length >= 1) {
 
                 for (let j = 0; j < participants.length; j++) {
 
-                    if(participants[j].pseudo !== this.props.user.pseudo) {
-                        if(activityList[i].promoter.pseudo !== this.props.user.pseudo ) {
+                    if (participants[j].pseudo !== this.props.user.pseudo) {
+                        if (activityList[i].promoter.pseudo !== this.props.user.pseudo) {
                             newActivitiesList.push(activityList[i]);
                         }
                     }
@@ -245,9 +246,9 @@ class ActivitiesFilters extends Component {
             }
         }
 
-        if(newActivitiesList)
+        if (newActivitiesList)
 
-        console.log(newActivitiesList);
+            console.log(newActivitiesList);
         return newActivitiesList;
 
     }
@@ -256,7 +257,7 @@ class ActivitiesFilters extends Component {
 
         console.log("Je suis à l'inscription");
         this.setState(
-            (prevState) => ({ inscription : prevState.inscription + 1 })
+            (prevState) => ({inscription: prevState.inscription + 1})
         )
     }
 
@@ -266,9 +267,9 @@ class ActivitiesFilters extends Component {
         const registered = this.isRegistered(activity);
         let registeredBool = (registered === "X");
 
-        if(activity.promoter.pseudo === userConnected.pseudo) {
+        if (activity.promoter.pseudo === userConnected.pseudo) {
 
-            if(activity.state.id === 2 || activity.state.id === 3) {
+            if (activity.state.id === 2 || activity.state.id === 3) {
                 return <span><Link to="/">Afficher</Link> - <Link to="/">Annuler</Link></span>;
             } else if (activity.state.id === 1) {
                 return <span><Link to="/">Modifier</Link> - <Link to="/">Publier</Link></span>;
@@ -276,21 +277,22 @@ class ActivitiesFilters extends Component {
                 return <span><Link to="/">Afficher</Link></span>;
             }
 
-        } else if(activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
+        } else if (activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
 
-            if(activity.state.id === 2 || activity.state.id === 3) {
+            if (activity.state.id === 2 || activity.state.id === 3) {
                 return <span><Link to="/">Afficher</Link> - <Link to="/">Se désister</Link></span>;
-            } else if((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
+            } else if ((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
                 return <span><Link to="/">Afficher</Link></span>;
             } else /*if (activity.state.id === 1)*/ {
                 return <span>Pas d'actions</span>;
             }
 
-        } else if(activity.promoter.pseudo !== userConnected.pseudo && !registeredBool) {
+        } else if (activity.promoter.pseudo !== userConnected.pseudo && !registeredBool) {
 
-            if(activity.state.id === 2 && activity.participants.length < activity.registrationsMax) {
-                return <span><Link to="/">Afficher</Link> - <Register activity={activity} user={this.props.user} register={this.handleInscription}/></span>;
-            } else if(activity.state.id === 1) {
+            if (activity.state.id === 2 && activity.participants.length < activity.registrationsMax) {
+                return <span><Link to="/">Afficher</Link> - <Register activity={activity} user={this.props.user}
+                                                                      register={this.handleInscription}/></span>;
+            } else if (activity.state.id === 1) {
                 return <span>Pas d'actions</span>;
             } else {
                 return <span><Link to="/">Afficher</Link></span>;
@@ -302,16 +304,15 @@ class ActivitiesFilters extends Component {
 
         let newActivitiesList = [];
 
-        for(let i=0; i < activity.length; i++) {
+        for (let i = 0; i < activity.length; i++) {
 
             const date2 = activity[i].dateTimeStart;
             const date = new Date();
-            const newDate = new Date(date.setMonth(date.getMonth()-1)).toISOString();
+            const newDate = new Date(date.setMonth(date.getMonth() - 1)).toISOString();
 
-            if(activity[i].promoter.pseudo === this.props.user.pseudo && newDate < date2) {
+            if (activity[i].promoter.pseudo === this.props.user.pseudo && newDate < date2) {
                 newActivitiesList.push(activity[i]);
-            }
-            else if (activity[i].state.id !== 1 && newDate < date2) {
+            } else if (activity[i].state.id !== 1 && newDate < date2) {
                 newActivitiesList.push(activity[i]);
             }
 
@@ -355,17 +356,22 @@ class ActivitiesFilters extends Component {
                             <input type="text" value={this.state.searchActivityName} onChange={this.handleSearchName}/>
                         </div>
                         <div className="row">
-                            Entre <input type="date" value={this.state.startDate} onChange={this.handleStartDate}/> et <input type="date" value={this.state.endDate} onChange={this.handleEndDate}/>
+                            Entre <input type="date" value={this.state.startDate}
+                                         onChange={this.handleStartDate}/> et <input type="date"
+                                                                                     value={this.state.endDate}
+                                                                                     onChange={this.handleEndDate}/>
                         </div>
                     </div>
 
                     <div className="col">
                         <div>
-                            <input type="checkbox" id="promoter" onChange={this.handlePromoter} value={this.state.promoter}/>
+                            <input type="checkbox" id="promoter" onChange={this.handlePromoter}
+                                   value={this.state.promoter}/>
                             <label htmlFor="coding">Sorties dont je suis l'organisateur.trice</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="registered" onChange={this.handleRegistered} value={this.state.registered}/>
+                            <input type="checkbox" id="registered" onChange={this.handleRegistered}
+                                   value={this.state.registered}/>
                             <label htmlFor="music">Sorties auxquelles je suis inscrit.e</label>
                         </div>
                         <div>
@@ -373,7 +379,8 @@ class ActivitiesFilters extends Component {
                             <label htmlFor="music">Sorties auxquelles je ne suis pas inscrit.e</label>
                         </div>
                         <div>
-                            <input type="checkbox" onClick={this.checked} onChange={this.handlePastActivities} value={this.state.pastActivities}/>
+                            <input type="checkbox" onClick={this.checked} onChange={this.handlePastActivities}
+                                   value={this.state.pastActivities}/>
                             <label htmlFor="music">Sorties passées</label>
                         </div>
                     </div>
@@ -383,7 +390,7 @@ class ActivitiesFilters extends Component {
                 <div className="test" id="trip-list">
 
                     <div>
-                        <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
+                        <p className={this.state.error ? 'profile_message_error' : 'profile_message_success'}>{this.state.message}</p>
                     </div>
 
                     <table>
@@ -407,7 +414,7 @@ class ActivitiesFilters extends Component {
                             <td key={activity.participants.length}>{activity.participants.length}/{activity.registrationsMax}</td>
                             <td key={activity.state.label}>{activity.state.label}</td>
                             <td key={activity.registrationsMax}>{this.isRegistered(activity)}</td>
-                            <td key={activity.promoter.pseudo}>{activity.promoter.pseudo}</td>
+                            <td key={activity.promoter.pseudo}><Link to={`/app/participants/${activity.promoter.id}`}>{activity.promoter.pseudo}</Link></td>
                             <td key={activity.duration}>{this.actions(activity)}</td>
                         </tr>)}
                         </tbody>

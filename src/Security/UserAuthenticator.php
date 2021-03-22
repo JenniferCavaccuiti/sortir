@@ -77,11 +77,9 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $data = [
-            'message' => 'login ou mot de passe incorrect'
-        ];
+        $data = 'login ou mot de passe incorrect';
 
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+        return new Response($data, Response::HTTP_UNAUTHORIZED);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
@@ -89,15 +87,7 @@ class UserAuthenticator extends AbstractGuardAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-//        $parameters = $request->toArray();
-//        $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $parameters['pseudo']]);
-
-//        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'participant:read']);
-
-//        return new JsonResponse(['user' => $user]);
         return new Response('ok', 200, []);
-
-//        return new RedirectResponse($this->urlGenerator->generate('/'));
     }
 
     public function start(Request $request, AuthenticationException $authException = null)

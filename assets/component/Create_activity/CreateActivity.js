@@ -31,7 +31,7 @@ export default class CreateActivity extends Component {
     }
     cancel(e) {
         e.preventDefault();
-        this.props.history.push('/app/activities');
+        this.props.history.push('/app/sorties');
     }
     handleSave() {
         this.setState({actState : this.state.createdState});
