@@ -18,6 +18,7 @@ function Container() {
             <BrowserRouter>
                 {console.log('je passe dans le router')}
                 <Logo/>
+                <Menu/>
                 <Switch>
                     <Route path="/app/cancel" component={Cancel}/>
                     <Route path="/app/create_activity" component={CreateActivity}/>
