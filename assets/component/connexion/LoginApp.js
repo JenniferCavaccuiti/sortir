@@ -30,6 +30,7 @@ export default class LoginApp extends Component {
             password: this.state.password,
             withCredentials: true
         }).then(response => {
+            this.setState({message: ''});
             const connexion = response.data;
             this.setState({connexion: connexion});
             console.log('dans le then de connexion');
