@@ -114,7 +114,7 @@ class ActivitiesFilters extends Component {
 
     handlePromoter = () => {
 
-        let check = this.state.promoter ? (this.setState({promoter : false})) : (this.setState({promoter : true}));
+        this.state.promoter ? (this.setState({promoter : false})) : (this.setState({promoter : true}));
         if (document.getElementById("promoter").checked) {
             document.getElementById("registered").disabled = true;
             document.getElementById("not-registered").disabled = true;
@@ -126,13 +126,13 @@ class ActivitiesFilters extends Component {
 
     handlePastActivities = () => {
 
-        let check = this.state.pastActivities ? (this.setState({pastActivities : false})) : (this.setState({pastActivities : true}));
+        this.state.pastActivities ? (this.setState({pastActivities : false})) : (this.setState({pastActivities : true}));
 
     }
 
     handleRegistered = () => {
 
-        let check = this.state.registered ? (this.setState({registered: false})) : (this.setState({registered: true}));
+        this.state.registered ? (this.setState({registered: false})) : (this.setState({registered: true}));
 
         if (document.getElementById("registered").checked) {
             document.getElementById("promoter").disabled = true;
@@ -145,7 +145,7 @@ class ActivitiesFilters extends Component {
 
     handleNotRegistered = () => {
 
-        let check = this.state.notRegistered ? (this.setState({notRegistered: false})) : (this.setState({notRegistered: true}));
+        this.state.notRegistered ? (this.setState({notRegistered: false})) : (this.setState({notRegistered: true}));
 
         if (document.getElementById("not-registered").checked) {
             document.getElementById("registered").disabled = true;
