@@ -38,6 +38,7 @@ export default class UpdateActivity extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleTimeChange = this.handleTimeChange.bind(this);
         this.handleChangeForm = this.handleChangeForm.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
     cancel() {
         this.props.history.push('/app/sorties');
@@ -54,6 +55,19 @@ export default class UpdateActivity extends Component {
     }
     handleTimeChange(e) {
       this.setState({maxDateRegistration : e.target.value})
+    }
+    handleDelete(){
+        axios.delete(`https://127.0.0.1:8000${this.state.activity["@id"]}`)
+            .catch(error => {
+                this.setState({error : true})
+                this.setState({message : error.response.data.violations[0].message})
+            })
+            .then(response => {
+                console.log(response)
+                this.setState({error : false});
+                this.setState({message : 'La sortie a bien été supprimée ! Vous allez être redirigé vers l\'accueil...'});
+                setTimeout(this.cancel, 2000)
+            })
     }
     handleSubmit(e) {
         e.preventDefault();
@@ -244,6 +258,7 @@ export default class UpdateActivity extends Component {
                     <div className="create_act_box_button">
                         <button disabled={this.state.isSaved} onClick={this.handleSave} type="submit">Enregistrer</button>
                         <button disabled={this.state.isPublished} type='submit' name="publishButton" className="publishButton" onClick={this.handlePublish}>Publier la sortie</button>
+                        <button type='button' className="publishButton" onClick={this.handleDelete}>Supprimer la sortie</button>
                         <button onClick={this.cancel} type="button">Annuler</button>
                     </div>
                 </form>
