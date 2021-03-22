@@ -16,7 +16,7 @@ security:
       security: false
 
     login:
-      pattern: ^/app$
+      pattern: ^/app
       anonymous: true
 
     api:
@@ -28,6 +28,7 @@ security:
 
       logout:
         path: logout
+        target: /app
 
       guard:
         authenticators:

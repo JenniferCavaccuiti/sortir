@@ -3,7 +3,6 @@ import './connexion.css';
 import axios from 'axios';
 import LoginForm from './LoginForm';
 import addLocalStorage from "./LoginStorage";
-import Redirect from "react-router-dom";
 
 
 export default class LoginApp extends Component {
@@ -34,16 +33,14 @@ export default class LoginApp extends Component {
             this.setState({connexion: connexion});
             console.log('dans le then de connexion');
             addLocalStorage();
-            console.log('je repasse dans le then');
-
-
-            // this.props.history.push('/app/menu');
+            setTimeout(() => {
+                console.log("localStorage : le pseudo de l'user est : " + localStorage.getItem('pseudo'));
+                this.props.history.push('/app/menu');
+            }, 3000);
         }).catch(error => {
             const message = 'mot de passe ou login invalide';
             this.setState({message: message});
         });
-
-        return <Redirect to="/app/menu"/>;
     }
 
     handleChangePassword(password) {
