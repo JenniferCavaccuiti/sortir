@@ -114,6 +114,7 @@ export default class CreateActivity extends Component {
 
     }
     handlePlaceChange(e) {
+        console.log(e.target.value);
         axios.get(`https://127.0.0.1:8000`+e.target.value)
             .catch(error => {
                 this.setState({error : true})
@@ -208,7 +209,7 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_place">Lieu :</label>
-                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required" defaultValue={this.state.selectedPlace.id ? 'api/places/'+this.state.selectedPlace.id : ""}>
+                                <select name="act_place" id="act_place" onClick={this.handlePlaceChange} required="required" defaultValue="">
                                     <option disabled={true} value="">Selectionnez un lieu</option>
                                     {this.state.places.map(place =>
                                         <option key={place.name} value={place["@id"]}>{ place.name }</option>

@@ -222,7 +222,7 @@ export default class UpdateActivity extends Component {
                             <div className="create_act_box">
                                 <label htmlFor="act_city">Ville :</label>
                                 <select name="act_city" id="act_city" onChange={this.handleChange} required="required" defaultValue="">
-                                    <option disabled={true} value="">Selectionner une ville</option>
+                                    <option disabled={true} value="">Selectionnez une ville</option>
                                     {this.state.cities.map(city =>
                                         <option key={city.name} value={city["@id"]}>{city.name}</option>
                                     )}
@@ -230,7 +230,7 @@ export default class UpdateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_place">Lieu :</label>
-                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required" defaultValue={this.state.selectedPlace.id ? 'api/places/'+this.state.selectedPlace.id : ""}>
+                                <select name="act_place" id="act_place" onClick={this.handlePlaceChange} required="required" defaultValue={this.state.selectedPlace.id ? 'api/places/'+this.state.selectedPlace.id : ""}>
                                     <option disabled={true} value="">Selectionnez un lieu</option>
                                     {this.state.places.map(place =>
                                         <option key={place.name} value={place["@id"]}>{ place.name }</option>
