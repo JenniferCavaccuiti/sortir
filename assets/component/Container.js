@@ -19,6 +19,7 @@ function Container() {
             <BrowserRouter>
                 {console.log('je passe dans le router')}
                 <Logo/>
+                <Menu/>
                 <Switch>
                     <Route path="/app/annuler-une-sortie" component={Cancel}/>
                     <Route path="/app/menu" component={Menu}/>
