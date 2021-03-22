@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default class ViewParticipantProfil extends Component {
     constructor(props) {
@@ -44,11 +45,13 @@ export default class ViewParticipantProfil extends Component {
                             <h2>{this.state.pseudo}</h2>
                         </div>
                         <p className={this.state.error ? 'profile_message_error' : 'profile_message_success'}>{this.state.message}</p>
+                        <p>Nom : {this.state.firstName}</p>
                         <p>Nom : {this.state.lastName}</p>
                         <p>Téléphone : {this.state.phoneNumber}</p>
                         <p>Email : {this.state.email}</p>
                         <p>Campus : {this.state.campusName}</p>
                         <img src="" alt=""/>
+                        <button><Link to="/app/sorties">Retour</Link></button>
                     </div>
                 </div>
             </div>

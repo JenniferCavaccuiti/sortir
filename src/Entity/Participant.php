@@ -44,7 +44,7 @@ class Participant implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"participant:read"})
+     * @Groups({"participant:read", "activity:read"})
      */
     private $id;
 

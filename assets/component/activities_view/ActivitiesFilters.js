@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import Register from "./Registered";
 import Withdraw from "./Withdraw";
 import Publish from "../Publish/Publish";
+import ViewParticpantProfil from "../Profil/ViewParticpantProfil";
 
 class ActivitiesFilters extends Component {
 
@@ -429,7 +430,7 @@ class ActivitiesFilters extends Component {
                             <td key={activity.participants.length}>{activity.participants.length}/{activity.registrationsMax}</td>
                             <td key={activity.state.label}>{activity.state.label}</td>
                             <td key={activity.registrationsMax}>{this.isRegistered(activity)}</td>
-                            <td key={activity.promoter.pseudo}>{activity.promoter.pseudo}</td>
+                            <td key={activity.promoter.pseudo}><Link to={`/app/participants/${activity.promoter.id}`}>{activity.promoter.pseudo}</Link></td>
                             <td key={activity.duration}>{this.actions(activity)}</td>
                         </tr>)}
                         </tbody>
