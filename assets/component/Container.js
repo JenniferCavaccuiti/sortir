@@ -5,14 +5,12 @@ import LoginForm from "./connexion/loginForm";
 import Menu from "./Menu/Menu";
 import Profil from "./Profil/Profil";
 import ViewParticpantProfil from "./Profil/ViewParticpantProfil";
-//import TestsJen from "./testsJen";
-//import Logout from "./logout/Logout";
+import Logout from "./logout/Logout";
 import ActivitiesView from "./activities_view/ActivitiesView";
 import CreateActivity from "./Create_activity/CreateActivity";
 import Cancel from "./Cancel/Cancel";
 import Footer from "./Footer/Footer"
 import addLocalStorage from "./connexion/LoginStorage";
-import Redirect from "react-router-dom";
 import Logo from "./Menu/Logo";
 
 function Container() {
