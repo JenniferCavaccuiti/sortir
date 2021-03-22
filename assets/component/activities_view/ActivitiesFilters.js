@@ -3,6 +3,8 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import Register from "./Registered";
 import Withdraw from "./Withdraw";
+import Publish from "../Publish/Publish";
+import ViewParticpantProfil from "../Profil/ViewParticpantProfil";
 
 class ActivitiesFilters extends Component {
 
@@ -25,7 +27,9 @@ class ActivitiesFilters extends Component {
             message: '',
             error: false,
             withdraw : 0,
-            notRegisteredFilter : ''
+            publish: 0,
+            notRegisteredFilter : '',
+            cancelLink : '/app/cancel'
         }
     }
 
@@ -63,10 +67,9 @@ class ActivitiesFilters extends Component {
 
         console.log("Je suis dans le didUpdate");
 
+        if(this.state.inscription || this.state.withdraw || this.state.publish) {
 
-        if(this.state.inscription || this.state.withdraw) {
-
-            if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw) {
+            if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw || prevState.publish !== this.state.publish) {
 
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
                     .catch(error => {
@@ -112,7 +115,7 @@ class ActivitiesFilters extends Component {
 
     handlePromoter = () => {
 
-        let check = this.state.promoter ? (this.setState({promoter : false})) : (this.setState({promoter : true}));
+        this.state.promoter ? (this.setState({promoter : false})) : (this.setState({promoter : true}));
         if (document.getElementById("promoter").checked) {
             document.getElementById("registered").disabled = true;
             document.getElementById("not-registered").disabled = true;
@@ -124,13 +127,13 @@ class ActivitiesFilters extends Component {
 
     handlePastActivities = () => {
 
-        let check = this.state.pastActivities ? (this.setState({pastActivities : false})) : (this.setState({pastActivities : true}));
+        this.state.pastActivities ? (this.setState({pastActivities : false})) : (this.setState({pastActivities : true}));
 
     }
 
     handleRegistered = () => {
 
-        let check = this.state.registered ? (this.setState({registered: false})) : (this.setState({registered: true}));
+        this.state.registered ? (this.setState({registered: false})) : (this.setState({registered: true}));
 
         if (document.getElementById("registered").checked) {
             document.getElementById("promoter").disabled = true;
@@ -143,7 +146,7 @@ class ActivitiesFilters extends Component {
 
     handleNotRegistered = () => {
 
-        let check = this.state.notRegistered ? (this.setState({notRegistered: false})) : (this.setState({notRegistered: true}));
+        this.state.notRegistered ? (this.setState({notRegistered: false})) : (this.setState({notRegistered: true}));
 
         if (document.getElementById("not-registered").checked) {
             document.getElementById("registered").disabled = true;
@@ -279,7 +282,14 @@ class ActivitiesFilters extends Component {
         )
 
     }
+    handlePublish = () => {
 
+        console.log("Je suis a la publication");
+        this.setState(
+            (prevState) => ({ publish : prevState.publish + 1 })
+        )
+
+    }
     actions = (activity) => {
 
         const userConnected = this.props.user;
@@ -289,9 +299,9 @@ class ActivitiesFilters extends Component {
         if(activity.promoter.pseudo === userConnected.pseudo) {
 
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <span><Link to="/">Afficher</Link> - <Link to="/">Annuler</Link></span>;
+                return <span><Link to="/">Afficher</Link> - <Link to={{ pathname: this.state.cancelLink, state: {activity: activity} }}>Annuler</Link></span>;
             } else if (activity.state.id === 1) {
-                return <span><Link to="/">Modifier</Link> - <Link to="/">Publier</Link></span>;
+                return <span><Link to="/">Modifier</Link> - <Publish activity={activity} user={this.props.user} publish={this.handlePublish}/></span>;
             } else {
                 return <span><Link to="/">Afficher</Link></span>;
             }
@@ -420,7 +430,7 @@ class ActivitiesFilters extends Component {
                             <td key={activity.participants.length}>{activity.participants.length}/{activity.registrationsMax}</td>
                             <td key={activity.state.label}>{activity.state.label}</td>
                             <td key={activity.registrationsMax}>{this.isRegistered(activity)}</td>
-                            <td key={activity.promoter.pseudo}>{activity.promoter.pseudo}</td>
+                            <td key={activity.promoter.pseudo}><Link to={`/app/participants/${activity.promoter.id}`}>{activity.promoter.pseudo}</Link></td>
                             <td key={activity.duration}>{this.actions(activity)}</td>
                         </tr>)}
                         </tbody>

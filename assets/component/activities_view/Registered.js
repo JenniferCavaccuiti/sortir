@@ -37,7 +37,7 @@ class Registered extends Component {
         }).then(response => console.log(response))
 
         if(this.state.error) {
-            document.getElementById("error-message-activities").innerText = this.state.error;
+            document.getElementById("error-message-activities").innerText = this.state.message;
         }
 
         this.props.register();

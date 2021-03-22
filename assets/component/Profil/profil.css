@@ -14,8 +14,9 @@
 }
 .profile_picture {
     max-width: 250px;
-    margin-left: 4rem;
+    margin-left: 9rem;
     margin-top: 4rem;
+    margin-right: -5rem;
 }
 
 .container_p {
@@ -44,6 +45,14 @@
 .profile_form > label {
     display: flex;
     align-items: start;
+}
+.button_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#picture {
+    background-color: transparent;
 }
 
 /* ViewProfilPArticipant*/

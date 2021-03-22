@@ -38,7 +38,7 @@ class Withdraw extends Component {
 
 
         if(this.state.error) {
-            document.getElementById("error-message-activities").innerText = this.state.error;
+            document.getElementById("error-message-activities").innerText = this.state.message;
         }
 
         this.props.withdraw();

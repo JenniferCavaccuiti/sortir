@@ -38,13 +38,13 @@ class ActivitiesView extends Component {
         return (
             <div id="trip-view">
                 <div id="trip-view-info">
-                    <label>Date : </label>{date}<br/>
-                    <label>Pseudo : </label>{user.pseudo}<br/>
+                    <label>Date : </label><strong>{date}</strong><br/>
+                    <label>Participant : </label><strong>{user.pseudo}</strong><br/>
                 </div>
 
                 <ActivitiesFilters user={user} date={date}/>
 
-            <button><Link to="/app/create_activity">Créer une sortie</Link></button>
+                <Link to="/app/create_activity"><button>Créer une sortie</button></Link>
             </div>
         );
     }

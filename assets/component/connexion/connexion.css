@@ -1,10 +1,20 @@
 .container {
     display: flex;
+    justify-content: center;
 }
 
 .login {
+    margin-top: 5rem;
     display: flex;
     flex-direction: column;
-    margin: auto;
+    justify-content: space-around;
+}
+.inline-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inline-form input {
+    margin-bottom: 1rem;
 }
 

@@ -5,7 +5,7 @@ import './footer.css';
 function footer() {
     return (
         <footer>
-            <p>© Jennifer, Marjorie, Cyril -- Made with ❤ 2021</p>
+            <p>© Jennifer, Marjorie, Cyril -- Made with <span style={{color : 'red'}}>❤</span> 2021</p>
         </footer>
     )
 }

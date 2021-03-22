@@ -10,9 +10,13 @@
     margin-right: 20px;
 }
 
-#trip-view > button {
-    padding: 12px;
+#trip-view > a > button {
+    margin-left: 2rem;
+    margin-top: 2rem;
+    white-space: nowrap;
+    width: auto;
 }
+
 
 #trip-filters {
     display: flex;
@@ -22,29 +26,35 @@
 
 
 #trip-filters > div > div {
-    margin: 8px;
+    margin: 5px;
 }
 
 #trip-filters > button {
     margin-left: 15px;
-    padding: 18px;
 }
 
 #trip-list {
     margin-bottom: 12px;
     margin-top: 12px;
+    width: 100%;
+    font-size: 0.8rem;
 
 }
-
+#trip-list table {
+    width: 100%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
 .test {
     overflow-y: scroll;
-    height: 200px;
+    height: 300px;
 }
 
 #trip-list >  table > thead > tr > th {
     border: solid 1px black;
     text-align: center;
     padding: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 #trip-list >  table > tbody > tr >td {
