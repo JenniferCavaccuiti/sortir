@@ -3,7 +3,7 @@ import './connexion.css';
 import axios from 'axios';
 import LoginForm from './LoginForm';
 import addLocalStorage from "./LoginStorage";
-import Redirect from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 
 export default class LoginApp extends Component {

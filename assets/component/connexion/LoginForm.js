@@ -26,14 +26,14 @@ export default class LoginForm extends Component {
 
         return (
             <div className="login">
-                <div className="inline">
+                <div className="inline-form">
                     <legend>Identifiant :</legend>
                     <input type="text"
                            value={pseudo}
                            onChange={this.handlePseudoChange}
                            required="required"/>
                 </div>
-                <div className="inline">
+                <div className="inline-form">
                     <legend>Mot de passe :</legend>
                     <input type="password"
                            value={password}

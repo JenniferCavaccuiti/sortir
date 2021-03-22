@@ -37,20 +37,16 @@ export default class CreateActivity extends Component {
         this.handleChangeForm = this.handleChangeForm.bind(this);
     }
     cancel() {
-        this.props.history.push('/app/activities');
+        this.props.history.push('/app/sorties');
     }
     handleChangeForm() {
         this.setState({isSaved : false});
         this.setState({isPublished: false});
     }
     handleSave() {
-        this.setState({isSaved : true});
-        this.setState({isPublished: true});
         this.setState({actState : this.state.createdState});
     }
     handlePublish() {
-        this.setState({isSaved : true});
-        this.setState({isPublished: true});
         this.setState({actState : this.state.publishedState});
     }
     handleTimeChange(e) {
@@ -81,6 +77,8 @@ export default class CreateActivity extends Component {
             })
             .then(response => {
                 if(response) {
+                    this.setState({isSaved : true});
+                    this.setState({isPublished: true});
                     this.setState({error : false});
                     this.setState({message : 'La sortie a bien été créée ! Vous allez être redirigé vers l\'accueil...'});
                     setTimeout(this.cancel, 2000)

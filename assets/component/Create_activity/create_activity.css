@@ -45,4 +45,5 @@
 }
 .publishButton {
     white-space:nowrap;
+    width: auto;
 }
