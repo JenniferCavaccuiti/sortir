@@ -22,7 +22,7 @@ export default class Cancel extends Component {
     }
 
     cancel() {
-        this.props.history.push('/app/sorties');
+        this.props.history.push('/app/accueil');
     }
 
     componentDidMount() {
