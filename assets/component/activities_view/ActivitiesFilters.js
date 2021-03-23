@@ -29,7 +29,8 @@ class ActivitiesFilters extends Component {
             withdraw : 0,
             publish: 0,
             notRegisteredFilter : '',
-            cancelLink : '/app/cancel'
+            cancelLink : '/app/annuler-une-sortie',
+            updateLink : '/app/modifier-une-sortie'
         }
     }
 
@@ -301,7 +302,7 @@ class ActivitiesFilters extends Component {
             if(activity.state.id === 2 || activity.state.id === 3) {
                 return <span><Link to="/">Afficher</Link> - <Link to={{ pathname: this.state.cancelLink, state: {activity: activity} }}>Annuler</Link></span>;
             } else if (activity.state.id === 1) {
-                return <span><Link to="/">Modifier</Link> - <Publish activity={activity} user={this.props.user} publish={this.handlePublish}/></span>;
+                return <span><Link to={{ pathname: this.state.updateLink, state: {activity: activity} }}>Modifier</Link> - <Publish activity={activity} user={this.props.user} publish={this.handlePublish}/></span>;
             } else {
                 return <span><Link to="/">Afficher</Link></span>;
             }

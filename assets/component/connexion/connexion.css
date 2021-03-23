@@ -1,13 +1,18 @@
 .container {
     display: flex;
     justify-content: center;
-}
-
-.login {
-    margin-top: 5rem;
-    display: flex;
+    align-items: center;
     flex-direction: column;
+}
+.error_message {
+    color: red;
+    text-align: center;
+}
+.login {
+    margin-top: 3rem;
+    display: flex;
     justify-content: space-around;
+    flex-direction: column;
 }
 .inline-form {
     display: flex;

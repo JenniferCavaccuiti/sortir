@@ -30,6 +30,7 @@ export default class LoginApp extends Component {
             password: this.state.password,
             withCredentials: true
         }).then(response => {
+            this.setState({message: ''});
             const connexion = response.data;
             this.setState({connexion: connexion});
             console.log('dans le then de connexion');
@@ -58,7 +59,7 @@ export default class LoginApp extends Component {
 
         return (
             <div className="container">
-                <p>{this.state.message}</p>
+                <p className="error_message">{this.state.message}</p>
                 <LoginForm
                     loginListener={this.handleFormSubmit}
                     pseudoChange={this.handleChangePseudo}

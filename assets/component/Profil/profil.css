@@ -64,5 +64,6 @@
 .hate_css {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin: auto;
 }

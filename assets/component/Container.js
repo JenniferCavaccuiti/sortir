@@ -12,6 +12,7 @@ import Cancel from "./Cancel/Cancel";
 import Footer from "./Footer/Footer"
 import addLocalStorage from "./connexion/LoginStorage";
 import Logo from "./Menu/Logo";
+import UpdateActivity from "./Update_activity/UpdateActivity";
 
 function Container() {
         return (
@@ -20,14 +21,14 @@ function Container() {
                 <Logo/>
                 <Menu/>
                 <Switch>
-                    <Route path="/app/cancel" component={Cancel}/>
-                    <Route path="/app/create_activity" component={CreateActivity}/>
+                    <Route path="/app/annuler-une-sortie" component={Cancel}/>
                     <Route path="/app/menu" component={Menu}/>
                     <Route exact path="/app" component={LoginApp}/>
                     <Route path="/app/sorties" component={ActivitiesView}/>
                     <Route path="/app/loginForm" component={LoginForm}/>
                     <Route path="/app/LoginStorage" component={addLocalStorage}/>
                     <Route path="/app/ajouter-une-sortie" component={CreateActivity}/>
+                    <Route path="/app/modifier-une-sortie" component={UpdateActivity}/>
                     <Route path="/app/profil" component={Profil}/>
                     <Route path="/app/logout" component={Logout}/>
                     <Route path="/app/participants/:id" component={ViewParticpantProfil}/>
