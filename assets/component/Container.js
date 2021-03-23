@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import LoginApp from "./connexion/LoginApp";
 import LoginForm from "./connexion/LoginForm";
@@ -11,6 +11,7 @@ import Cancel from "./Cancel/Cancel";
 import Footer from "./Footer/Footer"
 import Logo from "./Menu/Logo";
 import Menu from "./Menu/Menu";
+import UpdateActivity from "./Update_activity/UpdateActivity";
 
 class Container extends Component {
 
@@ -19,6 +20,7 @@ class Container extends Component {
     }
 
     render() {
+
 
         //let displayMenu = (localStorage.length > 0) ? (this.setState({menu : true})) : (this.setState({menu: false}));
 
@@ -36,12 +38,12 @@ class Container extends Component {
                 <Footer/>
 
                 <Switch>
-                    <Route path="/app/cancel" component={Cancel}/>
-                    <Route path="/app/create_activity" component={CreateActivity}/>
+                    <Route path="/app/annuler-une-sortie" component={Cancel}/>
+                    <Route path="/app/accueil" component={ActivitiesView}/>
                     <Route path="/app/loginForm" component={LoginForm}/>
                     <Route path="/app/ajouter-une-sortie" component={CreateActivity}/>
+                    <Route path="/app/modifier-une-sortie" component={UpdateActivity}/>
                     <Route path="/app/profil" component={Profil}/>
-                    <Route path="/app/accueil" component={ActivitiesView}/>
                     <Route path="/app/logout" component={Logout}/>
                     <Route exact path="/app/login" component={LoginApp}/>
                     <Route path="/app/participants/:id" component={ViewParticpantProfil}/>

@@ -98,7 +98,7 @@ class LoginApp extends Component {
         return (
 
             <div className="container">
-                <p>{this.state.message}</p>
+                <p className="error_message">{this.state.message}</p>
                 <LoginForm
                     loginListener={this.handleFormSubmit}
                     pseudoChange={this.handleChangePseudo}
