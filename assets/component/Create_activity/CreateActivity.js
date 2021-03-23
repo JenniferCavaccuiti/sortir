@@ -37,7 +37,7 @@ export default class CreateActivity extends Component {
         this.handleChangeForm = this.handleChangeForm.bind(this);
     }
     cancel() {
-        this.props.history.push('/app/sorties');
+        this.props.history.push('/app/accueil');
     }
     handleChangeForm() {
         this.setState({isSaved : false});

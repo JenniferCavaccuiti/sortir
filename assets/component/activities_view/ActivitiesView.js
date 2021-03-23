@@ -17,8 +17,8 @@ class ActivitiesView extends Component {
 
     componentDidMount() {
 
-        //const numb = localStorage.getItem("id");
-        const numb = 1;
+        const numb = localStorage.getItem("id");
+        //const numb = 1;
 
         axios.get(`https://127.0.0.1:8000/api/participants/${numb}` )
             .then(res => {
