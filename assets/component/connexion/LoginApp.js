@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import './connexion.css';
 import axios from 'axios';
 import LoginForm from './LoginForm';
-import addLocalStorage from "./LoginStorage";
-import {Redirect} from "react-router-dom";
 
 
-export default class LoginApp extends Component {
+class LoginApp extends Component {
 
     constructor(props) {
         super(props);
@@ -17,10 +15,18 @@ export default class LoginApp extends Component {
             isAdmin: '',
             message: '',
             connexion: '',
+            redirect: false,
+            getUser: false,
+            push: ''
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleChangePseudo = this.handleChangePseudo.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("Je suis dans le didUpate du LogApp");
+        console.log(this.state.redirect && this.state.getUser)
     }
 
     handleFormSubmit(event) {
@@ -29,20 +35,38 @@ export default class LoginApp extends Component {
             pseudo: this.state.pseudo,
             password: this.state.password,
             withCredentials: true
-        }).then(response => {
-            const connexion = response.data;
-            this.setState({connexion: connexion});
-            console.log('dans le then de connexion');
-            addLocalStorage();
-            setTimeout(() => {
-                console.log("localStorage : le pseudo de l'user est : " + localStorage.getItem('pseudo'));
-                // this.props.history.push('/app/sorties');
-            }, 3000);
-            return <Redirect to='/app/sorties'/>
         }).catch(error => {
-            const message = 'mot de passe ou login invalide';
-            this.setState({message: message});
-        });
+                const message = 'mot de passe ou login invalide';
+                this.setState({message: message});
+            }).then(response => {
+                const connexion = response.data;
+                this.setState({connexion: connexion});
+                console.log('dans le then de connexion');
+                this.setState({
+                    redirect: true
+                })
+                //addLocalStorage();
+            }).then(res => {
+                axios.get(`/getuser`, {
+                    withCredentials: true
+                }).catch(error => {
+                    const message = 'mot de passe ou login invalide';
+                    this.setState({message: message});
+                }).then(res => {
+                    const loggedUser = res.data;
+                    localStorage.setItem('id', loggedUser.id);
+                    localStorage.setItem('pseudo', loggedUser.pseudo);
+                    localStorage.setItem('isAdmin', loggedUser.isAdmin);
+                    console.log("localStorage : l'id de l'user est : " + localStorage.getItem('id'));
+                    this.setState({
+                        getUser: true
+                    })
+
+                    if (this.state.redirect && this.state.getUser) {
+                        window.location.href = '/app/accueil';
+                    }
+                })
+            });
     }
 
     handleChangePassword(password) {
@@ -54,12 +78,13 @@ export default class LoginApp extends Component {
     }
 
     render() {
+        console.log("Je suis dans le render du LoginApp")
         const pseudo = this.state.pseudo;
         const password = this.state.password;
 
         return (
             <div className="container">
-                <p>{this.state.message}</p>
+                <p className="error_message">{this.state.message}</p>
                 <LoginForm
                     loginListener={this.handleFormSubmit}
                     pseudoChange={this.handleChangePseudo}
@@ -71,3 +96,5 @@ export default class LoginApp extends Component {
         );
     }
 }
+
+export default LoginApp;

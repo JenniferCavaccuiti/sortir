@@ -17,8 +17,8 @@ class ActivitiesView extends Component {
 
     componentDidMount() {
 
-        //const numb = localStorage.getItem("id");
-        const numb = 1;
+        const numb = localStorage.getItem("id");
+        //const numb = 1;
 
         axios.get(`https://127.0.0.1:8000/api/participants/${numb}` )
             .then(res => {
@@ -44,7 +44,7 @@ class ActivitiesView extends Component {
 
                 <ActivitiesFilters user={user} date={date}/>
 
-                <Link to="/app/create_activity"><button>Créer une sortie</button></Link>
+                <Link to="/app/ajouter-une-sortie"><button>Créer une sortie</button></Link>
             </div>
         );
     }
