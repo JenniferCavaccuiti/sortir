@@ -25,6 +25,7 @@ security:
 
     main:
       provider: app_user_provider
+#      entry_point: App\Security\AuthenticationEntryPoint
 
       logout:
         path: logout
