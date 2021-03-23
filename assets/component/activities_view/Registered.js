@@ -26,11 +26,16 @@ class Registered extends Component {
             IRIs.push(this.props.user["@id"]);
         }
 
+        let state = (this.props.activity.registrationsMax === IRIs.length) ? "/api/states/3" : "/api/states/2";
+        console.log(this.props.activity.registrationsMax);
+        console.log(state);
+
         const activityIRI = this.props.activity["@id"];
 
 
         axios.put(`https://127.0.0.1:8000${activityIRI}`, {
-            "participants": IRIs
+            "participants": IRIs,
+            "state": state,
         }).catch(error => {
             this.setState({error : true})
             this.setState({message : "Une erreur s'est produite lors de l'inscription"})

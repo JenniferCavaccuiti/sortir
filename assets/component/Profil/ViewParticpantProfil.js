@@ -51,7 +51,7 @@ export default class ViewParticipantProfil extends Component {
                         <p>Email : {this.state.email}</p>
                         <p>Campus : {this.state.campusName}</p>
                         <img src="" alt=""/>
-                        <Link to="/app/sorties"><button>Retour</button></Link>
+                        <Link to="/app/accueil"><button>Retour</button></Link>
                     </div>
                 </div>
             </div>

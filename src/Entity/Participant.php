@@ -63,7 +63,7 @@ class Participant implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"participant:read", "participant:write"})
+     * @Groups({"participant:read", "participant:write", "activity:read"})
      * @Assert\NotBlank(
      *     message="Le nom ne peut être vide"
      * )
@@ -76,7 +76,7 @@ class Participant implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"participant:read", "participant:write"})
+     * @Groups({"participant:read", "participant:write", "activity:read"})
      * @Assert\NotBlank(
      *     message="Le prenom ne peut être vide"
      * )
