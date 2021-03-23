@@ -7,7 +7,6 @@ import Logout from "../logout/Logout";
 function Menu() {
     console.log('je suis dans menu');
     return (
-        <>
             <header className="site-header">
                 <div className="wrapper site-header__wrapper">
                     <nav className="nav">
@@ -28,7 +27,6 @@ function Menu() {
                     </nav>
                 </div>
             </header>
-            </>
     );
 }
 

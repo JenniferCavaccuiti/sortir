@@ -99,6 +99,6 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function supportsRememberMe()
     {
-        // todo
+        return true;
     }
 }
