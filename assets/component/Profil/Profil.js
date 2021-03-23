@@ -23,7 +23,7 @@ export default class Profil extends Component {
     }
     cancel(e) {
         e.preventDefault();
-        this.props.history.push('/app/sorties');
+        this.props.history.push('/app/accueil');
     }
 
     componentDidMount() {

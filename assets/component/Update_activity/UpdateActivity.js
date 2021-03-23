@@ -41,7 +41,7 @@ export default class UpdateActivity extends Component {
         this.handleDelete = this.handleDelete.bind(this);
     }
     cancel() {
-        this.props.history.push('/app/sorties');
+        this.props.history.push('/app/accueil');
     }
     handleChangeForm() {
         this.setState({isSaved : false});
