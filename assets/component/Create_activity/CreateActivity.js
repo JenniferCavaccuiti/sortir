@@ -161,9 +161,9 @@ export default class CreateActivity extends Component {
     render() {
     return(
         <div className="create_act_container">
-            <h2 className="create_act_title">Créer une sortie</h2>
+            <h2 className="create_act_title animate__animated animate__backInDown">Créer une sortie</h2>
             <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
-            <div className="create_act_form_container">
+            <div className="create_act_form_container animate__animated animate__fadeIn">
                 <form onSubmit={this.handleSubmit} onChange={this.handleChangeForm} >
                     <div className="create_act_form">
                         <div className="form_left_col form_act_box">

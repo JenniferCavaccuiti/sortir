@@ -57,7 +57,7 @@ export default class Cancel extends Component {
         console.log(activity)
         return (
             <div className="cancel_container">
-               <h2 className="cancel_title">Annuler une sortie</h2>
+               <h2 className="cancel_title animate__animated animate__backInDown">Annuler une sortie</h2>
                <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
                <form onSubmit={this.handleSubmit} className="cancel_form_container">
                     <div className="cancel_form">

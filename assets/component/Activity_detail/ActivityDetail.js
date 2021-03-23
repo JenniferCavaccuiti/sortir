@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import './activity_detail.css';
-import axios from 'axios';
 import {Link} from "react-router-dom";
+import 'animate.css';
 
 
 export default class ActivityDetail extends Component {
@@ -30,7 +30,7 @@ export default class ActivityDetail extends Component {
         console.log(activity)
         return (
             <div className="detail_container">
-                <h2 className="detail_title">Afficher une sortie</h2>
+                <h2 className="detail_title animate__animated animate__backInDown">Afficher une sortie</h2>
                 <div className="detail_form_container">
                     <div className="detail_form">
                         <div className="left-detail-box">

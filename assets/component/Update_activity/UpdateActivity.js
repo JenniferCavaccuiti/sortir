@@ -182,7 +182,7 @@ export default class UpdateActivity extends Component {
     render() {
     return(
         <div className="create_act_container">
-            <h2 className="create_act_title">Modifier une sortie</h2>
+            <h2 className="create_act_title animate__animated animate__backInDown">Modifier une sortie</h2>
             <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
             <div className="create_act_form_container">
                 <form onSubmit={this.handleSubmit} onChange={this.handleChangeForm} >

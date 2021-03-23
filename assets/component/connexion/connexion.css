@@ -18,6 +18,19 @@
     display: flex;
     justify-content: space-between;
 }
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.btn-container label {
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+.remember-me {
+    padding-left: 10px;
+}
+
 
 .inline-form input {
     margin-bottom: 1rem;

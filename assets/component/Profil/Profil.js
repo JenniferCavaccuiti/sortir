@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import './profil.css';
-import photo from '../../images/photo-profil.jpg'
+import photo from '../../images/licorne.png'
 import axios from 'axios';
 
 
@@ -97,11 +97,11 @@ export default class Profil extends Component {
         const user = this.state.person;
         return (
             <div className="container_p">
-                <div className="profile_picture">
+                <div className="profile_picture animate__animated animate__bounceInUp">
                     <img src={photo} width="250"  alt="photo de profil"/>
                 </div>
                 <div className="profile_container">
-                    <h2>Mon profil</h2>
+                    <h2 className="animate__animated animate__backInDown">Mon profil</h2>
                     <p className={ this.state.error ? 'profile_message_error' : 'profile_message_success' }>{this.state.message}</p>
                     <div className="profile_form">
                         <form onSubmit={this.handleSubmit}>

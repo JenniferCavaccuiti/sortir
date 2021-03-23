@@ -25,9 +25,9 @@ class Container extends Component {
             <BrowserRouter>
                 {console.log('je passe dans le router')}
 
-                <Logo/>
+                {(localStorage.length === 0) ? <Logo/> : ""}
 
-                {(localStorage.length > 0) ? <Menu/> : <div></div>}
+                {(localStorage.length > 0) ? <Menu/> : ""}
 
                 <Route exact path="/app">
                     {(localStorage.length > 0) ? <ActivitiesView/> : <LoginApp/>}

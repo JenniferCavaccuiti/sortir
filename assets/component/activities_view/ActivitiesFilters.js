@@ -362,11 +362,11 @@ class ActivitiesFilters extends Component {
         return (
 
             <Fragment>
-                <h3>Filtrer les sorties</h3>
+                <h3 className="filters-title">Filtrer les sorties</h3>
 
                 <form onSubmit={this.handleSubmit} id="trip-filters">
 
-                    <div className="col">
+                    <div className="col col1">
                         <div className="row">
                             <label>Campus : </label>
                             <select value={this.state.campus} onChange={this.handleCampus}>
@@ -401,7 +401,7 @@ class ActivitiesFilters extends Component {
                             <label htmlFor="music">Sorties passées</label>
                         </div>
                     </div>
-                    <button type="submit" value={this.state} onSubmit={this.handleSubmit}>Rechercher</button>
+                    <button className="animate__animated animate__bounceInDown" type="submit" value={this.state} onSubmit={this.handleSubmit}>Rechercher</button>
                 </form>
 
                 <div className="test" id="trip-list">

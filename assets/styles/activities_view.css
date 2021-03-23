@@ -28,9 +28,15 @@
 #trip-filters > div > div {
     margin: 5px;
 }
-
+.col1{
+    margin-left: 2rem;
+}
+.filters-title {
+    margin-left: 2.5rem;
+}
 #trip-filters > button {
-    margin-left: 15px;
+    margin-left: 30px;
+    width: 240px;
 }
 
 #trip-list {

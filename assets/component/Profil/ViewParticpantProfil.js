@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import photo from "../../images/licorne.png";
 
 export default class ViewParticipantProfil extends Component {
     constructor(props) {
@@ -39,19 +40,32 @@ export default class ViewParticipantProfil extends Component {
     render() {
         return (
             <div>
-                <div className="container">
+                <div className="container-pro">
+
+                    <div className="profile-pic-view animate__animated animate__bounceInUp">
+                        <img src={photo} width="250"  alt="photo de profil"/>
+                    </div>
                     <div className="hate_css">
-                        <div>
-                            <h2>{this.state.pseudo}</h2>
-                        </div>
+                        <h2 className="profile-view-title">{this.state.pseudo}</h2>
                         <p className={this.state.error ? 'profile_message_error' : 'profile_message_success'}>{this.state.message}</p>
-                        <p>Nom : {this.state.firstName}</p>
-                        <p>Nom : {this.state.lastName}</p>
-                        <p>Téléphone : {this.state.phoneNumber}</p>
-                        <p>Email : {this.state.email}</p>
-                        <p>Campus : {this.state.campusName}</p>
-                        <img src="" alt=""/>
-                        <Link to="/app/accueil"><button>Retour</button></Link>
+                        <div className="profile-box">
+                            <label>Prenom :</label><span>{this.state.firstName}</span>
+                        </div>
+                        <div className="profile-box">
+                            <label>Nom :</label><span>{this.state.lastName}</span>
+                        </div>
+                        <div className="profile-box">
+                            <label>Téléphone :</label><span>{this.state.phoneNumber}</span>
+                        </div>
+                        <div className="profile-box">
+                            <label>Email :</label><span>{this.state.email}</span>
+                        </div>
+                        <div className="profile-box">
+                            <label>Campus :</label><span>{this.state.campusName}</span>
+                        </div>
+                        <div className="btn-pro">
+                            <Link to="/app/accueil"><button>Retour</button></Link>
+                        </div>
                     </div>
                 </div>
             </div>

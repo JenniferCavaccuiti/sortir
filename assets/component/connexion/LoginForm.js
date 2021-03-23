@@ -25,7 +25,7 @@ export default class LoginForm extends Component {
         const password = this.props.password;
 
         return (
-            <div className="login">
+            <div className="login animate__animated animate__backInDown">
                 <div className="inline-form">
                     <legend>Identifiant :</legend>
                     <input type="text"
@@ -40,9 +40,13 @@ export default class LoginForm extends Component {
                            onChange={this.handlePasswordChange}
                            required="required"/>
                 </div>
-                <input type="checkbox" id="remember_me" name="_remember_me"/>
-                <label htmlFor="remember_me">Se souvenir de moi</label>
-                <button type="submit" className="submit-button" onClick={this.props.loginListener}>Connexion</button>
+                <div className="btn-container">
+                    <button type="submit" className="submit-button" onClick={this.props.loginListener}>Connexion</button>
+                    <div className="remember-me">
+                        <input type="checkbox" id="remember_me" name="_remember_me"/>
+                        <label htmlFor="remember_me">Se souvenir de moi</label>
+                    </div>
+                </div>
                </div>
         );
     }

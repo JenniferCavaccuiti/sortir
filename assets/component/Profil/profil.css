@@ -57,13 +57,36 @@
 
 /* ViewProfilPArticipant*/
 
-.container {
+.container-pro {
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 75%;
 }
-
+.profile-pic-view {
+    padding-top: 3rem;
+    margin-right: -10rem;
+}
 .hate_css {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin: auto;
+    width: 32%;
+
+}
+.profile-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+.profile-box span {
+    width: 100px;
+    white-space: nowrap;
+}
+.profile-view-title {
+    text-align: center;
+}
+.btn-pro {
+    margin-top: 2rem;
+    padding-left: 7rem;
 }
