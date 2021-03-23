@@ -36,8 +36,9 @@ export default class LoginApp extends Component {
             addLocalStorage();
             setTimeout(() => {
                 console.log("localStorage : le pseudo de l'user est : " + localStorage.getItem('pseudo'));
-                this.props.history.push('/app/menu');
+                // this.props.history.push('/app/sorties');
             }, 3000);
+            return <Redirect to='/app/sorties'/>
         }).catch(error => {
             const message = 'mot de passe ou login invalide';
             this.setState({message: message});

@@ -40,6 +40,8 @@ export default class LoginForm extends Component {
                            onChange={this.handlePasswordChange}
                            required="required"/>
                 </div>
+                <input type="checkbox" id="remember_me" name="_remember_me"/>
+                <label htmlFor="remember_me">Se souvenir de moi</label>
                 <button type="submit" className="submit-button" onClick={this.props.loginListener}>Connexion</button>
                </div>
         );

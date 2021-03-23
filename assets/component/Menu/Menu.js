@@ -39,13 +39,11 @@ function IsConnected(props) {
 function Menu() {
     console.log('je suis dans menu');
     return (
-        <>
             <header className="site-header">
                 <div className="wrapper site-header__wrapper">
                     <IsConnected/>
                 </div>
             </header>
-            </>
     );
 }
 
