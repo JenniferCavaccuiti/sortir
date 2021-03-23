@@ -21,10 +21,6 @@ class Container extends Component {
     }
 
     render() {
-
-
-        //let displayMenu = (localStorage.length > 0) ? (this.setState({menu : true})) : (this.setState({menu: false}));
-
         return (
             <BrowserRouter>
                 {console.log('je passe dans le router')}
@@ -51,15 +47,9 @@ class Container extends Component {
                     <Route exact path="/app/login" component={LoginApp}/>
                     <Route path="/app/participants/:id" component={ViewParticpantProfil}/>
                 </Switch>
-
             </BrowserRouter>
-
-
         )
     }
-
-
-
 }
 
 export default Container;

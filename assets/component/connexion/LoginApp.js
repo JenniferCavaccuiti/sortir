@@ -45,7 +45,6 @@ class LoginApp extends Component {
                 this.setState({
                     redirect: true
                 })
-                //addLocalStorage();
             }).then(res => {
                 axios.get(`/getuser`, {
                     withCredentials: true

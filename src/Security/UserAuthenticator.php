@@ -4,7 +4,6 @@ namespace App\Security;
 
 use App\Entity\Participant;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +23,7 @@ class UserAuthenticator extends AbstractGuardAuthenticator
     use TargetPathTrait;
 
     const LOGIN_ROUTE = "app_login";
+    const REDIRECT_ROUTE = "redirectUnauthentified";
     private $passwordEncoder;
     private $entityManager;
     private $urlGenerator;
@@ -43,7 +43,6 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function getCredentials(Request $request)
     {
-
         $parameters = $request->toArray();
         $credentials = [
             'pseudo' => $parameters['pseudo'],
@@ -59,14 +58,11 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
 
         if (!$user) {
-            // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Pseudo could not be found.');
         }
-
         return $user;
     }
 
@@ -78,7 +74,6 @@ class UserAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = 'login ou mot de passe incorrect';
-
         return new Response($data, Response::HTTP_UNAUTHORIZED);
     }
 
@@ -92,9 +87,7 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new JsonResponse([
-            "message" => "authentication required"
-        ], Response::HTTP_UNAUTHORIZED);
+        return new RedirectResponse($this->urlGenerator->generate(self::REDIRECT_ROUTE));
     }
 
     public function supportsRememberMe()

@@ -16,7 +16,7 @@ security:
       security: false
 
     login:
-      pattern: ^/app
+      pattern: ^/app$
       anonymous: true
 
     api:
@@ -53,6 +53,6 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     # - { path: ^/admin, roles: ROLE_ADMIN }
-#    - { path: ^/getUser, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#    - { path: ^/app$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#    - { path: ^/app/*, roles: ROLE_USER }
+    - { path: ^/getUser, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/app$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/app/*, roles: ROLE_USER }
