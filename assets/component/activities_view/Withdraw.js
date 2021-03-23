@@ -27,10 +27,15 @@ class Withdraw extends Component {
         IRIs = IRIs.filter(item => item !== userIRI);
         console.log(IRIs);
 
+        let state = (this.props.activity.registrationsMax === IRIs.length) ? "/api/states/3" : "/api/states/2";
+        console.log(this.props.activity.registrationsMax);
+        console.log(state);
+
         const activityIRI = this.props.activity["@id"];
 
         axios.put(`https://127.0.0.1:8000${activityIRI}`, {
-            "participants": IRIs
+            "participants": IRIs,
+            "state": state,
         }).catch(error => {
             this.setState({error : true})
             this.setState({message : "Une erreur s'est produite lors du désistement"})

@@ -226,7 +226,7 @@ class ActivitiesFilters extends Component {
             let exist = 0;
 
             for(let i=0; i < participants.length; i++) {
-                if(participants[i].pseudo === user["@id"] ) {
+                if(participants[i]["@id"] === user["@id"] ) {
                     exist += 1;
                 }
             }
