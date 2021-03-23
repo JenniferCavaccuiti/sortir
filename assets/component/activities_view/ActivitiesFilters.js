@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import Register from "./Registered";
 import Withdraw from "./Withdraw";
 import Publish from "../Publish/Publish";
-import ViewParticpantProfil from "../Profil/ViewParticpantProfil";
 
 class ActivitiesFilters extends Component {
 
@@ -30,7 +29,8 @@ class ActivitiesFilters extends Component {
             publish: 0,
             notRegisteredFilter : '',
             cancelLink : '/app/annuler-une-sortie',
-            updateLink : '/app/modifier-une-sortie'
+            updateLink : '/app/modifier-une-sortie',
+            detailLink : '/app/detail-sortie'
         }
     }
 
@@ -300,19 +300,19 @@ class ActivitiesFilters extends Component {
         if(activity.promoter.pseudo === userConnected.pseudo) {
 
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <span><Link to="/">Afficher</Link> - <Link to={{ pathname: this.state.cancelLink, state: {activity: activity} }}>Annuler</Link></span>;
+                return <span><Link to={{ pathname: this.state.detailLink, state: {activity: activity}}}>Afficher</Link> - <Link to={{ pathname: this.state.cancelLink, state: {activity: activity} }}>Annuler</Link></span>;
             } else if (activity.state.id === 1) {
                 return <span><Link to={{ pathname: this.state.updateLink, state: {activity: activity} }}>Modifier</Link> - <Publish activity={activity} user={this.props.user} publish={this.handlePublish}/></span>;
             } else {
-                return <span><Link to="/">Afficher</Link></span>;
+                return <span><Link to={{ pathname: this.state.detailLink, state: {activity: activity}}}>Afficher</Link></span>;
             }
 
         } else if(activity.promoter.pseudo !== userConnected.pseudo && registeredBool) {
 
             if(activity.state.id === 2 || activity.state.id === 3) {
-                return <span><Link to="/">Afficher</Link> - <Withdraw activity={activity} user={this.props.user} withdraw={this.handleWithdraw}/></span>;
+                return <span><Link to={{ pathname: this.state.detailLink, state: {activity: activity}}}>Afficher</Link> - <Withdraw activity={activity} user={this.props.user} withdraw={this.handleWithdraw}/></span>;
             } else if((activity.state.id === 4 || activity.state.id === 5 || activity.state.id === 6)) {
-                return <span><Link to="/">Afficher</Link></span>;
+                return <span><Link to={{ pathname: this.state.detailLink, state: {activity: activity}}}>Afficher</Link></span>;
             } else /*if (activity.state.id === 1)*/ {
                 return <span>Pas d'actions</span>;
             }
@@ -320,11 +320,11 @@ class ActivitiesFilters extends Component {
         } else if(activity.promoter.pseudo !== userConnected.pseudo && !registeredBool) {
 
             if(activity.state.id === 2 && activity.participants.length < activity.registrationsMax) {
-                return <span><Link to="/">Afficher</Link> - <Register activity={activity} user={this.props.user} register={this.handleInscription}/></span>;
+                return <span><Link to={{ pathname: this.state.detailLink, state: {activity: activity}}}>Afficher</Link> - <Register activity={activity} user={this.props.user} register={this.handleInscription}/></span>;
             } else if(activity.state.id === 1) {
                 return <span>Pas d'actions</span>;
             } else {
-                return <span><Link to="/">Afficher</Link></span>;
+                return <span><Link to={{ pathname: this.state.detailLink, state: {activity: activity}}}>Afficher</Link></span>;
             }
         }
     }

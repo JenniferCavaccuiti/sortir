@@ -12,6 +12,7 @@ import Footer from "./Footer/Footer"
 import Logo from "./Menu/Logo";
 import Menu from "./Menu/Menu";
 import UpdateActivity from "./Update_activity/UpdateActivity";
+import ActivityDetail from "./Activity_detail/ActivityDetail";
 
 class Container extends Component {
 
@@ -44,6 +45,7 @@ class Container extends Component {
                     <Route path="/app/loginForm" component={LoginForm}/>
                     <Route path="/app/ajouter-une-sortie" component={CreateActivity}/>
                     <Route path="/app/modifier-une-sortie" component={UpdateActivity}/>
+                    <Route path="/app/detail-sortie" component={ActivityDetail}/>
                     <Route path="/app/profil" component={Profil}/>
                     <Route path="/app/logout" component={Logout}/>
                     <Route exact path="/app/login" component={LoginApp}/>
