@@ -32,7 +32,7 @@ class Campus
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"campus:read", "campus:write", "activity:read", "participant:read"})
+     * @Groups({"campus:read", "campus:write", "activity:read", "participant:read", "participant:write"})
      * @Assert\NotBlank(
      *      message="Le nom ne peut être vide"
      * )

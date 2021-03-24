@@ -419,7 +419,7 @@ class ActivitiesFilters extends Component {
                             <td key={activity.name}>{activity.name}</td>
                             <td key={activity.dateTimeStart}>{new Date(activity.dateTimeStart).toLocaleString()}</td>
                             <td key={activity.registrationDeadline}>{new Date(activity.registrationDeadline).toLocaleDateString()}</td>
-                            <td key={activity.participants.length}>{activity.participants.length}/{activity.registrationsMax}</td>
+                            <td key={activity.id}>{activity.participants.length}/{activity.registrationsMax}</td>
                             <td key={activity.state.label}>{activity.state.label}</td>
                             <td key={activity.registrationsMax}>{this.isRegistered(activity)}</td>
                             <td key={activity.promoter.pseudo}><Link to={`/app/participants/${activity.promoter.id}`}>{activity.promoter.pseudo}</Link></td>

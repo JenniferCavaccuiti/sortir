@@ -23,6 +23,7 @@ export default class CreateActivity extends Component {
         dateNow : "",
         timeNow : "",
         maxDateRegistration : "",
+        idUserConnected : localStorage.getItem('id')
     }
 
     constructor(props) {
@@ -127,7 +128,6 @@ export default class CreateActivity extends Component {
 
     componentDidMount() {
 
-
         axios.get(`https://127.0.0.1:8000/api/cities`)
             .catch(() => {
                 this.setState({error : true})
@@ -138,7 +138,7 @@ export default class CreateActivity extends Component {
                 this.setState({ cities : cities });
             })
             .then(() => {
-                axios.get(`https://127.0.0.1:8000/getuser`)
+                axios.get(`https://127.0.0.1:8000/api/participants/${this.state.idUserConnected}`)
                     .catch(()=> {
                         this.setState({error : true})
                         this.setState({message : 'Impossible de récuperer l\'utilisateur'})

@@ -143,7 +143,7 @@ class Participant implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"participant:read", "participant:write"})
+     * @Groups({"participant:read", "participant:write", "campus:read"})
      * @Assert\Valid()
      */
     private $campus;
