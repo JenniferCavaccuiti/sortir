@@ -82,7 +82,6 @@ export default class CreateActivity extends Component {
                     this.setState({error : false});
                     this.setState({message : 'La sortie a bien été créée ! Vous allez être redirigé vers l\'accueil...'});
                     setTimeout(this.cancel, 2000)
-                    console.log(response)
                 }
             })
 
@@ -90,18 +89,18 @@ export default class CreateActivity extends Component {
     }
     handleChange(e) {
         axios.get(`https://127.0.0.1:8000`+e.target.value)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
             })
-            .then(res => {
+            .then((res) => {
                 const selectedCity = res.data;
 
                 this.setState({ selectedCity : selectedCity });
             })
-            .then(res =>
+            .then(() =>
                 axios.get(`https://127.0.0.1:8000/api/places?city.id=`+this.state.selectedCity.id)
-                    .catch(error => {
+                    .catch(() => {
                         this.setState({error : true})
                         this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
                     })
@@ -114,9 +113,8 @@ export default class CreateActivity extends Component {
 
     }
     handlePlaceChange(e) {
-        console.log(e.target.value);
         axios.get(`https://127.0.0.1:8000`+e.target.value)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
             })
@@ -131,7 +129,7 @@ export default class CreateActivity extends Component {
 
 
         axios.get(`https://127.0.0.1:8000/api/cities`)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
             })
@@ -139,9 +137,9 @@ export default class CreateActivity extends Component {
                 const cities = res.data['hydra:member'];
                 this.setState({ cities : cities });
             })
-            .then(res => {
+            .then(() => {
                 axios.get(`https://127.0.0.1:8000/getuser`)
-                    .catch(error=> {
+                    .catch(()=> {
                         this.setState({error : true})
                         this.setState({message : 'Impossible de récuperer l\'utilisateur'})
                     })
@@ -218,7 +216,7 @@ export default class CreateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label>Rue :</label>
-                                <em>{this.state.selectedPlace.street}</em>
+                                <em>{this.state.selectedPlace.street }</em>
                             </div>
                             <div className="create_act_box">
                                 <label>Code postal :</label>

@@ -9,7 +9,6 @@ const addLocalStorage = function () {
         localStorage.setItem('id', loggedUser.id);
         localStorage.setItem('pseudo', loggedUser.pseudo);
         localStorage.setItem('isAdmin', loggedUser.isAdmin);
-        console.log("localStorage : l'id de l'user est : " + localStorage.getItem('id'));
     });
 }
 export default addLocalStorage;

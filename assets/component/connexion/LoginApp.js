@@ -25,8 +25,7 @@ class LoginApp extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("Je suis dans le didUpate du LogApp");
-        console.log(this.state.redirect && this.state.getUser)
+
     }
 
     handleFormSubmit(event) {
@@ -35,20 +34,19 @@ class LoginApp extends Component {
             pseudo: this.state.pseudo,
             password: this.state.password,
             withCredentials: true
-        }).catch(error => {
+        }).catch(() => {
                 const message = 'mot de passe ou login invalide';
                 this.setState({message: message});
             }).then(response => {
                 const connexion = response.data;
                 this.setState({connexion: connexion});
-                console.log('dans le then de connexion');
                 this.setState({
                     redirect: true
                 })
-            }).then(res => {
+            }).then(() => {
                 axios.get(`/getuser`, {
                     withCredentials: true
-                }).catch(error => {
+                }).catch(() => {
                     const message = 'mot de passe ou login invalide';
                     this.setState({message: message});
                 }).then(res => {
@@ -56,7 +54,6 @@ class LoginApp extends Component {
                     localStorage.setItem('id', loggedUser.id);
                     localStorage.setItem('pseudo', loggedUser.pseudo);
                     localStorage.setItem('isAdmin', loggedUser.isAdmin);
-                    console.log("localStorage : l'id de l'user est : " + localStorage.getItem('id'));
                     this.setState({
                         getUser: true
                     })
@@ -77,7 +74,6 @@ class LoginApp extends Component {
     }
 
     render() {
-        console.log("Je suis dans le render du LoginApp")
         const pseudo = this.state.pseudo;
         const password = this.state.password;
 

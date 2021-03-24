@@ -36,10 +36,9 @@ class ActivitiesFilters extends Component {
 
     componentDidMount() {
 
-        console.log("Je suis dans le didmount");
 
         axios.get(`https://127.0.0.1:8000/api/campuses?page=1`)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : "Erreur lors du chargement des campus"})
             })
@@ -51,7 +50,7 @@ class ActivitiesFilters extends Component {
             })
 
         axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : "Erreur lors du chargement de la liste d'activités"})
             })
@@ -66,14 +65,13 @@ class ActivitiesFilters extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-        console.log("Je suis dans le didUpdate");
 
         if(this.state.inscription || this.state.withdraw || this.state.publish) {
 
             if(prevState.inscription !== this.state.inscription || prevState.withdraw !== this.state.withdraw || prevState.publish !== this.state.publish) {
 
                 axios.get(`https://127.0.0.1:8000/api/activities?page=1`)
-                    .catch(error => {
+                    .catch(() => {
                         this.setState({error : true})
                         this.setState({message : "Erreur lors de l'actualisation de la liste d'activités"})
                     })
@@ -172,7 +170,6 @@ class ActivitiesFilters extends Component {
 
         this.actualisation(campus, name, startDate, endDate, promoter, pastActivities, registered);
 
-        console.log("Je suis dans le submit");
 
     }
 
@@ -188,7 +185,7 @@ class ActivitiesFilters extends Component {
         let registeredFilter = registered ? (`&participants.pseudo=${this.props.user.pseudo}`) : ("") ;
 
         axios.get(`https://127.0.0.1:8000/api/activities?page=1${nameFilter}${endDateFilter}${startDateFilter}${startDate}${campusFilter}${promoterFilter}${pastActivitiesFilter}${registeredFilter}`)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : "Echec lors du filtre des activités"})
             })
@@ -208,8 +205,6 @@ class ActivitiesFilters extends Component {
 
             });
 
-
-        console.log("Je suis dans l'actualisation");
     }
 
     isRegistered = (activity) => {
@@ -269,7 +264,6 @@ class ActivitiesFilters extends Component {
 
     handleInscription = () => {
 
-        console.log("Je suis à l'inscription");
         this.setState(
             (prevState) => ({ inscription : prevState.inscription + 1 })
         )
@@ -277,7 +271,6 @@ class ActivitiesFilters extends Component {
 
     handleWithdraw = () => {
 
-        console.log("Je suis au désistement");
         this.setState(
             (prevState) => ({ withdraw : prevState.withdraw + 1 })
         )
@@ -285,7 +278,6 @@ class ActivitiesFilters extends Component {
     }
     handlePublish = () => {
 
-        console.log("Je suis a la publication");
         this.setState(
             (prevState) => ({ publish : prevState.publish + 1 })
         )
@@ -354,7 +346,6 @@ class ActivitiesFilters extends Component {
 
     render() {
 
-        console.log("Début du render");
 
         const activity = this.state.activitiesList;
         const newList = this.cleanList(activity);
@@ -437,7 +428,6 @@ class ActivitiesFilters extends Component {
                         </tbody>
                     </table>
                 </div>
-                {console.log("Fin du render")}
             </Fragment>
 
         );

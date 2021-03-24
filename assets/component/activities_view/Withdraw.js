@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import axios from "axios";
 
 
@@ -17,7 +16,7 @@ class Withdraw extends Component {
         let IRIs = [];
 
         let userIRI = this.props.user["@id"];
-        console.log(userIRI);
+
 
         for(let i=0; i < participants.length; i++) {
             IRIs.push(participants[i]["@id"]);
@@ -25,21 +24,20 @@ class Withdraw extends Component {
 
 
         IRIs = IRIs.filter(item => item !== userIRI);
-        console.log(IRIs);
+
 
         let state = (this.props.activity.registrationsMax === IRIs.length) ? "/api/states/3" : "/api/states/2";
-        console.log(this.props.activity.registrationsMax);
-        console.log(state);
+
 
         const activityIRI = this.props.activity["@id"];
 
         axios.put(`https://127.0.0.1:8000${activityIRI}`, {
             "participants": IRIs,
             "state": state,
-        }).catch(error => {
+        }).catch(() => {
             this.setState({error : true})
             this.setState({message : "Une erreur s'est produite lors du désistement"})
-        }).then(response => console.log(response))
+        }).then()
 
 
         if(this.state.error) {
@@ -53,7 +51,7 @@ class Withdraw extends Component {
     render() {
 
         return (
-                <Link onClick={this.withdraw}>Se désister</Link>
+                <a onClick={this.withdraw}>Se désister</a>
         );
     }
 }

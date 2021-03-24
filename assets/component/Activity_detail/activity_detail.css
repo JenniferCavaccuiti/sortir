@@ -17,12 +17,19 @@
     color:green;
     font-size: 1.2rem;
 }
+.descrip {
+    white-space: normal;
+    max-width: 300px;
+    padding-left: 1rem;
+}
 .detail_form_container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 60%;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
 }
 .detail_box {
     display: flex;
@@ -73,9 +80,8 @@
     width: 100%;
 }
 .label-list{
-    width: 100%;
+    width: 90%;
     text-align: left;
-    padding-left: 6rem;
 }
 
 .tab-container {

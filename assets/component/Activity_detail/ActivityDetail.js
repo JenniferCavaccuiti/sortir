@@ -27,7 +27,7 @@ export default class ActivityDetail extends Component {
 
     render() {
         const activity = this.state.activity;
-        console.log(activity)
+
         return (
             <div className="detail_container">
                 <h2 className="detail_title animate__animated animate__backInDown">Afficher une sortie</h2>
@@ -56,7 +56,7 @@ export default class ActivityDetail extends Component {
                             </div>
                             <div className="detail_box">
                                 <label>Description et infos :</label>
-                                <span>{activity.description}</span>
+                                <span className="descrip">{activity.description}</span>
                             </div>
                         </div>
                         <div className="right-detail-box">
@@ -88,7 +88,7 @@ export default class ActivityDetail extends Component {
 
                     </div>
                 </div>
-                <label className="label-list">Liste des participants :</label>
+                <legend className="label-list">Liste des participants inscrits :</legend>
                 <div className="part-container">
 
                     <div className="tab-container">
@@ -106,11 +106,11 @@ export default class ActivityDetail extends Component {
                                     <td>{participant.firstName} {participant.lastName}</td>
                                 </tr>
                             )}
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
+                            <tr><td/><td/></tr>
+                            <tr><td/><td/></tr>
+                            <tr><td/><td/></tr>
+                            <tr><td/><td/></tr>
+                            <tr><td/><td/></tr>
                             </tbody>
                         </table>
                     </div>

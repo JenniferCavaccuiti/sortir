@@ -62,8 +62,7 @@ export default class UpdateActivity extends Component {
                 this.setState({error : true})
                 this.setState({message : error.response.data.violations[0].message})
             })
-            .then(response => {
-                console.log(response)
+            .then(() => {
                 this.setState({error : false});
                 this.setState({message : 'La sortie a bien été supprimée ! Vous allez être redirigé vers l\'accueil...'});
                 setTimeout(this.cancel, 2000)
@@ -99,7 +98,6 @@ export default class UpdateActivity extends Component {
                     this.setState({error : false});
                     this.setState({message : 'La sortie a bien été modifiée ! Vous allez être redirigé vers l\'accueil...'});
                     setTimeout(this.cancel, 2000)
-                    console.log(response)
                 }
             })
 
@@ -108,7 +106,7 @@ export default class UpdateActivity extends Component {
     handleChange(e) {
 
             axios.get(`https://127.0.0.1:8000` + e.target.value)
-                .catch(error => {
+                .catch(() => {
                     this.setState({error: true})
                     this.setState({message: 'Un problème est survenue, veuillez reesayer plus tard'})
                 })
@@ -117,9 +115,9 @@ export default class UpdateActivity extends Component {
 
                     this.setState({selectedCity: selectedCity});
                 })
-                .then(res =>
+                .then(() =>
                     axios.get(`https://127.0.0.1:8000/api/places?city.id=` + this.state.selectedCity.id)
-                        .catch(error => {
+                        .catch(() => {
                             this.setState({error: true})
                             this.setState({message: 'Un problème est survenue, veuillez reesayer plus tard'})
                         })
@@ -133,7 +131,7 @@ export default class UpdateActivity extends Component {
     }
     handlePlaceChange(e) {
         axios.get(`https://127.0.0.1:8000`+e.target.value)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
             })
@@ -152,7 +150,7 @@ export default class UpdateActivity extends Component {
 
 
         axios.get(`https://127.0.0.1:8000/api/cities`)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
             })
@@ -160,9 +158,9 @@ export default class UpdateActivity extends Component {
                 const cities = res.data['hydra:member'];
                 this.setState({ cities : cities });
             })
-            .then(res => {
+            .then(() => {
                 axios.get(`https://127.0.0.1:8000/getuser`)
-                    .catch(error=> {
+                    .catch(()=> {
                         this.setState({error : true})
                         this.setState({message : 'Impossible de récuperer l\'utilisateur'})
                     })

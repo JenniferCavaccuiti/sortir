@@ -28,7 +28,7 @@ export default class Profil extends Component {
 
     componentDidMount() {
         axios.get(`https://127.0.0.1:8000/getuser`)
-            .catch(error=> {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Impossible de récuperer l\'utilisateur'})
             })
@@ -36,9 +36,9 @@ export default class Profil extends Component {
                 const connectedUser = res.data
                 this.setState({ connectedUser : connectedUser })
             })
-            .then(res => {
+            .then(() => {
                 axios.get(`https://127.0.0.1:8000/api/participants/`+ this.state.connectedUser.id )
-                    .catch(error => {
+                    .catch(() => {
                         this.setState({error : true})
                         this.setState({message : "Impossible de récuperer l'utilisateur"})
                     })
@@ -48,7 +48,7 @@ export default class Profil extends Component {
                     })
             });
         axios.get(`https://127.0.0.1:8000/api/campuses`)
-            .catch(error => {
+            .catch(() => {
                 this.setState({error : true})
                 this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
             })
@@ -82,7 +82,6 @@ export default class Profil extends Component {
                 })
                 .then(response => {
                     if(response) {
-                        console.log(response)
                         this.setState({error : false});
                         this.setState({message : 'Votre profil a bien été modifié'});
                     }

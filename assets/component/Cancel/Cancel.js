@@ -42,10 +42,9 @@ export default class Cancel extends Component {
             }).catch(error => {
                 this.setState({error : true})
                 this.setState({message : error.response.data.violations[0].message})
-            }).then(response => {
-                console.log(response)
+            }).then(() => {
                 this.setState({error : false})
-                this.setState({message : 'La sortie a bien été annulée vous allez être redirigé vers l\'accueil'})
+                this.setState({message : `La sortie a bien été annulée vous allez être redirigé vers l'accueil`})
                 setTimeout(this.cancel, 2000)
             })
         }
@@ -54,7 +53,6 @@ export default class Cancel extends Component {
 
     render() {
         const activity = this.state.activity;
-        console.log(activity)
         return (
             <div className="cancel_container">
                <h2 className="cancel_title animate__animated animate__backInDown">Annuler une sortie</h2>

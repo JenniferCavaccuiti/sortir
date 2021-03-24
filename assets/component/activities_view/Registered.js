@@ -1,5 +1,4 @@
 
-import {Link} from "react-router-dom";
 
 import React, {Component} from 'react';
 import axios from "axios";
@@ -27,8 +26,6 @@ class Registered extends Component {
         }
 
         let state = (this.props.activity.registrationsMax === IRIs.length) ? "/api/states/3" : "/api/states/2";
-        console.log(this.props.activity.registrationsMax);
-        console.log(state);
 
         const activityIRI = this.props.activity["@id"];
 
@@ -36,10 +33,10 @@ class Registered extends Component {
         axios.put(`https://127.0.0.1:8000${activityIRI}`, {
             "participants": IRIs,
             "state": state,
-        }).catch(error => {
+        }).catch(() => {
             this.setState({error : true})
             this.setState({message : "Une erreur s'est produite lors de l'inscription"})
-        }).then(response => console.log(response))
+        }).then()
 
         if(this.state.error) {
             document.getElementById("error-message-activities").innerText = this.state.message;
@@ -51,7 +48,7 @@ class Registered extends Component {
 
     render() {
         return (
-            <Link onClick={this.register}>S'inscrire</Link>
+            <a onClick={this.register}>S'inscrire</a>
         );
     }
 }

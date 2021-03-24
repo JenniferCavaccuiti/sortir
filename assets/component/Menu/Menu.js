@@ -6,7 +6,6 @@ import Logout from "../logout/Logout";
 import Logo from "./Logo";
 
 function Menu() {
-    console.log('je suis dans menu');
     return (
             <header className="site-header">
                 <div className="wrapper site-header__wrapper">

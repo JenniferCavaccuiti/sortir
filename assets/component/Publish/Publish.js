@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {Link} from "react-router-dom";
 
 class Publish extends Component {
 
@@ -15,10 +14,10 @@ class Publish extends Component {
 
         axios.put(`https://127.0.0.1:8000${this.props.activity["@id"]}`, {
             "state": iriStatePublished
-        }).catch(error => {
+        }).catch(() => {
             this.setState({error : true})
             this.setState({message : "Une erreur s'est produite a la publication"})
-        }).then(response => console.log(response))
+        }).then()
 
         this.props.publish();
 
@@ -26,7 +25,7 @@ class Publish extends Component {
 
     render() {
         return (
-            <Link onClick={this.publish}>Publier</Link>
+            <a onClick={this.publish}>Publier</a>
         );
     }
 }

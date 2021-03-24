@@ -23,7 +23,6 @@ class Container extends Component {
     render() {
         return (
             <BrowserRouter>
-                {console.log('je passe dans le router')}
 
                 {(localStorage.length === 0) ? <Logo/> : ""}
 
