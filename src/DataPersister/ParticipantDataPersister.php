@@ -20,7 +20,6 @@ class ParticipantDataPersister implements DataPersisterInterface
 
     public function supports($data): bool
     {
-        dump('supports');
         return $data instanceof Participant;
     }
 

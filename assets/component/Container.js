@@ -23,7 +23,6 @@ class Container extends Component {
     render() {
         return (
             <BrowserRouter>
-
                 {(localStorage.length === 0) ? <Logo/> : ""}
 
                 {(localStorage.length > 0) ? <Menu/> : ""}

@@ -12,6 +12,7 @@ class LoginApp extends Component {
         this.state = {
             id: '',
             pseudo: '',
+            password: '',
             isAdmin: '',
             message: '',
             connexion: '',
