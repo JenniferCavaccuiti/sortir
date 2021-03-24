@@ -159,8 +159,7 @@ class Activity
     /**
      * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="activities", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"activity:read", "activity:write", "campus:read"})
-     * @Assert\Valid()
+     * @Groups({"activity:read", "activity:write"})
      */
     private $place;
 

@@ -48,13 +48,11 @@ class Campus
 
     /**
      * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus", orphanRemoval=true)
-     * @Assert\Valid
      */
     private $participants;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="campus", orphanRemoval=true)
-     * @Assert\Valid
      */
     private $activities;
 
