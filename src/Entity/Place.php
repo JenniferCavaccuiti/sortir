@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *     collectionOperations={"get"},
- *     itemOperations={"get"},
+ *     itemOperations={"get", "put", "delete", "patch"},
  *     normalizationContext={"groups"={"place:read"}},
  *     denormalizationContext={"groups"={"place:write"}},
  * )
@@ -99,7 +99,7 @@ class Place
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="places", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid
-     * @Groups({"activity:read", "activity:write", "city:read", "city:write", "place:read"})
+     * @Groups({"activity:read", "activity:write", "city:read", "city:write", "place:read", "place:write"})
      */
     private $city;
 

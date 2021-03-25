@@ -10,6 +10,7 @@ export default class Profil extends Component {
 
     state = {
         connectedUser: '',
+        idUserConnected: localStorage.getItem('id'),
         person: '',
         campusList: [],
         message: '',
@@ -27,26 +28,16 @@ export default class Profil extends Component {
     }
 
     componentDidMount() {
-        axios.get(`https://127.0.0.1:8000/getuser`)
+
+        axios.get(`https://127.0.0.1:8000/api/participants/`+ this.state.idUserConnected )
             .catch(() => {
                 this.setState({error : true})
-                this.setState({message : 'Impossible de récuperer l\'utilisateur'})
+                this.setState({message : "Impossible de récuperer l'utilisateur"})
             })
             .then(res => {
-                const connectedUser = res.data
-                this.setState({ connectedUser : connectedUser })
+                const person = res.data
+                this.setState({ person : person })
             })
-            .then(() => {
-                axios.get(`https://127.0.0.1:8000/api/participants/`+ this.state.connectedUser.id )
-                    .catch(() => {
-                        this.setState({error : true})
-                        this.setState({message : "Impossible de récuperer l'utilisateur"})
-                    })
-                    .then(res => {
-                        const person = res.data
-                        this.setState({ person : person })
-                    })
-            });
         axios.get(`https://127.0.0.1:8000/api/campuses`)
             .catch(() => {
                 this.setState({error : true})
@@ -67,7 +58,7 @@ export default class Profil extends Component {
             this.setState({error : true});
             this.setState({message : 'Choisissez un campus'});
         } else {
-            axios.put(`https://127.0.0.1:8000/api/participants/`+this.state.connectedUser.id, {
+            axios.put(`https://127.0.0.1:8000/api/participants/`+this.state.idUserConnected, {
                 "pseudo" : e.target.elements.namedItem('pseudo').value,
                 "firstName" : e.target.elements.namedItem('prenom').value,
                 "lastName" : e.target.elements.namedItem('nom').value,
@@ -135,7 +126,7 @@ export default class Profil extends Component {
                             <div className="input_box">
                                 <label htmlFor="campus">Campus :</label>
                                 <select name="campus" id="campus" defaultValue="" >
-                                    <option disabled value="">Votre campus</option>
+                                    <option disabled >Votre campus</option>
                                     {this.state.campusList.map(campus =>
                                         <option key={campus.name} value={campus["@id"]}>{ campus.name }</option>
                                     )}

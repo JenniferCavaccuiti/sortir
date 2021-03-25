@@ -25,7 +25,8 @@ export default class UpdateActivity extends Component {
         activity: this.props.location.state.activity,
         maxDateRegistration : '',
         startDate : '',
-        timeStart: ''
+        timeStart: '',
+        idUserConnected: localStorage.getItem('id')
     }
 
     constructor(props) {
@@ -133,11 +134,13 @@ export default class UpdateActivity extends Component {
         axios.get(`https://127.0.0.1:8000`+e.target.value)
             .catch(() => {
                 this.setState({error : true})
-                this.setState({message : 'Un problème est survenue, veuillez reesayer plus tard'})
+                this.setState({message : 'Veuillez choisir un lieu valide'})
             })
             .then(res => {
+
                     const selectedPlace = res.data;
                     this.setState({ selectedPlace : selectedPlace });
+                    this.setState({message : ''});
                 }
             )
     }
@@ -159,7 +162,7 @@ export default class UpdateActivity extends Component {
                 this.setState({ cities : cities });
             })
             .then(() => {
-                axios.get(`https://127.0.0.1:8000/getuser`)
+                axios.get(`https://127.0.0.1:8000/api/participants/${this.state.idUserConnected}`)
                     .catch(()=> {
                         this.setState({error : true})
                         this.setState({message : 'Impossible de récuperer l\'utilisateur'})
@@ -228,8 +231,8 @@ export default class UpdateActivity extends Component {
                             </div>
                             <div className="create_act_box">
                                 <label htmlFor="act_place">Lieu :</label>
-                                <select name="act_place" id="act_place" onClick={this.handlePlaceChange} required="required" defaultValue={this.state.selectedPlace.id ? 'api/places/'+this.state.selectedPlace.id : ""}>
-                                    <option disabled={true} value="">Selectionnez un lieu</option>
+                                <select name="act_place" id="act_place" onChange={this.handlePlaceChange} required="required" defaultValue={this.state.selectedPlace.id ? 'api/places/'+this.state.selectedPlace.id : ""}>
+                                    <option value="">Selectionnez un lieu</option>
                                     {this.state.places.map(place =>
                                         <option key={place.name} value={place["@id"]}>{ place.name }</option>
                                     )}
