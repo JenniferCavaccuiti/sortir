@@ -87,7 +87,7 @@ class UserAuthenticator extends AbstractGuardAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new RedirectResponse($this->urlGenerator->generate(self::REDIRECT_ROUTE));
+
     }
 
     public function supportsRememberMe()

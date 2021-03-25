@@ -12,6 +12,7 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 
 class AuthenticationEntryPoint implements AuthenticationEntryPointInterface
 {
+    const REDIRECT_ROUTE = "redirectUnauthentified";
     private $urlGenerator;
     private $session;
 
@@ -23,5 +24,6 @@ class AuthenticationEntryPoint implements AuthenticationEntryPointInterface
 
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
+        return new RedirectResponse($this->urlGenerator->generate(self::REDIRECT_ROUTE));
     }
 }

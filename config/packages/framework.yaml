@@ -10,7 +10,7 @@ framework:
         enabled: true
         handler_id: ~
         cookie_lifetime: 31449600
-#        cookie_secure: auto
+        cookie_secure: auto
         cookie_samesite: strict
 
     #esi: true
